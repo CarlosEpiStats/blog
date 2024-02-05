@@ -3,11 +3,11 @@ project:
   output-dir: docs
 
 website:
-  title: "test_blog"
+  title: "Blog GráficosMédicos"
   navbar:
     left:
       - href: index.qmd
-        text: Home
+        text: Inicio
       - about.qmd
 
 format:
