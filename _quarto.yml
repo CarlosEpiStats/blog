@@ -3,11 +3,28 @@ project:
   output-dir: docs
 
 website:
-  title: "Blog GráficosMédicos"
+  title: "GráficosMédicos"
+  site-url: https://graficosmedicos.github.io/blog/
+  description: "Blog sobre estadística y medicina."
   navbar:
+    right: 
+      - icon: rss
+        href: blog.xml
+      - icon: github
+        href: https://github.com/GraficosMedicos
+      - text: Resources
+        menu:
+          - text: R Weekly
+            href: https://rweekly.org
+          - text: R Bloggers
+            href: https://www.r-bloggers.com
+      - text: Archivo
+        href: archive.qmd
     left:
       - href: index.qmd
         text: Inicio
+      - href: blog.qmd
+        text: Blog
       - about.qmd
 
 format:

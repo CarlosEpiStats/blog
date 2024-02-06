@@ -1,0 +1,19 @@
+---
+title: "Blog"
+listing:
+  contents: posts/**/*.qmd
+  sort: "date desc"
+  type: default
+  categories: true
+  sort-ui: true
+  filter-ui: true
+  fields: [date, title, reading-time, description, categories, image]
+  feed: true
+page-layout: full
+title-block-banner: false
+---
+
+# Series
+
+#### [ggplot2-series](ggplot-series.html)
+Demo series of ggplot2 tips

@@ -1,11 +1,19 @@
 ---
-title: "Blog"
+title: "GráficosMédicos"
+image: profile_pic.jpg
+about:
+  template: trestles
+  image-width: 15em
+  links:
+    - text: Email
+      icon: envelope
+      href: mailto:graficosmedicos@gmail.com
 ---
 
-This is a Quarto website.
+¡Hola! Me llamo Carlos Fernández y me encanta la bioestadística y la programación. 
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+En este blog comparto cosas que aprendo sobre bioestadística y códigos en R, Stata, python o lo que surja.
 
-```{r}
-1 + 1
-```
+Escríbeme un correo si te gustaría que hablara de algún tema en particular.
+
+¡Gracias por pasarte!

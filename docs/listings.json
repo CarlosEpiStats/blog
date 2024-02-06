@@ -1,0 +1,20 @@
+[
+  {
+    "listing": "/archive.html",
+    "items": [
+      "/posts/ggplot2-tips/ggplot-series.html",
+      "/posts/new_blog_post/post.html"
+    ]
+  },
+  {
+    "listing": "/blog.html",
+    "items": [
+      "/posts/ggplot2-tips/ggplot-series.html",
+      "/posts/new_blog_post/post.html"
+    ]
+  },
+  {
+    "listing": "/posts/ggplot2-tips/ggplot-series.html",
+    "items": []
+  }
+]
