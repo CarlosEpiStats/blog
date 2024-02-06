@@ -14,7 +14,7 @@
 <item>
   <title>This is a dummy blog posts</title>
   <dc:creator>Carlos Fernández</dc:creator>
-  <link>https://graficosmedicos.github.io/blog/posts/new_blog_post/post.html</link>
+  <link>https://graficosmedicos.github.io/blog/posts/dummy_post/post.html</link>
   <description><![CDATA[ 
 
 
@@ -52,7 +52,7 @@ font-style: inherit;">alpha =</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0.5</span>) </span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://graficosmedicos.github.io/blog/posts/new_blog_post/post_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://graficosmedicos.github.io/blog/posts/dummy_post/post_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -181,7 +181,7 @@ font-style: inherit;">'Bill length (in mm)'</span></span>
 <span id="cb2-16">  )</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="https://graficosmedicos.github.io/blog/posts/new_blog_post/post_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://graficosmedicos.github.io/blog/posts/dummy_post/post_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
@@ -361,7 +361,7 @@ font-style: inherit;">'Bill length (in mm)'</span></span>
 <span id="cb3-26">  )</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="https://graficosmedicos.github.io/blog/posts/new_blog_post/post_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://graficosmedicos.github.io/blog/posts/dummy_post/post_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
@@ -538,7 +538,7 @@ font-style: inherit;">0.5</span>)</span></code></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://graficosmedicos.github.io/blog/posts/new_blog_post/post_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://graficosmedicos.github.io/blog/posts/dummy_post/post_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption class="figure-caption">Bla bla bla. This is a caption in the margin. Super cool isn’t it?</figcaption>
 </figure>
 </div>
@@ -552,7 +552,259 @@ font-style: inherit;">0.5</span>)</span></code></pre></div>
  ]]></description>
   <category>123</category>
   <category>Second Tag</category>
-  <guid>https://graficosmedicos.github.io/blog/posts/new_blog_post/post.html</guid>
+  <guid>https://graficosmedicos.github.io/blog/posts/dummy_post/post.html</guid>
+  <pubDate>Sun, 25 Feb 2024 23:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Regresión Lasso</title>
+  <dc:creator>Carlos Fernández</dc:creator>
+  <link>https://graficosmedicos.github.io/blog/posts/lasso_regression/post.html</link>
+  <description><![CDATA[ 
+
+
+
+<section id="introducción" class="level1">
+<h1>Introducción</h1>
+<p>En este post explico qué es la regresión Lasso, para qué se usa y cómo realizarla usando código en R.</p>
+<section id="qué-es-la-regresión-lasso" class="level2">
+<h2 class="anchored" data-anchor-id="qué-es-la-regresión-lasso">Qué es la regresión Lasso</h2>
+<p>La regresión Lasso es una variante de la regresión lineal que busca obtener un modelo lo más simple posible. Para ello, penaliza los modelos con coeficientes grandes, dejando coeficientes pequeños e incluso eliminando variables del modelo (igualando sus coeficientes a cero).</p>
+<p>Lasso es un acrónimo de Least Absolute Shrinkage and Selector Operator.</p>
+</section>
+<section id="para-qué-se-usa-la-regresión-lasso" class="level2">
+<h2 class="anchored" data-anchor-id="para-qué-se-usa-la-regresión-lasso">Para qué se usa la regresión Lasso</h2>
+<p>Lasso tiene dos funciones principales:</p>
+<ul>
+<li>Selección de variables para un modelo: como puede convertir los coeficientes de las variables en ceros, puede usarse para seleccionar las variables más importantes del modelo y excluir otras.</li>
+<li>Contracción de parámetros (<em>shrinkage</em>): los coeficientes del modelo Lasso son más pequeños que en una regresión lineal normal. Esto ayuda al reducir el peligro de sobreajuste (<em>overfitting</em>) del modelo.</li>
+</ul>
+</section>
+<section id="cuándo-se-usa-la-regresión-lasso" class="level2">
+<h2 class="anchored" data-anchor-id="cuándo-se-usa-la-regresión-lasso">Cuándo se usa la regresión Lasso</h2>
+<p>Lasso se suele utilizar en las siguientes situaciones:</p>
+<ul>
+<li>Cuando tenemos bases de datos con <strong>alta dimensionalidad</strong>(con muchas variables).</li>
+<li>Cuando tenemos modelos con <strong>multicolinealidad</strong>.</li>
+<li>Cuando queremos <strong>automatizar la construcción de un modelo</strong> (automatizando la selección de variables).</li>
+</ul>
+</section>
+<section id="cómo-funciona-la-regresión-lasso" class="level2">
+<h2 class="anchored" data-anchor-id="cómo-funciona-la-regresión-lasso">Cómo funciona la regresión Lasso</h2>
+<p>Un <strong>modelo de regresión lineal múltiple</strong> busca el conjunto de coeficientes (<img src="https://latex.codecogs.com/png.latex?%5Cbeta_0,%20%5Cbeta_1,%20%5Cbeta_2...">) que minimiza la suma de los cuadrados de los residuales. Esto es, la distancia entre los datos y la predicción del modelo (residual) se eleva al cuadrado y se suma. El método de mínimos cuadrados de la regresión lineal busca minimizar esta suma.</p>
+<p>La <strong>regresión Lasso añade otro parámetro conocido como L1</strong>. L1 es la suma de los valores absolutos de los coeficientes del modelo. Lasso busca minimizar la suma de L1 y la suma de cuadrados. Por lo tanto, Lasso busca el menor valor absoluto posible de los coeficientes, que se traduce en menor L1. Este proceso se llama “regularización L1”, y produce una “contracción” de los coeficientes (los hace más pequeños).</p>
+<p>Toda regresión Lasso incluye un parámetro adicional, <strong>lambda</strong> (<img src="https://latex.codecogs.com/png.latex?%5Clambda">). Lambda mide cuánta importancia le da el modelo al parámetro L1:</p>
+<ul>
+<li>Si <img src="https://latex.codecogs.com/png.latex?%5Clambda%20=%200">, no hay contracción de coeficientes y el modelo es equivalente a una regresión lineal normal.</li>
+<li>Conforme <img src="https://latex.codecogs.com/png.latex?%5Clambda"> aumenta, hay más contracción de coeficientes y se eliminan más variables.</li>
+<li>Si <img src="https://latex.codecogs.com/png.latex?%5Clambda"> = infinito, hay contracción máxima y se eliminan todos los coeficientes.</li>
+</ul>
+</section>
+<section id="fórmula-de-la-regresión-lasso" class="level2">
+<h2 class="anchored" data-anchor-id="fórmula-de-la-regresión-lasso">Fórmula de la regresión Lasso</h2>
+<p><img src="https://latex.codecogs.com/png.latex?min(RSS%20+%20%5Clambda%20%5Csum%20%7C%5Cbeta_j%7C)"></p>
+<p>Donde</p>
+<ul>
+<li><img src="https://latex.codecogs.com/png.latex?RSS"> es la suma de residuos cuadrados.</li>
+<li><img src="https://latex.codecogs.com/png.latex?%5Clambda"> es el parámetro de penalización de Lasso.</li>
+<li><img src="https://latex.codecogs.com/png.latex?%5Csum%20%7C%5Cbeta_j%7C"> es la suma de los valores absolutos de los coeficientes de las variables.</li>
+</ul>
+</section>
+</section>
+<section id="código-en-r" class="level1">
+<h1>Código en R</h1>
+<section id="preparativos" class="level2">
+<h2 class="anchored" data-anchor-id="preparativos">Preparativos</h2>
+<p>Para este ejemplo, usaremos la biblioteca <code>glmnet</code> y la biblioteca de ejemplo <code>mtcars</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># install.packages("glmnet") # Instalar el paquete</span></span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(glmnet)</span>
+<span id="cb1-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">head</span>(mtcars)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   mpg cyl disp  hp drat    wt  qsec vs am gear carb
+Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
+</div>
+</div>
+<p>Usaremos <code>mpg</code> (millas por galón) como la variable resultado, y <code>cyl</code> (nº. de cilindros), <code>hp</code> (caballos de vapor), <code>wt</code> (peso), <code>gear</code> (nº. de marchas) y <code>drat</code> (relación del eje) como predictoras.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># definir la variable resultado</span></span>
+<span id="cb3-2">y <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> mtcars<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>mpg</span>
+<span id="cb3-3"></span>
+<span id="cb3-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># definir las variables predictoras</span></span>
+<span id="cb3-5">x <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">data.matrix</span>(mtcars[, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cyl"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"hp"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wt"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"drat"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gear"</span>)])</span></code></pre></div>
+</div>
+</section>
+<section id="elegir-el-valor-de-lambda" class="level2">
+<h2 class="anchored" data-anchor-id="elegir-el-valor-de-lambda">Elegir el valor de lambda</h2>
+<p>Podemos elegir el valor de <img src="https://latex.codecogs.com/png.latex?%5Clambda"> que minimice el error cuadrado medio (<em>mean-squared error</em>, MSE). La función <code>cv.glmnet()</code> realiza “validación cruzada de k iteraciones” (<a href="https://www.statology.org/k-fold-cross-validation/">K-fold cross-validation</a>) para identificar este valor de <img src="https://latex.codecogs.com/png.latex?%5Clambda">.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># validación cruzada</span></span>
+<span id="cb4-2">cv_model <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">cv.glmnet</span>(x, y, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">alpha =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Cambiar el parámetro alpha da lugar a otros tipos de regresión</span></span>
+<span id="cb4-3"></span>
+<span id="cb4-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># encontrar el valor lambda que minimiza el MSE</span></span>
+<span id="cb4-5">best_lambda <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> cv_model<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>lambda.min</span>
+<span id="cb4-6">best_lambda</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2621943</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># mostrar los resultados en un gráfico</span></span>
+<span id="cb6-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plot</span>(cv_model)</span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="https://graficosmedicos.github.io/blog/posts/lasso_regression/post_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>El valor de lambda que minimiza el MSE resulta ser 0.2621943, que en la gráfica corresponde al punto <img src="https://latex.codecogs.com/png.latex?Log(%5Clambda)"> = -1.3386694.</p>
+</section>
+<section id="ajustar-el-modelo" class="level2">
+<h2 class="anchored" data-anchor-id="ajustar-el-modelo">Ajustar el modelo</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># coeficientes del modelo </span></span>
+<span id="cb7-2">best_model <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">glmnet</span>(x, y, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">alpha =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lambda =</span> best_lambda)</span>
+<span id="cb7-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coef</span>(best_model)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>6 x 1 sparse Matrix of class "dgCMatrix"
+                     s0
+(Intercept) 35.53832527
+cyl         -0.82713714
+hp          -0.01749224
+wt          -2.91058977
+drat         0.44492448
+gear         .         </code></pre>
+</div>
+</div>
+<p>Podemos observar como el coeficiente de <code>gear</code> aparece como un punto, lo que indica que la regresión Lasso ha eliminado el coeficiente, ya que la variable no era lo suficientemente importante.</p>
+</section>
+<section id="comparación-con-la-regresión-lineal-sin-lasso" class="level2">
+<h2 class="anchored" data-anchor-id="comparación-con-la-regresión-lineal-sin-lasso">Comparación con la regresión lineal sin Lasso</h2>
+<p>Como comparación, podemos ver los coeficientes que resultarían de un modelo de regresión lineal múltiple sin contracción de parámetros ni selección de variables.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1">linear_model <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">lm</span>(mpg <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> cyl <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> hp <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> wt <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> drat <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> gear, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> mtcars)</span>
+<span id="cb9-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">cbind</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coef</span>(best_model), <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Linear"</span> <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coef</span>(linear_model))</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>6 x 2 sparse Matrix of class "dgCMatrix"
+                     s0      Linear
+(Intercept) 35.53832527 33.99417771
+cyl         -0.82713714 -0.72169272
+hp          -0.01749224 -0.02227636
+wt          -2.91058977 -2.92715539
+drat         0.44492448  0.73105753
+gear         .           0.16750690</code></pre>
+</div>
+</div>
+<p>Los coeficientes del modelo Lasso se han contraído un poco, especialmente de la variable <code>drat</code>, y la variable <code>gear</code> ha sido automáticamente excluida.</p>
+</section>
+</section>
+<section id="referencias" class="level1">
+<h1>Referencias</h1>
+<ul>
+<li><a href="https://www.statology.org/lasso-regression-in-r/">Statology</a></li>
+<li><a href="https://www.geeksforgeeks.org/lasso-regression-in-r-programming/">Geeks for Geeks</a></li>
+</ul>
+
+
+</section>
+
+ ]]></description>
+  <category>regresión</category>
+  <category>R</category>
+  <category>lasso</category>
+  <guid>https://graficosmedicos.github.io/blog/posts/lasso_regression/post.html</guid>
   <pubDate>Sun, 25 Feb 2024 23:00:00 GMT</pubDate>
 </item>
 <item>
@@ -577,7 +829,7 @@ No matching items
 </div>
 </div> ]]></description>
   <guid>https://graficosmedicos.github.io/blog/posts/ggplot2-tips/ggplot-series.html</guid>
-  <pubDate>Tue, 06 Feb 2024 11:13:49 GMT</pubDate>
+  <pubDate>Tue, 06 Feb 2024 12:40:00 GMT</pubDate>
 </item>
 </channel>
 </rss>

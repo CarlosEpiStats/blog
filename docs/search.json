@@ -4,14 +4,14 @@
     "href": "archive.html",
     "title": "Archivo",
     "section": "",
-    "text": "Series: ggplot2-tips\n\n\n\n\n\n\n\n \n\n\n\n\n\n\nThis is a dummy blog posts\n\n\n\n\n\n\n\n\n\nFeb 26, 2024\n\n\n\n\n\n\nNo matching items"
+    "text": "Series: ggplot2-tips\n\n\n\n\n\n\n\n \n\n\n\n\n\n\nThis is a dummy blog posts\n\n\n\n\n\n\n\n\n\nFeb 26, 2024\n\n\n\n\n\n\n\n\nRegresión Lasso\n\n\n\n\n\n\n\n\n\nFeb 26, 2024\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "blog.html",
     "href": "blog.html",
     "title": "Blog",
     "section": "",
-    "text": "Series\n\nggplot2-series\nDemo series of ggplot2 tips\n\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n  \n\n\n\n\nSeries: ggplot2-tips\n\n\n\n\n\n\n\n\n\n\n\n\n1 min\n\n\n\n\n\n\n  \n\n\n\n\nThis is a dummy blog posts\n\n\n\n\n\n\n\n123\n\n\nSecond Tag\n\n\n\n\nThis is a test post. In this post, I try out different functionalities\n\n\n\n\n\n\nFeb 26, 2024\n\n\n4 min\n\n\n\n\n\n\nNo matching items"
+    "text": "Series\n\nggplot2-series\nDemo series of ggplot2 tips\n\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n  \n\n\n\n\nSeries: ggplot2-tips\n\n\n\n\n\n\n\n\n\n\n\n\n1 min\n\n\n\n\n\n\n  \n\n\n\n\nThis is a dummy blog posts\n\n\n\n\n\n\n\n123\n\n\nSecond Tag\n\n\n\n\nThis is a test post. In this post, I try out different functionalities\n\n\n\n\n\n\nFeb 26, 2024\n\n\n4 min\n\n\n\n\n\n\n  \n\n\n\n\nRegresión Lasso\n\n\n\n\n\n\n\nregresión\n\n\nR\n\n\nlasso\n\n\n\n\nQué es, para qué se usa y cómo usar la regresión Lasso, con código en R.\n\n\n\n\n\n\nFeb 26, 2024\n\n\n4 min\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",
@@ -54,5 +54,110 @@
     "title": "This is a dummy blog posts",
     "section": "",
     "text": "ggplot(data = gapminder::gapminder, mapping = aes(x = lifeExp, fill = continent)) +\n  stat_density(position = \"identity\", alpha = 0.5)\n\n\n\n\nBla bla bla. This is a caption in the margin. Super cool isn’t it?"
+  },
+  {
+    "objectID": "posts/lasso_regression/post.html",
+    "href": "posts/lasso_regression/post.html",
+    "title": "Regresión Lasso",
+    "section": "",
+    "text": "En este post explico qué es la regresión Lasso, para qué se usa y cómo realizarla usando código en R.\n\n\nLa regresión Lasso es una variante de la regresión lineal que busca obtener un modelo lo más simple posible. Para ello, penaliza los modelos con coeficientes grandes, dejando coeficientes pequeños e incluso eliminando variables del modelo (igualando sus coeficientes a cero).\nLasso es un acrónimo de Least Absolute Shrinkage and Selector Operator.\n\n\n\nLasso tiene dos funciones principales:\n\nSelección de variables para un modelo: como puede convertir los coeficientes de las variables en ceros, puede usarse para seleccionar las variables más importantes del modelo y excluir otras.\nContracción de parámetros (shrinkage): los coeficientes del modelo Lasso son más pequeños que en una regresión lineal normal. Esto ayuda al reducir el peligro de sobreajuste (overfitting) del modelo.\n\n\n\n\nLasso se suele utilizar en las siguientes situaciones:\n\nCuando tenemos bases de datos con alta dimensionalidad(con muchas variables).\nCuando tenemos modelos con multicolinealidad.\nCuando queremos automatizar la construcción de un modelo (automatizando la selección de variables).\n\n\n\n\nUn modelo de regresión lineal múltiple busca el conjunto de coeficientes (\\(\\beta_0, \\beta_1, \\beta_2...\\)) que minimiza la suma de los cuadrados de los residuales. Esto es, la distancia entre los datos y la predicción del modelo (residual) se eleva al cuadrado y se suma. El método de mínimos cuadrados de la regresión lineal busca minimizar esta suma.\nLa regresión Lasso añade otro parámetro conocido como L1. L1 es la suma de los valores absolutos de los coeficientes del modelo. Lasso busca minimizar la suma de L1 y la suma de cuadrados. Por lo tanto, Lasso busca el menor valor absoluto posible de los coeficientes, que se traduce en menor L1. Este proceso se llama “regularización L1”, y produce una “contracción” de los coeficientes (los hace más pequeños).\nToda regresión Lasso incluye un parámetro adicional, lambda (\\(\\lambda\\)). Lambda mide cuánta importancia le da el modelo al parámetro L1:\n\nSi \\(\\lambda = 0\\), no hay contracción de coeficientes y el modelo es equivalente a una regresión lineal normal.\nConforme \\(\\lambda\\) aumenta, hay más contracción de coeficientes y se eliminan más variables.\nSi \\(\\lambda\\) = infinito, hay contracción máxima y se eliminan todos los coeficientes.\n\n\n\n\n\\(min(RSS + \\lambda \\sum |\\beta_j|)\\)\nDonde\n\n\\(RSS\\) es la suma de residuos cuadrados.\n\\(\\lambda\\) es el parámetro de penalización de Lasso.\n\\(\\sum |\\beta_j|\\) es la suma de los valores absolutos de los coeficientes de las variables."
+  },
+  {
+    "objectID": "posts/lasso_regression/post.html#qué-es-la-regresión-lasso",
+    "href": "posts/lasso_regression/post.html#qué-es-la-regresión-lasso",
+    "title": "Regresión Lasso",
+    "section": "",
+    "text": "La regresión Lasso es una variante de la regresión lineal que busca obtener un modelo lo más simple posible. Para ello, penaliza los modelos con coeficientes grandes, dejando coeficientes pequeños e incluso eliminando variables del modelo (igualando sus coeficientes a cero).\nLasso es un acrónimo de Least Absolute Shrinkage and Selector Operator."
+  },
+  {
+    "objectID": "posts/lasso_regression/post.html#para-qué-se-usa-la-regresión-lasso",
+    "href": "posts/lasso_regression/post.html#para-qué-se-usa-la-regresión-lasso",
+    "title": "Regresión Lasso",
+    "section": "",
+    "text": "Lasso tiene dos funciones principales:\n\nSelección de variables para un modelo: como puede convertir los coeficientes de las variables en ceros, puede usarse para seleccionar las variables más importantes del modelo y excluir otras.\nContracción de parámetros (shrinkage): los coeficientes del modelo Lasso son más pequeños que en una regresión lineal normal. Esto ayuda al reducir el peligro de sobreajuste (overfitting) del modelo."
+  },
+  {
+    "objectID": "posts/lasso_regression/post.html#cuándo-se-usa-la-regresión-lasso",
+    "href": "posts/lasso_regression/post.html#cuándo-se-usa-la-regresión-lasso",
+    "title": "Regresión Lasso",
+    "section": "",
+    "text": "Lasso se suele utilizar en las siguientes situaciones:\n\nCuando tenemos bases de datos con alta dimensionalidad(con muchas variables).\nCuando tenemos modelos con multicolinealidad.\nCuando queremos automatizar la construcción de un modelo (automatizando la selección de variables)."
+  },
+  {
+    "objectID": "posts/lasso_regression/post.html#cómo-funciona-la-regresión-lasso",
+    "href": "posts/lasso_regression/post.html#cómo-funciona-la-regresión-lasso",
+    "title": "Regresión Lasso",
+    "section": "",
+    "text": "Un modelo de regresión lineal múltiple busca el conjunto de coeficientes (\\(\\beta_0, \\beta_1, \\beta_2...\\)) que minimiza la suma de los cuadrados de los residuales. Esto es, la distancia entre los datos y la predicción del modelo (residual) se eleva al cuadrado y se suma. El método de mínimos cuadrados de la regresión lineal busca minimizar esta suma.\nLa regresión Lasso añade otro parámetro conocido como L1. L1 es la suma de los valores absolutos de los coeficientes del modelo. Lasso busca minimizar la suma de L1 y la suma de cuadrados. Por lo tanto, Lasso busca el menor valor absoluto posible de los coeficientes, que se traduce en menor L1. Este proceso se llama “regularización L1”, y produce una “contracción” de los coeficientes (los hace más pequeños).\nToda regresión Lasso incluye un parámetro adicional, lambda (\\(\\lambda\\)). Lambda mide cuánta importancia le da el modelo al parámetro L1:\n\nSi \\(\\lambda = 0\\), no hay contracción de coeficientes y el modelo es equivalente a una regresión lineal normal.\nConforme \\(\\lambda\\) aumenta, hay más contracción de coeficientes y se eliminan más variables.\nSi \\(\\lambda\\) = infinito, hay contracción máxima y se eliminan todos los coeficientes."
+  },
+  {
+    "objectID": "posts/lasso_regression/post.html#fórmula-de-la-regresión-lasso",
+    "href": "posts/lasso_regression/post.html#fórmula-de-la-regresión-lasso",
+    "title": "Regresión Lasso",
+    "section": "",
+    "text": "\\(min(RSS + \\lambda \\sum |\\beta_j|)\\)\nDonde\n\n\\(RSS\\) es la suma de residuos cuadrados.\n\\(\\lambda\\) es el parámetro de penalización de Lasso.\n\\(\\sum |\\beta_j|\\) es la suma de los valores absolutos de los coeficientes de las variables."
+  },
+  {
+    "objectID": "posts/lasso_regression/post.html#preparativos",
+    "href": "posts/lasso_regression/post.html#preparativos",
+    "title": "Regresión Lasso",
+    "section": "Preparativos",
+    "text": "Preparativos\nPara este ejemplo, usaremos la biblioteca glmnet y la biblioteca de ejemplo mtcars.\n\n# install.packages(\"glmnet\") # Instalar el paquete\nlibrary(glmnet)\nhead(mtcars)\n\n                   mpg cyl disp  hp drat    wt  qsec vs am gear carb\nMazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4\nMazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4\nDatsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1\nHornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1\nHornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2\nValiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1\n\n\nUsaremos mpg (millas por galón) como la variable resultado, y cyl (nº. de cilindros), hp (caballos de vapor), wt (peso), gear (nº. de marchas) y drat (relación del eje) como predictoras.\n\n# definir la variable resultado\ny &lt;- mtcars$mpg\n\n# definir las variables predictoras\nx &lt;- data.matrix(mtcars[, c(\"cyl\", \"hp\", \"wt\", \"drat\", \"gear\")])"
+  },
+  {
+    "objectID": "posts/lasso_regression/post.html#elegir-el-valor-de-lambda",
+    "href": "posts/lasso_regression/post.html#elegir-el-valor-de-lambda",
+    "title": "Regresión Lasso",
+    "section": "Elegir el valor de lambda",
+    "text": "Elegir el valor de lambda\nPodemos elegir el valor de \\(\\lambda\\) que minimice el error cuadrado medio (mean-squared error, MSE). La función cv.glmnet() realiza “validación cruzada de k iteraciones” (K-fold cross-validation) para identificar este valor de \\(\\lambda\\).\n\n# validación cruzada\ncv_model &lt;- cv.glmnet(x, y, alpha = 1)  # Cambiar el parámetro alpha da lugar a otros tipos de regresión\n\n# encontrar el valor lambda que minimiza el MSE\nbest_lambda &lt;- cv_model$lambda.min\nbest_lambda\n\n[1] 0.2621943\n\n# mostrar los resultados en un gráfico\nplot(cv_model)\n\n\n\n\nEl valor de lambda que minimiza el MSE resulta ser 0.2621943, que en la gráfica corresponde al punto \\(Log(\\lambda)\\) = -1.3386694."
+  },
+  {
+    "objectID": "posts/lasso_regression/post.html#correr-el-modelo",
+    "href": "posts/lasso_regression/post.html#correr-el-modelo",
+    "title": "Regresión Lasso",
+    "section": "Correr el modelo",
+    "text": "Correr el modelo\n\n# coeficientes del modelo \nbest_model &lt;- glmnet(x, y, alpha = 1, lambda = best_lambda)\ncoef(best_model)\n\n6 x 1 sparse Matrix of class \"dgCMatrix\"\n                     s0\n(Intercept) 35.74777065\ncyl         -0.83999245\nhp          -0.01680443\nwt          -2.89776526\ndrat         0.36928132\ngear         .         \n\n\nPodemos observar como el coeficiente de gear aparece como un punto, lo que indica que la regresión Lasso ha eliminado el coeficiente, ya que la variable no era lo suficientemente importante."
+  },
+  {
+    "objectID": "posts/lasso_regression/post.html#comparación-con-la-regresión-lineal-sin-lasso",
+    "href": "posts/lasso_regression/post.html#comparación-con-la-regresión-lineal-sin-lasso",
+    "title": "Regresión Lasso",
+    "section": "Comparación con la regresión lineal sin Lasso",
+    "text": "Comparación con la regresión lineal sin Lasso\nComo comparación, podemos ver los coeficientes que resultarían de un modelo de regresión lineal múltiple sin contracción de parámetros ni selección de variables.\n\nlinear_model &lt;- lm(mpg ~ cyl + hp + wt + drat + gear, data = mtcars)\ncbind(coef(best_model), \"Linear\" = coef(linear_model))\n\n6 x 2 sparse Matrix of class \"dgCMatrix\"\n                     s0      Linear\n(Intercept) 35.53832527 33.99417771\ncyl         -0.82713714 -0.72169272\nhp          -0.01749224 -0.02227636\nwt          -2.91058977 -2.92715539\ndrat         0.44492448  0.73105753\ngear         .           0.16750690\n\n\nLos coeficientes del modelo Lasso se han contraído un poco, especialmente de la variable drat, y la variable gear ha sido automáticamente excluida."
+  },
+  {
+    "objectID": "posts/dummy_post/post.html",
+    "href": "posts/dummy_post/post.html",
+    "title": "This is a dummy blog posts",
+    "section": "",
+    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam suscipit est nec dui eleifend, at dictum elit ullamcorper. Aliquam feugiat dictum bibendum. Praesent fermentum laoreet quam, cursus volutpat odio dapibus in. Fusce luctus porttitor vehicula. Donec ac tortor nisi. Donec at lectus tortor. Morbi tempor, nibh non euismod viverra, metus arcu aliquet elit, sed fringilla urna leo vel purus.\n\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nam suscipit est nec dui eleifend, at dictum elit ullamcorper. Aliquam feugiat dictum bibendum. Praesent fermentum laoreet quam, cursus volutpat odio dapibus in. Fusce luctus porttitor vehicula. Donec ac tortor nisi. Donec at lectus tortor. Morbi tempor, nibh non euismod viverra, metus arcu aliquet elit, sed fringilla urna leo vel purus.\n\n\nThis is inline code plus a small code chunk.\n\nlibrary(tidyverse)\n\nggplot(mpg) +\n  geom_jitter(aes(cty, hwy), size = 4, alpha = 0.5) \n\n\n\n\n\n\n\n\nTransforming OLS estimatesMaximizing likelihood\n\n\n\n\nCode\npreds_lm %&gt;% \n  ggplot(aes(body_mass_g, bill_length_mm, col = correct)) +\n  geom_jitter(size = 4, alpha = 0.6) +\n  facet_wrap(vars(species)) +\n  scale_color_manual(values = c('grey60', thematic::okabe_ito(3)[3])) +\n  scale_x_continuous(breaks = seq(3000, 6000, 1000)) +\n  theme_minimal(base_size = 12) +\n  theme(\n    legend.position = 'top', \n    panel.background = element_rect(color = 'black'),\n    panel.grid.minor = element_blank()\n  ) +\n  labs(\n    x = 'Body mass (in g)',\n    y = 'Bill length (in mm)'\n  )\n\n\n\n\n\n\n\n\n\nCode\nglm.mod &lt;- glm(sex ~ body_mass_g + bill_length_mm + species, family = binomial, data = dat)\n\npreds &lt;- dat %&gt;% \n  mutate(\n    prob.fit = glm.mod$fitted.values,\n    prediction = if_else(prob.fit &gt; 0.5, 'male', 'female'),\n    correct = if_else(sex == prediction, 'correct', 'incorrect')\n  )\n\n\npreds %&gt;% \n  ggplot(aes(body_mass_g, bill_length_mm, col = correct)) +\n  geom_jitter(size = 4, alpha = 0.6) +\n  facet_wrap(vars(species)) +\n  scale_x_continuous(breaks = seq(3000, 6000, 1000)) +\n  scale_color_manual(values = c('grey60', thematic::okabe_ito(3)[3])) +\n  theme_minimal(base_size = 10) +\n  theme(\n    legend.position = 'top', \n    panel.background = element_rect(color = 'black'),\n    panel.grid.minor = element_blank()\n  ) +\n  labs(\n    x = 'Body mass (in g)',\n    y = 'Bill length (in mm)'\n  )\n\n\n\n\n\n\n\n\n\n\n\\[\n\\int_0^1 f(x) \\ dx\n\\]\n\n\n\n\n\n\n\n\ngeom_density(\n  mapping = NULL,\n  data = NULL,\n  stat = \"density\",\n  position = \"identity\",\n  ...,\n  na.rm = FALSE,\n  orientation = NA,\n  show.legend = NA,\n  inherit.aes = TRUE,\n  outline.type = \"upper\"\n)\n\n\nstat_density(\n  mapping = NULL,\n  data = NULL,\n  geom = \"area\",\n  position = \"stack\",\n  ...,\n  bw = \"nrd0\",\n  adjust = 1,\n  kernel = \"gaussian\",\n  n = 512,\n  trim = FALSE,\n  na.rm = FALSE,\n  orientation = NA,\n  show.legend = NA,\n  inherit.aes = TRUE\n)\n\n\n\n\n\n\n\nggplot(data = gapminder::gapminder, mapping = aes(x = lifeExp, fill = continent)) +\n  stat_density(position = \"identity\", alpha = 0.5)\n\n\n\n\nBla bla bla. This is a caption in the margin. Super cool isn’t it?"
+  },
+  {
+    "objectID": "posts/dummy_post/post.html#merriweather",
+    "href": "posts/dummy_post/post.html#merriweather",
+    "title": "This is a dummy blog posts",
+    "section": "",
+    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam suscipit est nec dui eleifend, at dictum elit ullamcorper. Aliquam feugiat dictum bibendum. Praesent fermentum laoreet quam, cursus volutpat odio dapibus in. Fusce luctus porttitor vehicula. Donec ac tortor nisi. Donec at lectus tortor. Morbi tempor, nibh non euismod viverra, metus arcu aliquet elit, sed fringilla urna leo vel purus.\n\n\nThis is inline code plus a small code chunk.\n\nlibrary(tidyverse)\n\nggplot(mpg) +\n  geom_jitter(aes(cty, hwy), size = 4, alpha = 0.5) \n\n\n\n\n\n\n\n\nTransforming OLS estimatesMaximizing likelihood\n\n\n\n\nCode\npreds_lm %&gt;% \n  ggplot(aes(body_mass_g, bill_length_mm, col = correct)) +\n  geom_jitter(size = 4, alpha = 0.6) +\n  facet_wrap(vars(species)) +\n  scale_color_manual(values = c('grey60', thematic::okabe_ito(3)[3])) +\n  scale_x_continuous(breaks = seq(3000, 6000, 1000)) +\n  theme_minimal(base_size = 12) +\n  theme(\n    legend.position = 'top', \n    panel.background = element_rect(color = 'black'),\n    panel.grid.minor = element_blank()\n  ) +\n  labs(\n    x = 'Body mass (in g)',\n    y = 'Bill length (in mm)'\n  )\n\n\n\n\n\n\n\n\n\nCode\nglm.mod &lt;- glm(sex ~ body_mass_g + bill_length_mm + species, family = binomial, data = dat)\n\npreds &lt;- dat %&gt;% \n  mutate(\n    prob.fit = glm.mod$fitted.values,\n    prediction = if_else(prob.fit &gt; 0.5, 'male', 'female'),\n    correct = if_else(sex == prediction, 'correct', 'incorrect')\n  )\n\n\npreds %&gt;% \n  ggplot(aes(body_mass_g, bill_length_mm, col = correct)) +\n  geom_jitter(size = 4, alpha = 0.6) +\n  facet_wrap(vars(species)) +\n  scale_x_continuous(breaks = seq(3000, 6000, 1000)) +\n  scale_color_manual(values = c('grey60', thematic::okabe_ito(3)[3])) +\n  theme_minimal(base_size = 10) +\n  theme(\n    legend.position = 'top', \n    panel.background = element_rect(color = 'black'),\n    panel.grid.minor = element_blank()\n  ) +\n  labs(\n    x = 'Body mass (in g)',\n    y = 'Bill length (in mm)'\n  )\n\n\n\n\n\n\n\n\n\n\n\\[\n\\int_0^1 f(x) \\ dx\n\\]"
+  },
+  {
+    "objectID": "posts/dummy_post/post.html#columns",
+    "href": "posts/dummy_post/post.html#columns",
+    "title": "This is a dummy blog posts",
+    "section": "",
+    "text": "geom_density(\n  mapping = NULL,\n  data = NULL,\n  stat = \"density\",\n  position = \"identity\",\n  ...,\n  na.rm = FALSE,\n  orientation = NA,\n  show.legend = NA,\n  inherit.aes = TRUE,\n  outline.type = \"upper\"\n)\n\n\nstat_density(\n  mapping = NULL,\n  data = NULL,\n  geom = \"area\",\n  position = \"stack\",\n  ...,\n  bw = \"nrd0\",\n  adjust = 1,\n  kernel = \"gaussian\",\n  n = 512,\n  trim = FALSE,\n  na.rm = FALSE,\n  orientation = NA,\n  show.legend = NA,\n  inherit.aes = TRUE\n)"
+  },
+  {
+    "objectID": "posts/dummy_post/post.html#margin-captions",
+    "href": "posts/dummy_post/post.html#margin-captions",
+    "title": "This is a dummy blog posts",
+    "section": "",
+    "text": "ggplot(data = gapminder::gapminder, mapping = aes(x = lifeExp, fill = continent)) +\n  stat_density(position = \"identity\", alpha = 0.5)\n\n\n\n\nBla bla bla. This is a caption in the margin. Super cool isn’t it?"
+  },
+  {
+    "objectID": "posts/lasso_regression/post.html#ajustar-el-modelo",
+    "href": "posts/lasso_regression/post.html#ajustar-el-modelo",
+    "title": "Regresión Lasso",
+    "section": "Ajustar el modelo",
+    "text": "Ajustar el modelo\n\n# coeficientes del modelo \nbest_model &lt;- glmnet(x, y, alpha = 1, lambda = best_lambda)\ncoef(best_model)\n\n6 x 1 sparse Matrix of class \"dgCMatrix\"\n                     s0\n(Intercept) 35.53832527\ncyl         -0.82713714\nhp          -0.01749224\nwt          -2.91058977\ndrat         0.44492448\ngear         .         \n\n\nPodemos observar como el coeficiente de gear aparece como un punto, lo que indica que la regresión Lasso ha eliminado el coeficiente, ya que la variable no era lo suficientemente importante."
   }
 ]
