@@ -191,6 +191,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#ajustar-el-modelo" id="toc-ajustar-el-modelo" class="nav-link" data-scroll-target="#ajustar-el-modelo">Ajustar el modelo</a></li>
   <li><a href="#comparación-con-la-regresión-lineal-sin-lasso" id="toc-comparación-con-la-regresión-lineal-sin-lasso" class="nav-link" data-scroll-target="#comparación-con-la-regresión-lineal-sin-lasso">Comparación con la regresión lineal sin Lasso</a></li>
   </ul></li>
+  <li><a href="#dudas-y-curiosidades" id="toc-dudas-y-curiosidades" class="nav-link" data-scroll-target="#dudas-y-curiosidades">Dudas y curiosidades</a></li>
   <li><a href="#referencias" id="toc-referencias" class="nav-link" data-scroll-target="#referencias">Referencias</a></li>
   </ul>
 </nav>
@@ -323,7 +324,7 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>best_lambda <span class="ot">&lt;-</span> cv_model<span class="sc">$</span>lambda.min</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>best_lambda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2621943</code></pre>
+<pre><code>[1] 0.2389017</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mostrar los resultados en un gráfico</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cv_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -331,7 +332,7 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 <p><img src="post_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>El valor de lambda que minimiza el MSE resulta ser 0.2621943, que en la gráfica corresponde al punto <span class="math inline">\(Log(\lambda)\)</span> = -1.3386694.</p>
+<p>El valor de lambda que minimiza el MSE resulta ser 0.2389017, que en la gráfica corresponde al punto <span class="math inline">\(Log(\lambda)\)</span> = -1.4317031.</p>
 </section>
 <section id="ajustar-el-modelo" class="level2">
 <h2 class="anchored" data-anchor-id="ajustar-el-modelo">Ajustar el modelo</h2>
@@ -342,11 +343,11 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 <div class="cell-output cell-output-stdout">
 <pre><code>6 x 1 sparse Matrix of class "dgCMatrix"
                      s0
-(Intercept) 35.53832527
-cyl         -0.82713714
-hp          -0.01749224
-wt          -2.91058977
-drat         0.44492448
+(Intercept) 35.44959739
+cyl         -0.82180746
+hp          -0.01778732
+wt          -2.91614181
+drat         0.47742686
 gear         .         </code></pre>
 </div>
 </div>
@@ -361,16 +362,27 @@ gear         .         </code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>6 x 2 sparse Matrix of class "dgCMatrix"
                      s0      Linear
-(Intercept) 35.53832527 33.99417771
-cyl         -0.82713714 -0.72169272
-hp          -0.01749224 -0.02227636
-wt          -2.91058977 -2.92715539
-drat         0.44492448  0.73105753
+(Intercept) 35.44959739 33.99417771
+cyl         -0.82180746 -0.72169272
+hp          -0.01778732 -0.02227636
+wt          -2.91614181 -2.92715539
+drat         0.47742686  0.73105753
 gear         .           0.16750690</code></pre>
 </div>
 </div>
 <p>Los coeficientes del modelo Lasso se han contraído un poco, especialmente de la variable <code>drat</code>, y la variable <code>gear</code> ha sido automáticamente excluida.</p>
 </section>
+</section>
+<section id="dudas-y-curiosidades" class="level1">
+<h1>Dudas y curiosidades</h1>
+<p>Algunas preguntas que me surgen para investigar y escribir nuevos posts:</p>
+<ul>
+<li>¿Cómo elegir el valor de lambda?</li>
+<li>¿Qué es el método de <em>K-fold cross-validation</em>?</li>
+<li>¿Qué diferencia a Lasso de otros modelos similares como Ridge?</li>
+<li>¿Qué utilidad tiene la regresión Lasso en el mundo de la salud pública? ¿Qué base de datos puedo usar como ejemplo?</li>
+<li>¿Qué artículos hay publicados con esta metodología?</li>
+</ul>
 </section>
 <section id="referencias" class="level1">
 <h1>Referencias</h1>

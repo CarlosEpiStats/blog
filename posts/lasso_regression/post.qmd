@@ -120,22 +120,19 @@ cbind(coef(best_model), "Linear" = coef(linear_model))
 
 Los coeficientes del modelo Lasso se han contraído un poco, especialmente de la variable `drat`, y la variable `gear` ha sido automáticamente excluida.
 
+# Dudas y curiosidades
+
+Algunas preguntas que me surgen para investigar y escribir nuevos posts:
+
+* ¿Cómo elegir el valor de lambda?
+* ¿Qué es el método de *K-fold cross-validation*?
+* ¿Qué diferencia a Lasso de otros modelos similares como Ridge?
+* ¿Qué utilidad tiene la regresión Lasso en el mundo de la salud pública? ¿Qué base de datos puedo usar como ejemplo?
+* ¿Qué artículos hay publicados con esta metodología?
+
 
 # Referencias
 
 * [Statology](https://www.statology.org/lasso-regression-in-r/)
 * [Geeks for Geeks](https://www.geeksforgeeks.org/lasso-regression-in-r-programming/)
 
-
-```{r}
-#| include: false
-
-# To-Do:
-# Buscar una base de datos de ejemplo mejor
-# Posibles artículos:
-# - Multicolinearidad
-# - K-fold validation
-# - Bias/variance tradeoff
-# - Ridge regression
-
-```

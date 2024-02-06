@@ -3,7 +3,6 @@
     "listing": "/archive.html",
     "items": [
       "/posts/ggplot2-tips/ggplot-series.html",
-      "/posts/dummy_post/post.html",
       "/posts/lasso_regression/post.html"
     ]
   },
@@ -11,7 +10,6 @@
     "listing": "/blog.html",
     "items": [
       "/posts/ggplot2-tips/ggplot-series.html",
-      "/posts/dummy_post/post.html",
       "/posts/lasso_regression/post.html"
     ]
   },
