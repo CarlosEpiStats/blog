@@ -4,14 +4,14 @@
     "href": "archive.html",
     "title": "Archivo",
     "section": "",
-    "text": "Series: ggplot2-tips\n\n\n\n\n\n\n\n \n\n\n\n\n\n\nRegresión Lasso\n\n\n\n\n\n\n\n\n\nFeb 26, 2024\n\n\n\n\n\n\nNo matching items"
+    "text": "Series: ggplot2-tips\n\n\n\n\n\n\n\n \n\n\n\n\n\n\nDiagrama aluvial (alluvial plot)\n\n\n\n\n\n\n\n\n\nFeb 22, 2024\n\n\n\n\n\n\n\n\nRegresión Lasso\n\n\n\n\n\n\n\n\n\nJan 26, 2024\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "blog.html",
     "href": "blog.html",
     "title": "Blog",
     "section": "",
-    "text": "Series\n\nggplot2-series\nDemo series of ggplot2 tips\n\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n  \n\n\n\n\nSeries: ggplot2-tips\n\n\n\n\n\n\n\n\n\n\n\n\n1 min\n\n\n\n\n\n\n  \n\n\n\n\nRegresión Lasso\n\n\n\n\n\n\n\nregresión\n\n\nR\n\n\nlasso\n\n\n\n\nQué es, para qué se usa y cómo usar la regresión Lasso, con código en R.\n\n\n\n\n\n\nFeb 26, 2024\n\n\n4 min\n\n\n\n\n\n\nNo matching items"
+    "text": "Series\n\nggplot2-series\nDemo series of ggplot2 tips\n\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n  \n\n\n\n\nSeries: ggplot2-tips\n\n\n\n\n\n\n\n\n\n\n\n\n1 min\n\n\n\n\n\n\n  \n\n\n\n\nDiagrama aluvial (alluvial plot)\n\n\n\n\n\n\n\nggplot\n\n\nplot\n\n\nalluvial\n\n\n\n\nCómo crear un diagrama aluvial en R.\n\n\n\n\n\n\nFeb 22, 2024\n\n\n3 min\n\n\n\n\n\n\n  \n\n\n\n\nRegresión Lasso\n\n\n\n\n\n\n\nregresión\n\n\nR\n\n\nlasso\n\n\n\n\nQué es, para qué se usa y cómo usar la regresión Lasso, con código en R.\n\n\n\n\n\n\nJan 26, 2024\n\n\n4 min\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",
@@ -187,5 +187,40 @@
     "title": "This is a dummy blog posts",
     "section": "",
     "text": "ggplot(data = gapminder::gapminder, mapping = aes(x = lifeExp, fill = continent)) +\n  stat_density(position = \"identity\", alpha = 0.5)\n\n\n\n\nBla bla bla. This is a caption in the margin. Super cool isn’t it?"
+  },
+  {
+    "objectID": "posts/alluvial_plot/post.html",
+    "href": "posts/alluvial_plot/post.html",
+    "title": "Diagrama aluvial (alluvial plot)",
+    "section": "",
+    "text": "En este post explico cómo crear un diagrama aluvial (alluvial plot) usando código en R.\n\n\nUn diagrama o gráfico aluvial muestra el flujo de información de un estadio al siguiente. El nombre “aluvial” alude a su parecido con el flujo de un río.\n\n\n\nUn diagrama aluvial se suele utilizar en las siguientes situaciones:\n\nPara mostrar el número de participantes de un estudio que cambian desde una categoría basal a una categoría siguiente. Por ejemplo, el número de participantes aleatorizados al principio del estudio y que continúan en seguimiento al final. Es un complemento gráfico a los diagramas de flujo, que presentan la información con flechas y cajas con texto y números.\nPara mostrar la distribución de participantes entre distintas variables categóricas. En este caso es una alternativa más “vistosa” a los diagramas de columnas apilados."
+  },
+  {
+    "objectID": "posts/alluvial_plot/post.html#qué-es-un-diagrama-aluvial",
+    "href": "posts/alluvial_plot/post.html#qué-es-un-diagrama-aluvial",
+    "title": "Diagrama aluvial (alluvial plot)",
+    "section": "",
+    "text": "Un diagrama o gráfico aluvial muestra el flujo de información de un estadio al siguiente. El nombre “aluvial” alude a su parecido con el flujo de un río."
+  },
+  {
+    "objectID": "posts/alluvial_plot/post.html#para-qué-se-usan-los-diagramas-aluviales",
+    "href": "posts/alluvial_plot/post.html#para-qué-se-usan-los-diagramas-aluviales",
+    "title": "Diagrama aluvial (alluvial plot)",
+    "section": "",
+    "text": "Un diagrama aluvial se suele utilizar en las siguientes situaciones:\n\nPara mostrar el número de participantes de un estudio que cambian desde una categoría basal a una categoría siguiente. Por ejemplo, el número de participantes aleatorizados al principio del estudio y que continúan en seguimiento al final. Es un complemento gráfico a los diagramas de flujo, que presentan la información con flechas y cajas con texto y números.\nPara mostrar la distribución de participantes entre distintas variables categóricas. En este caso es una alternativa más “vistosa” a los diagramas de columnas apilados."
+  },
+  {
+    "objectID": "posts/alluvial_plot/post.html#preparativos",
+    "href": "posts/alluvial_plot/post.html#preparativos",
+    "title": "Diagrama aluvial (alluvial plot)",
+    "section": "Preparativos",
+    "text": "Preparativos\nPara este ejemplo, usaremos la biblioteca ggalluvial y ggplot2. Los datos proceden de un estudio sobre aprendizaje de idiomas usando la aplicación web LingQ (Enlace al artículo).\n\n# Cargar las bibliotecas necesarias\nlibrary(tidyverse) # Incluye ggplot2\nlibrary(ggalluvial)\nlibrary(knitr)\n\n# Datos de ejemplo\n\ndata &lt;- data.frame(\n  Inicial = rep(c(\"Primero\", \"Segundo\", \"Tercero\", \"Cuarto+\"), each = 4),\n  Final = rep(c(\"Primero\", \"Segundo\", \"Tercero\", \"Cuarto+\"), 4), \n  Frecuencia = c(28, 28, 10, 4, 3, 6, 7, 5, 0, 3, 3, 3, 0, 0, 0, 1)\n) %&gt;% \n  mutate(\n    Inicial = factor(Inicial, levels = c(\"Primero\", \"Segundo\", \"Tercero\", \"Cuarto+\")),\n    Final = factor(Final, levels = c(\"Primero\", \"Segundo\", \"Tercero\", \"Cuarto+\"))\n  )\n\nhead(data)\n\n  Inicial   Final Frecuencia\n1 Primero Primero         28\n2 Primero Segundo         28\n3 Primero Tercero         10\n4 Primero Cuarto+          4\n5 Segundo Primero          3\n6 Segundo Segundo          6\n\n\nEn este estudio, un total de 192 personas fueron seleccionados para la muestra y completaron el test de conocimientos inicial. De ellas, 101 completaron el test final y estudiaron al menos dos horas en la aplicación, y fueron incluidas en el análisis. Los datos muestran cuál era el conocimiento de idiomas equivalente en semestres de educación formal (“Primero”, “Segundo”, “Tercero”, “Cuarto o más”) al principio del estudio (“Inicial”) y tras usar la aplicación (“Final”).\nNota: Los datos se han extraído del artículo de ejemplo a partir de las tablas de resultados y son solo un ejemplo de una distribución de datos compatible con esos resultados."
+  },
+  {
+    "objectID": "posts/alluvial_plot/post.html#gráfico",
+    "href": "posts/alluvial_plot/post.html#gráfico",
+    "title": "Diagrama aluvial (alluvial plot)",
+    "section": "Gráfico",
+    "text": "Gráfico\n\n# Diagrama aluvial\ndata %&gt;% \nggplot(aes(axis1 = fct_rev(Inicial), axis2 = fct_rev(Final),\n           y = Frecuencia)) +\n  scale_x_discrete(limits = c(\"Inicial\", \"Final\"), expand = c(.2, .05)) +\n  geom_alluvium(aes(fill = Final)) +\n  geom_stratum() +\n  geom_text(stat = \"stratum\", aes(label = after_stat(stratum))) +\n  theme_minimal() +\n  labs(x = \"Semestres equivalentes de educación formal\")\n\n\n\n\nEn el diagrama aluvial, el área de las zonas coloreadas es proporcional a la frecuencia, por lo que “flujos” más anchos representan más participantes.\nEn el gráfico se aprecia cómo la mayor parte del flujo ocurre de abajo arriba; es decir, el conocimiento tiende a mejorar más que a empeorar. Por ejemplo, más de la mitad de los participantes que partían del primer semestre de conocimientos subieron al segundo, tercer o cuarto semestre.\nTambién se puede ver como casi todos los participantes que acabaron con un nivel de conocimientos equivalente al primer semestre partían de ese nivel previo, y unos pocos bajaron del segundo semestre al primer semestre.\nEn definitiva, los diagramas aluviales proporcionan una opción visual para entender mejor los flujos de datos entre categorías, especialmente si hay algún componente temporal asociado a ellas."
   }
 ]

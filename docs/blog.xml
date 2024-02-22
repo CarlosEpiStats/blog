@@ -10,7 +10,308 @@
 <atom:link href="https://graficosmedicos.github.io/blog/blog.xml" rel="self" type="application/rss+xml"/>
 <description>Blog sobre estadística y medicina.</description>
 <generator>quarto-1.3.353</generator>
-<lastBuildDate>Sun, 25 Feb 2024 23:00:00 GMT</lastBuildDate>
+<lastBuildDate>Wed, 21 Feb 2024 23:00:00 GMT</lastBuildDate>
+<item>
+  <title>Diagrama aluvial (alluvial plot)</title>
+  <dc:creator>Carlos Fernández</dc:creator>
+  <link>https://graficosmedicos.github.io/blog/posts/alluvial_plot/post.html</link>
+  <description><![CDATA[ 
+
+
+
+<section id="introducción" class="level1">
+<h1>Introducción</h1>
+<p>En este post explico cómo crear un diagrama aluvial (<em>alluvial plot</em>) usando código en R.</p>
+<section id="qué-es-un-diagrama-aluvial" class="level2">
+<h2 class="anchored" data-anchor-id="qué-es-un-diagrama-aluvial">Qué es un diagrama aluvial</h2>
+<p>Un diagrama o gráfico aluvial muestra el flujo de información de un estadio al siguiente. El nombre “aluvial” alude a su parecido con el flujo de un río.</p>
+</section>
+<section id="para-qué-se-usan-los-diagramas-aluviales" class="level2">
+<h2 class="anchored" data-anchor-id="para-qué-se-usan-los-diagramas-aluviales">Para qué se usan los diagramas aluviales</h2>
+<p>Un diagrama aluvial se suele utilizar en las siguientes situaciones:</p>
+<ul>
+<li>Para mostrar el número de participantes de un estudio que cambian desde una categoría basal a una categoría siguiente. Por ejemplo, el número de participantes aleatorizados al principio del estudio y que continúan en seguimiento al final. Es un complemento gráfico a los diagramas de flujo, que presentan la información con flechas y cajas con texto y números.</li>
+<li>Para mostrar la distribución de participantes entre distintas variables categóricas. En este caso es una alternativa más “vistosa” a los diagramas de columnas apilados.</li>
+</ul>
+</section>
+</section>
+<section id="código-en-r" class="level1">
+<h1>Código en R</h1>
+<section id="preparativos" class="level2">
+<h2 class="anchored" data-anchor-id="preparativos">Preparativos</h2>
+<p>Para este ejemplo, usaremos la biblioteca <code>ggalluvial</code> y <code>ggplot2</code>. Los datos proceden de un estudio sobre aprendizaje de idiomas usando la aplicación web <em>LingQ</em> (<a href="http://comparelanguageapps.com/documentation/LingQ_Efficacy_2023.pdf">Enlace al artículo</a>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Cargar las bibliotecas necesarias</span></span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(tidyverse) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Incluye ggplot2</span></span>
+<span id="cb1-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(ggalluvial)</span>
+<span id="cb1-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(knitr)</span>
+<span id="cb1-5"></span>
+<span id="cb1-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Datos de ejemplo</span></span>
+<span id="cb1-7"></span>
+<span id="cb1-8">data <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">data.frame</span>(</span>
+<span id="cb1-9">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">Inicial =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rep</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Primero"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Segundo"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Tercero"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Cuarto+"</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">each =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>),</span>
+<span id="cb1-10">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">Final =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rep</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Primero"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Segundo"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Tercero"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Cuarto+"</span>), <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>), </span>
+<span id="cb1-11">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">Frecuencia =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">28</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">28</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb1-12">) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%&gt;%</span> </span>
+<span id="cb1-13">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(</span>
+<span id="cb1-14">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">Inicial =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">factor</span>(Inicial, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">levels =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Primero"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Segundo"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Tercero"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Cuarto+"</span>)),</span>
+<span id="cb1-15">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">Final =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">factor</span>(Final, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">levels =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Primero"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Segundo"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Tercero"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Cuarto+"</span>))</span>
+<span id="cb1-16">  )</span>
+<span id="cb1-17"></span>
+<span id="cb1-18"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">head</span>(data)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Inicial   Final Frecuencia
+1 Primero Primero         28
+2 Primero Segundo         28
+3 Primero Tercero         10
+4 Primero Cuarto+          4
+5 Segundo Primero          3
+6 Segundo Segundo          6</code></pre>
+</div>
+</div>
+<p>En este estudio, un total de 192 personas fueron seleccionados para la muestra y completaron el test de conocimientos inicial. De ellas, 101 completaron el test final y estudiaron al menos dos horas en la aplicación, y fueron incluidas en el análisis. Los datos muestran cuál era el conocimiento de idiomas equivalente en semestres de educación formal (“Primero”, “Segundo”, “Tercero”, “Cuarto o más”) al principio del estudio (“Inicial”) y tras usar la aplicación (“Final”).</p>
+<p><em>Nota: Los datos se han extraído del artículo de ejemplo a partir de las tablas de resultados y son solo un ejemplo de una distribución de datos compatible con esos resultados.</em></p>
+</section>
+<section id="gráfico" class="level2">
+<h2 class="anchored" data-anchor-id="gráfico">Gráfico</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Diagrama aluvial</span></span>
+<span id="cb3-2">data <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%&gt;%</span> </span>
+<span id="cb3-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">axis1 =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">fct_rev</span>(Inicial), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">axis2 =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">fct_rev</span>(Final),</span>
+<span id="cb3-4">           <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> Frecuencia)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_x_discrete</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">limits =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Inicial"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Final"</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">expand =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(.<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, .<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">05</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-6">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_alluvium</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> Final)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_stratum</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-8">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_text</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">stat =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"stratum"</span>, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">after_stat</span>(stratum))) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-9">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_minimal</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-10">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Semestres equivalentes de educación formal"</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="https://graficosmedicos.github.io/blog/posts/alluvial_plot/post_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>En el diagrama aluvial, el área de las zonas coloreadas es proporcional a la frecuencia, por lo que “flujos” más anchos representan más participantes.</p>
+<p>En el gráfico se aprecia cómo la mayor parte del flujo ocurre de abajo arriba; es decir, el conocimiento tiende a mejorar más que a empeorar. Por ejemplo, más de la mitad de los participantes que partían del primer semestre de conocimientos subieron al segundo, tercer o cuarto semestre.</p>
+<p>También se puede ver como casi todos los participantes que acabaron con un nivel de conocimientos equivalente al primer semestre partían de ese nivel previo, y unos pocos bajaron del segundo semestre al primer semestre.</p>
+<p>En definitiva, los diagramas aluviales proporcionan una opción visual para entender mejor los flujos de datos entre categorías, especialmente si hay algún componente temporal asociado a ellas.</p>
+</section>
+</section>
+<section id="referencias" class="level1">
+<h1>Referencias</h1>
+<ul>
+<li><a href="https://corybrunson.github.io/ggalluvial/">Biblioteca ggalluvial</a></li>
+<li><a href="http://comparelanguageapps.com/documentation/LingQ_Efficacy_2023.pdf">Estudio de aprendizaje de idiomas con LingQ</a></li>
+</ul>
+
+
+</section>
+
+ ]]></description>
+  <category>ggplot</category>
+  <category>plot</category>
+  <category>alluvial</category>
+  <guid>https://graficosmedicos.github.io/blog/posts/alluvial_plot/post.html</guid>
+  <pubDate>Wed, 21 Feb 2024 23:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Regresión Lasso</title>
   <dc:creator>Carlos Fernández</dc:creator>
@@ -272,7 +573,7 @@ gear         .           0.16750690</code></pre>
   <category>R</category>
   <category>lasso</category>
   <guid>https://graficosmedicos.github.io/blog/posts/lasso_regression/post.html</guid>
-  <pubDate>Sun, 25 Feb 2024 23:00:00 GMT</pubDate>
+  <pubDate>Thu, 25 Jan 2024 23:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Series: ggplot2-tips</title>
@@ -296,7 +597,7 @@ No matching items
 </div>
 </div> ]]></description>
   <guid>https://graficosmedicos.github.io/blog/posts/ggplot2-tips/ggplot-series.html</guid>
-  <pubDate>Tue, 06 Feb 2024 12:45:30 GMT</pubDate>
+  <pubDate>Thu, 22 Feb 2024 11:10:56 GMT</pubDate>
 </item>
 </channel>
 </rss>

@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://graficosmedicos.github.io/blog/archive.html</loc>
-    <lastmod>2024-02-06T12:45:29.882Z</lastmod>
+    <lastmod>2024-02-22T11:10:55.286Z</lastmod>
   </url>
   <url>
     <loc>https://graficosmedicos.github.io/blog/blog.html</loc>
-    <lastmod>2024-02-06T12:45:30.493Z</lastmod>
+    <lastmod>2024-02-22T11:10:56.045Z</lastmod>
   </url>
   <url>
     <loc>https://graficosmedicos.github.io/blog/index.html</loc>
@@ -22,7 +22,7 @@
   </url>
   <url>
     <loc>https://graficosmedicos.github.io/blog/posts/lasso_regression/post.html</loc>
-    <lastmod>2024-02-06T12:45:36.818Z</lastmod>
+    <lastmod>2024-02-22T11:05:09.353Z</lastmod>
   </url>
   <url>
     <loc>https://graficosmedicos.github.io/blog/posts/dummy_post/post.html</loc>
@@ -31,5 +31,9 @@
   <url>
     <loc>https://graficosmedicos.github.io/blog/dummy_post/post.html</loc>
     <lastmod>2024-02-06T12:45:35.161Z</lastmod>
+  </url>
+  <url>
+    <loc>https://graficosmedicos.github.io/blog/posts/alluvial_plot/post.html</loc>
+    <lastmod>2024-02-22T11:10:58.124Z</lastmod>
   </url>
 </urlset>
