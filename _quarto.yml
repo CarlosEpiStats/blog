@@ -3,15 +3,15 @@ project:
   output-dir: docs
 
 website:
-  title: "GráficosMédicos"
-  site-url: https://graficosmedicos.github.io/blog/
-  description: "Blog sobre estadística y medicina."
+  title: "EpiStats"
+  site-url: https://CarlosEpiStats.github.io/blog/
+  description: "A blog about Epidemiology and Biostatistics by Carlos Fernández, MD MPH."
   navbar:
     right: 
       - icon: rss
         href: blog.xml
       - icon: github
-        href: https://github.com/GraficosMedicos
+        href: https://github.com/CarlosEpiStats
       - text: Resources
         menu:
           - text: R Weekly

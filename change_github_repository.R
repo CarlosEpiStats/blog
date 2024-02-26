@@ -1,6 +1,9 @@
 library(usethis)
 library(gitcreds)
 
-use_git_config(user.name = "GraficosMedicos", user.email = "graficosmedicos@gmail.com") #Seems that nothing happens, but it has changed behind the scenes
+user_name <- "GraficosMedicos"
+user_email <- "graficosmedicos@gmail.com"
+
+use_git_config(user.name = user_name, user.email = user_email)
 create_github_token()
 gitcreds_set()

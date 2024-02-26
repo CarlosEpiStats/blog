@@ -1,5 +1,5 @@
 ---
-title: "GráficosMédicos"
+title: "EpiStats"
 image: profile_pic.jpg
 about:
   template: trestles
@@ -7,13 +7,13 @@ about:
   links:
     - text: Email
       icon: envelope
-      href: mailto:graficosmedicos@gmail.com
+      href: mailto:carlosepistats@gmail.com
 ---
 
-¡Hola! Me llamo Carlos Fernández y me encanta la bioestadística y la programación. 
+Hello there! I'm Carlos Fernández, MD, MPH, and I'm passionate about biostatistics, epidemiology, and programming.
 
-En este blog comparto cosas que aprendo sobre bioestadística y códigos en R, Stata, python o lo que surja.
+Here, I'll share whatever I learn along the way regarding statistics, scientific methods, and coding in R, Stata, or Python.
 
-Escríbeme un correo si te gustaría que hablara de algún tema en particular.
+You can reach me at carlosepistats@gmail.com
 
-¡Gracias por pasarte!
+Thank you for stopping by!
