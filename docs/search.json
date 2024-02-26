@@ -4,14 +4,14 @@
     "href": "archive.html",
     "title": "Archivo",
     "section": "",
-    "text": "Series: ggplot2-tips\n\n\n\n\n\n\n\n \n\n\n\n\n\n\nDiagrama aluvial (alluvial plot)\n\n\n\n\n\n\n\n\n\nFeb 22, 2024\n\n\n\n\n\n\n\n\nRegresión Lasso\n\n\n\n\n\n\n\n\n\nJan 26, 2024\n\n\n\n\n\n\nNo matching items"
+    "text": "Series: ggplot2-tips\n\n\n\n\n\n\n\n \n\n\n\n\n\n\nDiagrama aluvial (alluvial plot)\n\n\n\n\n\n\n\n\n\nFeb 22, 2024\n\n\n\n\n\n\n\n\nLasso regression\n\n\n\n\n\n\n\n\n\nJan 26, 2024\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "blog.html",
     "href": "blog.html",
     "title": "Blog",
     "section": "",
-    "text": "Series\n\nggplot2-series\nDemo series of ggplot2 tips\n\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n  \n\n\n\n\nSeries: ggplot2-tips\n\n\n\n\n\n\n\n\n\n\n\n\n1 min\n\n\n\n\n\n\n  \n\n\n\n\nDiagrama aluvial (alluvial plot)\n\n\n\n\n\n\n\nggplot\n\n\nplot\n\n\nalluvial\n\n\n\n\nCómo crear un diagrama aluvial en R.\n\n\n\n\n\n\nFeb 22, 2024\n\n\n3 min\n\n\n\n\n\n\n  \n\n\n\n\nRegresión Lasso\n\n\n\n\n\n\n\nregresión\n\n\nR\n\n\nlasso\n\n\n\n\nQué es, para qué se usa y cómo usar la regresión Lasso, con código en R.\n\n\n\n\n\n\nJan 26, 2024\n\n\n4 min\n\n\n\n\n\n\nNo matching items"
+    "text": "Series\n\nggplot2-series\nDemo series of ggplot2 tips\n\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n  \n\n\n\n\nSeries: ggplot2-tips\n\n\n\n\n\n\n\n\n\n\n\n\n1 min\n\n\n\n\n\n\n  \n\n\n\n\nDiagrama aluvial (alluvial plot)\n\n\n\n\n\n\n\nggplot\n\n\nplot\n\n\nalluvial\n\n\n\n\nCómo crear un diagrama aluvial en R.\n\n\n\n\n\n\nFeb 22, 2024\n\n\n3 min\n\n\n\n\n\n\n  \n\n\n\n\nLasso regression\n\n\n\n\n\n\n\nregression\n\n\nR\n\n\nlasso\n\n\n\n\nWhat is, what is it used for, and how to use Lasso regression, with code in R.\n\n\n\n\n\n\nJan 26, 2024\n\n\n4 min\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",
@@ -58,9 +58,9 @@
   {
     "objectID": "posts/lasso_regression/post.html",
     "href": "posts/lasso_regression/post.html",
-    "title": "Regresión Lasso",
+    "title": "Lasso regression",
     "section": "",
-    "text": "En este post explico qué es la regresión Lasso, para qué se usa y cómo realizarla usando código en R.\n\n\nLa regresión Lasso es una variante de la regresión lineal que busca obtener un modelo lo más simple posible. Para ello, penaliza los modelos con coeficientes grandes, dejando coeficientes pequeños e incluso eliminando variables del modelo (igualando sus coeficientes a cero).\nLasso es un acrónimo de Least Absolute Shrinkage and Selector Operator.\n\n\n\nLasso tiene dos funciones principales:\n\nSelección de variables para un modelo: como puede convertir los coeficientes de las variables en ceros, puede usarse para seleccionar las variables más importantes del modelo y excluir otras.\nContracción de parámetros (shrinkage): los coeficientes del modelo Lasso son más pequeños que en una regresión lineal normal. Esto ayuda al reducir el peligro de sobreajuste (overfitting) del modelo.\n\n\n\n\nLasso se suele utilizar en las siguientes situaciones:\n\nCuando tenemos bases de datos con alta dimensionalidad(con muchas variables).\nCuando tenemos modelos con multicolinealidad.\nCuando queremos automatizar la construcción de un modelo (automatizando la selección de variables).\n\n\n\n\nUn modelo de regresión lineal múltiple busca el conjunto de coeficientes (\\(\\beta_0, \\beta_1, \\beta_2...\\)) que minimiza la suma de los cuadrados de los residuales. Esto es, la distancia entre los datos y la predicción del modelo (residual) se eleva al cuadrado y se suma. El método de mínimos cuadrados de la regresión lineal busca minimizar esta suma.\nLa regresión Lasso añade otro parámetro conocido como L1. L1 es la suma de los valores absolutos de los coeficientes del modelo. Lasso busca minimizar la suma de L1 y la suma de cuadrados. Por lo tanto, Lasso busca el menor valor absoluto posible de los coeficientes, que se traduce en menor L1. Este proceso se llama “regularización L1”, y produce una “contracción” de los coeficientes (los hace más pequeños).\nToda regresión Lasso incluye un parámetro adicional, lambda (\\(\\lambda\\)). Lambda mide cuánta importancia le da el modelo al parámetro L1:\n\nSi \\(\\lambda = 0\\), no hay contracción de coeficientes y el modelo es equivalente a una regresión lineal normal.\nConforme \\(\\lambda\\) aumenta, hay más contracción de coeficientes y se eliminan más variables.\nSi \\(\\lambda\\) = infinito, hay contracción máxima y se eliminan todos los coeficientes.\n\n\n\n\n\\(min(RSS + \\lambda \\sum |\\beta_j|)\\)\nDonde\n\n\\(RSS\\) es la suma de residuos cuadrados.\n\\(\\lambda\\) es el parámetro de penalización de Lasso.\n\\(\\sum |\\beta_j|\\) es la suma de los valores absolutos de los coeficientes de las variables."
+    "text": "In this post, I explain what Lasso regression is, what it is used for, and how to use it, with code in R.\n\n\nLasso regression is a modified version of linear regression whose objective is to find the simplest model possible. In order to do that, Lasso method penalizes large regression coefficients, leaving smaller coefficients and even removing some variables from the final model (i.e., setting their coefficients to zero).\nLasso is an acronym of Least Absolute Shrinkage and Selector Operator.\n\n\n\nLasso regression is used mainly in two applications:\n\nModel variable selection: Lasso can be used as a method to select the most important variables in a regression model. The least important variables will have their coefficients set to zero, effectively being removed from the final model.\nParameter shrinkage: Lasso’s coefficients are smaller thant those of a simple lineal regression. This helps to avoid overfitting problems.\n\nGiven their two main functions, Lasso regression is usually employed in the following situations:\n\nWhen we have a high-dimensionality dataset, i.e., with a large number of variables.\nWhen we have multicolineallity in our model, i.e., several variables are lineally dependent of one another.\nWhen we want to automatize the model building, via automatizing the selection of the included variables.\n\n\n\n\nA traditional multivariable lineal regression model finds a set of regression coefficients (\\(\\beta_0, \\beta_1, \\beta_2...\\)) that minimizes the residuals’ squared sum (RSS). That is, the distance between the datapoints and the model predictions.\nLasso regression adds another parameter called L1. L1 is defined as the sum of the absolute values of the model coefficients. Lasso method tries to minimize the sum of RSS and L1. As a consequence, Lasso finds a model with smaller regression coefficients. This whole process is known as “L1 regularization”, and it produces a coefficient “shrinkage”.\nEvery time we run a Lasso regression, whe need to specify the lambda parameter (\\(\\lambda\\)). Lambda represents the relative importance of the L1 parameter compared to the RSS part of the minimization formula.\n\nWith \\(\\lambda = 0\\), there is no coefficient shrinkage, and the Lasso model is effectively equal to a regular linear regression model.\nAs \\(\\lambda\\) grows, there is more shrinkage, and more variables are removed from the model.\nIf \\(\\lambda\\) were to be infinite, all coefficients would be removed, and we would end up with an empty model.\n\n\n\n\\(min(RSS + \\lambda \\sum |\\beta_j|)\\)\nWhere\n\n\\(RSS\\) es the residuals’ square sum.\n\\(\\lambda\\) is Lasso’s penalizing factor.\n\\(\\sum |\\beta_j|\\) is the sum of the absolute values of the regression coefficients."
   },
   {
     "objectID": "posts/lasso_regression/post.html#qué-es-la-regresión-lasso",
@@ -121,9 +121,9 @@
   {
     "objectID": "posts/lasso_regression/post.html#comparación-con-la-regresión-lineal-sin-lasso",
     "href": "posts/lasso_regression/post.html#comparación-con-la-regresión-lineal-sin-lasso",
-    "title": "Regresión Lasso",
+    "title": "Lasso regression",
     "section": "Comparación con la regresión lineal sin Lasso",
-    "text": "Comparación con la regresión lineal sin Lasso\nComo comparación, podemos ver los coeficientes que resultarían de un modelo de regresión lineal múltiple sin contracción de parámetros ni selección de variables.\n\nlinear_model &lt;- lm(mpg ~ cyl + hp + wt + drat + gear, data = mtcars)\ncbind(coef(best_model), \"Linear\" = coef(linear_model))\n\n6 x 2 sparse Matrix of class \"dgCMatrix\"\n                     s0      Linear\n(Intercept) 35.44959739 33.99417771\ncyl         -0.82180746 -0.72169272\nhp          -0.01778732 -0.02227636\nwt          -2.91614181 -2.92715539\ndrat         0.47742686  0.73105753\ngear         .           0.16750690\n\n\nLos coeficientes del modelo Lasso se han contraído un poco, especialmente de la variable drat, y la variable gear ha sido automáticamente excluida."
+    "text": "Comparación con la regresión lineal sin Lasso\nComo comparación, podemos ver los coeficientes que resultarían de un modelo de regresión lineal múltiple sin contracción de parámetros ni selección de variables.\n\nlinear_model &lt;- lm(mpg ~ cyl + hp + wt + drat + gear, data = mtcars)\ncbind(coef(best_model), \"Linear\" = coef(linear_model))\n\n6 x 2 sparse Matrix of class \"dgCMatrix\"\n                     s0      Linear\n(Intercept) 35.74777065 33.99417771\ncyl         -0.83999245 -0.72169272\nhp          -0.01680443 -0.02227636\nwt          -2.89776526 -2.92715539\ndrat         0.36928132  0.73105753\ngear         .           0.16750690\n\n\nLos coeficientes del modelo Lasso se han contraído un poco, especialmente de la variable drat, y la variable gear ha sido automáticamente excluida."
   },
   {
     "objectID": "posts/dummy_post/post.html",
@@ -156,9 +156,9 @@
   {
     "objectID": "posts/lasso_regression/post.html#ajustar-el-modelo",
     "href": "posts/lasso_regression/post.html#ajustar-el-modelo",
-    "title": "Regresión Lasso",
+    "title": "Lasso regression",
     "section": "Ajustar el modelo",
-    "text": "Ajustar el modelo\n\n# coeficientes del modelo \nbest_model &lt;- glmnet(x, y, alpha = 1, lambda = best_lambda)\ncoef(best_model)\n\n6 x 1 sparse Matrix of class \"dgCMatrix\"\n                     s0\n(Intercept) 35.44959739\ncyl         -0.82180746\nhp          -0.01778732\nwt          -2.91614181\ndrat         0.47742686\ngear         .         \n\n\nPodemos observar como el coeficiente de gear aparece como un punto, lo que indica que la regresión Lasso ha eliminado el coeficiente, ya que la variable no era lo suficientemente importante."
+    "text": "Ajustar el modelo\n\n# coeficientes del modelo \nbest_model &lt;- glmnet(x, y, alpha = 1, lambda = best_lambda)\ncoef(best_model)\n\n6 x 1 sparse Matrix of class \"dgCMatrix\"\n                     s0\n(Intercept) 35.74777065\ncyl         -0.83999245\nhp          -0.01680443\nwt          -2.89776526\ndrat         0.36928132\ngear         .         \n\n\nPodemos observar como el coeficiente de gear aparece como un punto, lo que indica que la regresión Lasso ha eliminado el coeficiente, ya que la variable no era lo suficientemente importante."
   },
   {
     "objectID": "dummy_post/post.html",
@@ -222,5 +222,40 @@
     "title": "Diagrama aluvial (alluvial plot)",
     "section": "Gráfico",
     "text": "Gráfico\n\n# Diagrama aluvial\ndata %&gt;% \nggplot(aes(axis1 = fct_rev(Inicial), axis2 = fct_rev(Final),\n           y = Frecuencia)) +\n  scale_x_discrete(limits = c(\"Inicial\", \"Final\"), expand = c(.2, .05)) +\n  geom_alluvium(aes(fill = Final)) +\n  geom_stratum() +\n  geom_text(stat = \"stratum\", aes(label = after_stat(stratum))) +\n  theme_minimal() +\n  labs(x = \"Semestres equivalentes de educación formal\")\n\n\n\n\nEn el diagrama aluvial, el área de las zonas coloreadas es proporcional a la frecuencia, por lo que “flujos” más anchos representan más participantes.\nEn el gráfico se aprecia cómo la mayor parte del flujo ocurre de abajo arriba; es decir, el conocimiento tiende a mejorar más que a empeorar. Por ejemplo, más de la mitad de los participantes que partían del primer semestre de conocimientos subieron al segundo, tercer o cuarto semestre.\nTambién se puede ver como casi todos los participantes que acabaron con un nivel de conocimientos equivalente al primer semestre partían de ese nivel previo, y unos pocos bajaron del segundo semestre al primer semestre.\nEn definitiva, los diagramas aluviales proporcionan una opción visual para entender mejor los flujos de datos entre categorías, especialmente si hay algún componente temporal asociado a ellas."
+  },
+  {
+    "objectID": "posts/lasso_regression/post.html#what-is-lasso-regression",
+    "href": "posts/lasso_regression/post.html#what-is-lasso-regression",
+    "title": "Lasso regression",
+    "section": "",
+    "text": "Lasso regression is a modified version of linear regression whose objective is to find the simplest model possible. In order to do that, Lasso method penalizes large regression coefficients, leaving smaller coefficients and even removing some variables from the final model (i.e., setting their coefficients to zero).\nLasso is an acronym of Least Absolute Shrinkage and Selector Operator."
+  },
+  {
+    "objectID": "posts/lasso_regression/post.html#what-is-lasso-regression-used-for",
+    "href": "posts/lasso_regression/post.html#what-is-lasso-regression-used-for",
+    "title": "Lasso regression",
+    "section": "",
+    "text": "Lasso regression is used mainly in two applications:\n\nModel variable selection: Lasso can be used as a method to select the most important variables in a regression model. The least important variables will have their coefficients set to zero, effectively being removed from the final model.\nParameter shrinkage: Lasso’s coefficients are smaller thant those of a simple lineal regression. This helps to avoid overfitting problems.\n\nGiven their two main functions, Lasso regression is usually employed in the following situations:\n\nWhen we have a high-dimensionality dataset, i.e., with a large number of variables.\nWhen we have multicolineallity in our model, i.e., several variables are lineally dependent of one another.\nWhen we want to automatize the model building, via automatizing the selection of the included variables."
+  },
+  {
+    "objectID": "posts/lasso_regression/post.html#how-does-lasso-regression-work",
+    "href": "posts/lasso_regression/post.html#how-does-lasso-regression-work",
+    "title": "Lasso regression",
+    "section": "",
+    "text": "A traditional multivariable lineal regression model finds a set of regression coefficients (\\(\\beta_0, \\beta_1, \\beta_2...\\)) that minimizes the residuals’ squared sum (RSS). That is, the distance between the datapoints and the model predictions.\nLasso regression adds another parameter called L1. L1 is defined as the sum of the absolute values of the model coefficients. Lasso method tries to minimize the sum of RSS and L1. As a consequence, Lasso finds a model with smaller regression coefficients. This whole process is known as “L1 regularization”, and it produces a coefficient “shrinkage”.\nEvery time we run a Lasso regression, whe need to specify the lambda parameter (\\(\\lambda\\)). Lambda represents the relative importance of the L1 parameter compared to the RSS part of the minimization formula.\n\nWith \\(\\lambda = 0\\), there is no coefficient shrinkage, and the Lasso model is effectively equal to a regular linear regression model.\nAs \\(\\lambda\\) grows, there is more shrinkage, and more variables are removed from the model.\nIf \\(\\lambda\\) were to be infinite, all coefficients would be removed, and we would end up with an empty model.\n\n\n\n\\(min(RSS + \\lambda \\sum |\\beta_j|)\\)\nWhere\n\n\\(RSS\\) es the residuals’ square sum.\n\\(\\lambda\\) is Lasso’s penalizing factor.\n\\(\\sum |\\beta_j|\\) is the sum of the absolute values of the regression coefficients."
+  },
+  {
+    "objectID": "posts/lasso_regression/post.html#getting-ready",
+    "href": "posts/lasso_regression/post.html#getting-ready",
+    "title": "Lasso regression",
+    "section": "Getting ready",
+    "text": "Getting ready\nIn this example, we’ll use the glmnet library and the example dataset in mtcars.\n\n# install.packages(\"glmnet\") # Install the package (only once)\nlibrary(glmnet)\nhead(mtcars)\n\n                   mpg cyl disp  hp drat    wt  qsec vs am gear carb\nMazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4\nMazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4\nDatsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1\nHornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1\nHornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2\nValiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1\n\n\nWe’ll use mpg (miles per galon) as the outcome variable, and cyl (number of cylinders), hp (horsepower), wt (weight), gear (gear number) y drat (axis relation?) as predictive variables.\n\n# Define the outcome variable\ny &lt;- mtcars$mpg\n\n# Define the predictive variables\nx &lt;- data.matrix(mtcars[, c(\"cyl\", \"hp\", \"wt\", \"drat\", \"gear\")])"
+  },
+  {
+    "objectID": "posts/lasso_regression/post.html#choose-a-value-for-lambda",
+    "href": "posts/lasso_regression/post.html#choose-a-value-for-lambda",
+    "title": "Lasso regression",
+    "section": "Choose a value for lambda",
+    "text": "Choose a value for lambda\nPodemos elegir el valor de \\(\\lambda\\) que minimice el error cuadrado medio (mean-squared error, MSE). La función cv.glmnet() realiza “validación cruzada de k iteraciones” (K-fold cross-validation) para identificar este valor de \\(\\lambda\\).\n\n# validación cruzada\ncv_model &lt;- cv.glmnet(x, y, alpha = 1)  # Cambiar el parámetro alpha da lugar a otros tipos de regresión\n\n# encontrar el valor lambda que minimiza el MSE\nbest_lambda &lt;- cv_model$lambda.min\nbest_lambda\n\n[1] 0.315814\n\n# mostrar los resultados en un gráfico\nplot(cv_model)\n\n\n\n\nEl valor de lambda que minimiza el MSE resulta ser 0.315814, que en la gráfica corresponde al punto \\(Log(\\lambda)\\) = -1.1526019."
   }
 ]

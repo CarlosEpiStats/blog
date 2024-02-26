@@ -313,69 +313,66 @@ font-style: inherit;">"Semestres equivalentes de educación formal"</span>)</spa
   <pubDate>Wed, 21 Feb 2024 23:00:00 GMT</pubDate>
 </item>
 <item>
-  <title>Regresión Lasso</title>
+  <title>Lasso regression</title>
   <dc:creator>Carlos Fernández</dc:creator>
   <link>https://CarlosEpiStats.github.io/blog/posts/lasso_regression/post.html</link>
   <description><![CDATA[ 
 
 
 
-<section id="introducción" class="level1">
-<h1>Introducción</h1>
-<p>En este post explico qué es la regresión Lasso, para qué se usa y cómo realizarla usando código en R.</p>
-<section id="qué-es-la-regresión-lasso" class="level2">
-<h2 class="anchored" data-anchor-id="qué-es-la-regresión-lasso">Qué es la regresión Lasso</h2>
-<p>La regresión Lasso es una variante de la regresión lineal que busca obtener un modelo lo más simple posible. Para ello, penaliza los modelos con coeficientes grandes, dejando coeficientes pequeños e incluso eliminando variables del modelo (igualando sus coeficientes a cero).</p>
-<p>Lasso es un acrónimo de Least Absolute Shrinkage and Selector Operator.</p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>In this post, I explain what Lasso regression is, what it is used for, and how to use it, with code in R.</p>
+<section id="what-is-lasso-regression" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-lasso-regression">What is Lasso regression?</h2>
+<p>Lasso regression is a modified version of linear regression whose objective is to find the simplest model possible. In order to do that, Lasso method penalizes large regression coefficients, leaving smaller coefficients and even removing some variables from the final model (i.e., setting their coefficients to zero).</p>
+<p>Lasso is an acronym of <strong>L</strong>east <strong>A</strong>bsolute <strong>S</strong>hrinkage and <strong>S</strong>elector <strong>O</strong>perator.</p>
 </section>
-<section id="para-qué-se-usa-la-regresión-lasso" class="level2">
-<h2 class="anchored" data-anchor-id="para-qué-se-usa-la-regresión-lasso">Para qué se usa la regresión Lasso</h2>
-<p>Lasso tiene dos funciones principales:</p>
+<section id="what-is-lasso-regression-used-for" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-lasso-regression-used-for">What is Lasso regression used for?</h2>
+<p>Lasso regression is used mainly in two applications:</p>
 <ul>
-<li>Selección de variables para un modelo: como puede convertir los coeficientes de las variables en ceros, puede usarse para seleccionar las variables más importantes del modelo y excluir otras.</li>
-<li>Contracción de parámetros (<em>shrinkage</em>): los coeficientes del modelo Lasso son más pequeños que en una regresión lineal normal. Esto ayuda al reducir el peligro de sobreajuste (<em>overfitting</em>) del modelo.</li>
+<li>Model variable selection: Lasso can be used as a method to select the most important variables in a regression model. The least important variables will have their coefficients set to zero, effectively being removed from the final model.</li>
+<li>Parameter shrinkage: Lasso’s coefficients are smaller thant those of a simple lineal regression. This helps to avoid overfitting problems.</li>
+</ul>
+<p>Given their two main functions, Lasso regression is usually employed in the following situations:</p>
+<ul>
+<li>When we have a <strong>high-dimensionality</strong> dataset, i.e., with a large number of variables.</li>
+<li>When we have <strong>multicolineallity</strong> in our model, i.e., several variables are lineally dependent of one another.</li>
+<li>When we want to <strong>automatize the model building</strong>, via automatizing the selection of the included variables.</li>
 </ul>
 </section>
-<section id="cuándo-se-usa-la-regresión-lasso" class="level2">
-<h2 class="anchored" data-anchor-id="cuándo-se-usa-la-regresión-lasso">Cuándo se usa la regresión Lasso</h2>
-<p>Lasso se suele utilizar en las siguientes situaciones:</p>
+<section id="how-does-lasso-regression-work" class="level2">
+<h2 class="anchored" data-anchor-id="how-does-lasso-regression-work">How does Lasso regression work?</h2>
+<p>A traditional multivariable lineal regression model finds a set of regression coefficients (<img src="https://latex.codecogs.com/png.latex?%5Cbeta_0,%20%5Cbeta_1,%20%5Cbeta_2...">) that minimizes the residuals’ squared sum (RSS). That is, the distance between the datapoints and the model predictions.</p>
+<p>Lasso regression adds another parameter called L1. L1 is defined as the sum of the absolute values of the model coefficients. Lasso method tries to minimize the sum of RSS and L1. As a consequence, Lasso finds a model with smaller regression coefficients. This whole process is known as “L1 regularization”, and it produces a coefficient “shrinkage”.</p>
+<p>Every time we run a Lasso regression, whe need to specify the <strong>lambda</strong> parameter (<img src="https://latex.codecogs.com/png.latex?%5Clambda">). Lambda represents the relative importance of the L1 parameter compared to the RSS part of the minimization formula.</p>
 <ul>
-<li>Cuando tenemos bases de datos con <strong>alta dimensionalidad</strong>(con muchas variables).</li>
-<li>Cuando tenemos modelos con <strong>multicolinealidad</strong>.</li>
-<li>Cuando queremos <strong>automatizar la construcción de un modelo</strong> (automatizando la selección de variables).</li>
+<li>With <img src="https://latex.codecogs.com/png.latex?%5Clambda%20=%200">, there is no coefficient shrinkage, and the Lasso model is effectively equal to a regular linear regression model.</li>
+<li>As <img src="https://latex.codecogs.com/png.latex?%5Clambda"> grows, there is more shrinkage, and more variables are removed from the model.</li>
+<li>If <img src="https://latex.codecogs.com/png.latex?%5Clambda"> were to be infinite, all coefficients would be removed, and we would end up with an empty model.</li>
 </ul>
-</section>
-<section id="cómo-funciona-la-regresión-lasso" class="level2">
-<h2 class="anchored" data-anchor-id="cómo-funciona-la-regresión-lasso">Cómo funciona la regresión Lasso</h2>
-<p>Un <strong>modelo de regresión lineal múltiple</strong> busca el conjunto de coeficientes (<img src="https://latex.codecogs.com/png.latex?%5Cbeta_0,%20%5Cbeta_1,%20%5Cbeta_2...">) que minimiza la suma de los cuadrados de los residuales. Esto es, la distancia entre los datos y la predicción del modelo (residual) se eleva al cuadrado y se suma. El método de mínimos cuadrados de la regresión lineal busca minimizar esta suma.</p>
-<p>La <strong>regresión Lasso añade otro parámetro conocido como L1</strong>. L1 es la suma de los valores absolutos de los coeficientes del modelo. Lasso busca minimizar la suma de L1 y la suma de cuadrados. Por lo tanto, Lasso busca el menor valor absoluto posible de los coeficientes, que se traduce en menor L1. Este proceso se llama “regularización L1”, y produce una “contracción” de los coeficientes (los hace más pequeños).</p>
-<p>Toda regresión Lasso incluye un parámetro adicional, <strong>lambda</strong> (<img src="https://latex.codecogs.com/png.latex?%5Clambda">). Lambda mide cuánta importancia le da el modelo al parámetro L1:</p>
-<ul>
-<li>Si <img src="https://latex.codecogs.com/png.latex?%5Clambda%20=%200">, no hay contracción de coeficientes y el modelo es equivalente a una regresión lineal normal.</li>
-<li>Conforme <img src="https://latex.codecogs.com/png.latex?%5Clambda"> aumenta, hay más contracción de coeficientes y se eliminan más variables.</li>
-<li>Si <img src="https://latex.codecogs.com/png.latex?%5Clambda"> = infinito, hay contracción máxima y se eliminan todos los coeficientes.</li>
-</ul>
-</section>
-<section id="fórmula-de-la-regresión-lasso" class="level2">
-<h2 class="anchored" data-anchor-id="fórmula-de-la-regresión-lasso">Fórmula de la regresión Lasso</h2>
+<section id="lasso-regression-formula" class="level3">
+<h3 class="anchored" data-anchor-id="lasso-regression-formula">Lasso regression formula</h3>
 <p><img src="https://latex.codecogs.com/png.latex?min(RSS%20+%20%5Clambda%20%5Csum%20%7C%5Cbeta_j%7C)"></p>
-<p>Donde</p>
+<p>Where</p>
 <ul>
-<li><img src="https://latex.codecogs.com/png.latex?RSS"> es la suma de residuos cuadrados.</li>
-<li><img src="https://latex.codecogs.com/png.latex?%5Clambda"> es el parámetro de penalización de Lasso.</li>
-<li><img src="https://latex.codecogs.com/png.latex?%5Csum%20%7C%5Cbeta_j%7C"> es la suma de los valores absolutos de los coeficientes de las variables.</li>
+<li><img src="https://latex.codecogs.com/png.latex?RSS"> es the residuals’ square sum.</li>
+<li><img src="https://latex.codecogs.com/png.latex?%5Clambda"> is Lasso’s penalizing factor.</li>
+<li><img src="https://latex.codecogs.com/png.latex?%5Csum%20%7C%5Cbeta_j%7C"> is the sum of the absolute values of the regression coefficients.</li>
 </ul>
 </section>
 </section>
-<section id="código-en-r" class="level1">
-<h1>Código en R</h1>
-<section id="preparativos" class="level2">
-<h2 class="anchored" data-anchor-id="preparativos">Preparativos</h2>
-<p>Para este ejemplo, usaremos la biblioteca <code>glmnet</code> y la biblioteca de ejemplo <code>mtcars</code>.</p>
+</section>
+<section id="code-in-r" class="level1">
+<h1>Code in R</h1>
+<section id="getting-ready" class="level2">
+<h2 class="anchored" data-anchor-id="getting-ready">Getting ready</h2>
+<p>In this example, we’ll use the <code>glmnet</code> library and the example dataset in <code>mtcars</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"># install.packages("glmnet") # Instalar el paquete</span></span>
+font-style: inherit;"># install.packages("glmnet") # Install the package (only once)</span></span>
 <span id="cb1-2"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(glmnet)</span>
@@ -392,11 +389,11 @@ Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
 Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
 </div>
 </div>
-<p>Usaremos <code>mpg</code> (millas por galón) como la variable resultado, y <code>cyl</code> (nº. de cilindros), <code>hp</code> (caballos de vapor), <code>wt</code> (peso), <code>gear</code> (nº. de marchas) y <code>drat</code> (relación del eje) como predictoras.</p>
+<p>We’ll use <code>mpg</code> (miles per galon) as the outcome variable, and <code>cyl</code> (number of cylinders), <code>hp</code> (horsepower), <code>wt</code> (weight), <code>gear</code> (gear number) y <code>drat</code> (axis relation?) as predictive variables.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"># definir la variable resultado</span></span>
+font-style: inherit;"># Define the outcome variable</span></span>
 <span id="cb3-2">y <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> mtcars<span class="sc" style="color: #5E5E5E;
@@ -405,7 +402,7 @@ font-style: inherit;">$</span>mpg</span>
 <span id="cb3-3"></span>
 <span id="cb3-4"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"># definir las variables predictoras</span></span>
+font-style: inherit;"># Define the predictive variables</span></span>
 <span id="cb3-5">x <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
@@ -425,8 +422,8 @@ background-color: null;
 font-style: inherit;">"gear"</span>)])</span></code></pre></div>
 </div>
 </section>
-<section id="elegir-el-valor-de-lambda" class="level2">
-<h2 class="anchored" data-anchor-id="elegir-el-valor-de-lambda">Elegir el valor de lambda</h2>
+<section id="choose-a-value-for-lambda" class="level2">
+<h2 class="anchored" data-anchor-id="choose-a-value-for-lambda">Choose a value for lambda</h2>
 <p>Podemos elegir el valor de <img src="https://latex.codecogs.com/png.latex?%5Clambda"> que minimice el error cuadrado medio (<em>mean-squared error</em>, MSE). La función <code>cv.glmnet()</code> realiza “validación cruzada de k iteraciones” (<a href="https://www.statology.org/k-fold-cross-validation/">K-fold cross-validation</a>) para identificar este valor de <img src="https://latex.codecogs.com/png.latex?%5Clambda">.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
@@ -454,7 +451,7 @@ background-color: null;
 font-style: inherit;">$</span>lambda.min</span>
 <span id="cb4-6">best_lambda</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2389017</code></pre>
+<pre><code>[1] 0.315814</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -466,7 +463,7 @@ font-style: inherit;">plot</span>(cv_model)</span></code></pre></div>
 <p><img src="https://CarlosEpiStats.github.io/blog/posts/lasso_regression/post_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>El valor de lambda que minimiza el MSE resulta ser 0.2389017, que en la gráfica corresponde al punto <img src="https://latex.codecogs.com/png.latex?Log(%5Clambda)"> = -1.4317031.</p>
+<p>El valor de lambda que minimiza el MSE resulta ser 0.315814, que en la gráfica corresponde al punto <img src="https://latex.codecogs.com/png.latex?Log(%5Clambda)"> = -1.1526019.</p>
 </section>
 <section id="ajustar-el-modelo" class="level2">
 <h2 class="anchored" data-anchor-id="ajustar-el-modelo">Ajustar el modelo</h2>
@@ -491,11 +488,11 @@ font-style: inherit;">coef</span>(best_model)</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>6 x 1 sparse Matrix of class "dgCMatrix"
                      s0
-(Intercept) 35.44959739
-cyl         -0.82180746
-hp          -0.01778732
-wt          -2.91614181
-drat         0.47742686
+(Intercept) 35.74777065
+cyl         -0.83999245
+hp          -0.01680443
+wt          -2.89776526
+drat         0.36928132
 gear         .         </code></pre>
 </div>
 </div>
@@ -536,11 +533,11 @@ font-style: inherit;">coef</span>(linear_model))</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>6 x 2 sparse Matrix of class "dgCMatrix"
                      s0      Linear
-(Intercept) 35.44959739 33.99417771
-cyl         -0.82180746 -0.72169272
-hp          -0.01778732 -0.02227636
-wt          -2.91614181 -2.92715539
-drat         0.47742686  0.73105753
+(Intercept) 35.74777065 33.99417771
+cyl         -0.83999245 -0.72169272
+hp          -0.01680443 -0.02227636
+wt          -2.89776526 -2.92715539
+drat         0.36928132  0.73105753
 gear         .           0.16750690</code></pre>
 </div>
 </div>
@@ -569,7 +566,7 @@ gear         .           0.16750690</code></pre>
 </section>
 
  ]]></description>
-  <category>regresión</category>
+  <category>regression</category>
   <category>R</category>
   <category>lasso</category>
   <guid>https://CarlosEpiStats.github.io/blog/posts/lasso_regression/post.html</guid>
@@ -597,7 +594,7 @@ No matching items
 </div>
 </div> ]]></description>
   <guid>https://CarlosEpiStats.github.io/blog/posts/ggplot2-tips/ggplot-series.html</guid>
-  <pubDate>Mon, 26 Feb 2024 11:40:55 GMT</pubDate>
+  <pubDate>Mon, 26 Feb 2024 12:02:41 GMT</pubDate>
 </item>
 </channel>
 </rss>

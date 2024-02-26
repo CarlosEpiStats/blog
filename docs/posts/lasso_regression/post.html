@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Carlos Fernández">
-<meta name="dcterms.date" content="2024-02-26">
-<meta name="description" content="Qué es, para qué se usa y cómo usar la regresión Lasso, con código en R.">
+<meta name="dcterms.date" content="2024-01-26">
+<meta name="description" content="What is, what is it used for, and how to use Lasso regression, with code in R.">
 
-<title>GráficosMédicos - Regresión Lasso</title>
+<title>EpiStats - Lasso regression</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -110,7 +110,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">GráficosMédicos</span>
+    <span class="navbar-title">EpiStats</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -137,7 +137,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/GraficosMedicos" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/CarlosEpiStats" rel="" target=""><i class="bi bi-github" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
@@ -176,18 +176,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción">Introducción</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
   <ul class="collapse">
-  <li><a href="#qué-es-la-regresión-lasso" id="toc-qué-es-la-regresión-lasso" class="nav-link" data-scroll-target="#qué-es-la-regresión-lasso">Qué es la regresión Lasso</a></li>
-  <li><a href="#para-qué-se-usa-la-regresión-lasso" id="toc-para-qué-se-usa-la-regresión-lasso" class="nav-link" data-scroll-target="#para-qué-se-usa-la-regresión-lasso">Para qué se usa la regresión Lasso</a></li>
-  <li><a href="#cuándo-se-usa-la-regresión-lasso" id="toc-cuándo-se-usa-la-regresión-lasso" class="nav-link" data-scroll-target="#cuándo-se-usa-la-regresión-lasso">Cuándo se usa la regresión Lasso</a></li>
-  <li><a href="#cómo-funciona-la-regresión-lasso" id="toc-cómo-funciona-la-regresión-lasso" class="nav-link" data-scroll-target="#cómo-funciona-la-regresión-lasso">Cómo funciona la regresión Lasso</a></li>
-  <li><a href="#fórmula-de-la-regresión-lasso" id="toc-fórmula-de-la-regresión-lasso" class="nav-link" data-scroll-target="#fórmula-de-la-regresión-lasso">Fórmula de la regresión Lasso</a></li>
+  <li><a href="#what-is-lasso-regression" id="toc-what-is-lasso-regression" class="nav-link" data-scroll-target="#what-is-lasso-regression">What is Lasso regression?</a></li>
+  <li><a href="#what-is-lasso-regression-used-for" id="toc-what-is-lasso-regression-used-for" class="nav-link" data-scroll-target="#what-is-lasso-regression-used-for">What is Lasso regression used for?</a></li>
+  <li><a href="#how-does-lasso-regression-work" id="toc-how-does-lasso-regression-work" class="nav-link" data-scroll-target="#how-does-lasso-regression-work">How does Lasso regression work?</a>
+  <ul class="collapse">
+  <li><a href="#lasso-regression-formula" id="toc-lasso-regression-formula" class="nav-link" data-scroll-target="#lasso-regression-formula">Lasso regression formula</a></li>
   </ul></li>
-  <li><a href="#código-en-r" id="toc-código-en-r" class="nav-link" data-scroll-target="#código-en-r">Código en R</a>
+  </ul></li>
+  <li><a href="#code-in-r" id="toc-code-in-r" class="nav-link" data-scroll-target="#code-in-r">Code in R</a>
   <ul class="collapse">
-  <li><a href="#preparativos" id="toc-preparativos" class="nav-link" data-scroll-target="#preparativos">Preparativos</a></li>
-  <li><a href="#elegir-el-valor-de-lambda" id="toc-elegir-el-valor-de-lambda" class="nav-link" data-scroll-target="#elegir-el-valor-de-lambda">Elegir el valor de lambda</a></li>
+  <li><a href="#getting-ready" id="toc-getting-ready" class="nav-link" data-scroll-target="#getting-ready">Getting ready</a></li>
+  <li><a href="#choose-a-value-for-lambda" id="toc-choose-a-value-for-lambda" class="nav-link" data-scroll-target="#choose-a-value-for-lambda">Choose a value for lambda</a></li>
   <li><a href="#ajustar-el-modelo" id="toc-ajustar-el-modelo" class="nav-link" data-scroll-target="#ajustar-el-modelo">Ajustar el modelo</a></li>
   <li><a href="#comparación-con-la-regresión-lineal-sin-lasso" id="toc-comparación-con-la-regresión-lineal-sin-lasso" class="nav-link" data-scroll-target="#comparación-con-la-regresión-lineal-sin-lasso">Comparación con la regresión lineal sin Lasso</a></li>
   </ul></li>
@@ -201,9 +202,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Regresión Lasso</h1>
+<h1 class="title">Lasso regression</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">regresión</div>
+    <div class="quarto-category">regression</div>
     <div class="quarto-category">R</div>
     <div class="quarto-category">lasso</div>
   </div>
@@ -211,7 +212,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div>
   <div class="description">
-    Qué es, para qué se usa y cómo usar la regresión Lasso, con código en R.
+    What is, what is it used for, and how to use Lasso regression, with code in R.
   </div>
 </div>
 
@@ -228,7 +229,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 26, 2024</p>
+      <p class="date">January 26, 2024</p>
     </div>
   </div>
   
@@ -238,60 +239,57 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="introducción" class="level1">
-<h1>Introducción</h1>
-<p>En este post explico qué es la regresión Lasso, para qué se usa y cómo realizarla usando código en R.</p>
-<section id="qué-es-la-regresión-lasso" class="level2">
-<h2 class="anchored" data-anchor-id="qué-es-la-regresión-lasso">Qué es la regresión Lasso</h2>
-<p>La regresión Lasso es una variante de la regresión lineal que busca obtener un modelo lo más simple posible. Para ello, penaliza los modelos con coeficientes grandes, dejando coeficientes pequeños e incluso eliminando variables del modelo (igualando sus coeficientes a cero).</p>
-<p>Lasso es un acrónimo de Least Absolute Shrinkage and Selector Operator.</p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>In this post, I explain what Lasso regression is, what it is used for, and how to use it, with code in R.</p>
+<section id="what-is-lasso-regression" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-lasso-regression">What is Lasso regression?</h2>
+<p>Lasso regression is a modified version of linear regression whose objective is to find the simplest model possible. In order to do that, Lasso method penalizes large regression coefficients, leaving smaller coefficients and even removing some variables from the final model (i.e., setting their coefficients to zero).</p>
+<p>Lasso is an acronym of <strong>L</strong>east <strong>A</strong>bsolute <strong>S</strong>hrinkage and <strong>S</strong>elector <strong>O</strong>perator.</p>
 </section>
-<section id="para-qué-se-usa-la-regresión-lasso" class="level2">
-<h2 class="anchored" data-anchor-id="para-qué-se-usa-la-regresión-lasso">Para qué se usa la regresión Lasso</h2>
-<p>Lasso tiene dos funciones principales:</p>
+<section id="what-is-lasso-regression-used-for" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-lasso-regression-used-for">What is Lasso regression used for?</h2>
+<p>Lasso regression is used mainly in two applications:</p>
 <ul>
-<li>Selección de variables para un modelo: como puede convertir los coeficientes de las variables en ceros, puede usarse para seleccionar las variables más importantes del modelo y excluir otras.</li>
-<li>Contracción de parámetros (<em>shrinkage</em>): los coeficientes del modelo Lasso son más pequeños que en una regresión lineal normal. Esto ayuda al reducir el peligro de sobreajuste (<em>overfitting</em>) del modelo.</li>
+<li>Model variable selection: Lasso can be used as a method to select the most important variables in a regression model. The least important variables will have their coefficients set to zero, effectively being removed from the final model.</li>
+<li>Parameter shrinkage: Lasso’s coefficients are smaller thant those of a simple lineal regression. This helps to avoid overfitting problems.</li>
+</ul>
+<p>Given their two main functions, Lasso regression is usually employed in the following situations:</p>
+<ul>
+<li>When we have a <strong>high-dimensionality</strong> dataset, i.e., with a large number of variables.</li>
+<li>When we have <strong>multicolineallity</strong> in our model, i.e., several variables are lineally dependent of one another.</li>
+<li>When we want to <strong>automatize the model building</strong>, via automatizing the selection of the included variables.</li>
 </ul>
 </section>
-<section id="cuándo-se-usa-la-regresión-lasso" class="level2">
-<h2 class="anchored" data-anchor-id="cuándo-se-usa-la-regresión-lasso">Cuándo se usa la regresión Lasso</h2>
-<p>Lasso se suele utilizar en las siguientes situaciones:</p>
+<section id="how-does-lasso-regression-work" class="level2">
+<h2 class="anchored" data-anchor-id="how-does-lasso-regression-work">How does Lasso regression work?</h2>
+<p>A traditional multivariable lineal regression model finds a set of regression coefficients (<span class="math inline">\(\beta_0, \beta_1, \beta_2...\)</span>) that minimizes the residuals’ squared sum (RSS). That is, the distance between the datapoints and the model predictions.</p>
+<p>Lasso regression adds another parameter called L1. L1 is defined as the sum of the absolute values of the model coefficients. Lasso method tries to minimize the sum of RSS and L1. As a consequence, Lasso finds a model with smaller regression coefficients. This whole process is known as “L1 regularization”, and it produces a coefficient “shrinkage”.</p>
+<p>Every time we run a Lasso regression, whe need to specify the <strong>lambda</strong> parameter (<span class="math inline">\(\lambda\)</span>). Lambda represents the relative importance of the L1 parameter compared to the RSS part of the minimization formula.</p>
 <ul>
-<li>Cuando tenemos bases de datos con <strong>alta dimensionalidad</strong>(con muchas variables).</li>
-<li>Cuando tenemos modelos con <strong>multicolinealidad</strong>.</li>
-<li>Cuando queremos <strong>automatizar la construcción de un modelo</strong> (automatizando la selección de variables).</li>
+<li>With <span class="math inline">\(\lambda = 0\)</span>, there is no coefficient shrinkage, and the Lasso model is effectively equal to a regular linear regression model.</li>
+<li>As <span class="math inline">\(\lambda\)</span> grows, there is more shrinkage, and more variables are removed from the model.</li>
+<li>If <span class="math inline">\(\lambda\)</span> were to be infinite, all coefficients would be removed, and we would end up with an empty model.</li>
 </ul>
-</section>
-<section id="cómo-funciona-la-regresión-lasso" class="level2">
-<h2 class="anchored" data-anchor-id="cómo-funciona-la-regresión-lasso">Cómo funciona la regresión Lasso</h2>
-<p>Un <strong>modelo de regresión lineal múltiple</strong> busca el conjunto de coeficientes (<span class="math inline">\(\beta_0, \beta_1, \beta_2...\)</span>) que minimiza la suma de los cuadrados de los residuales. Esto es, la distancia entre los datos y la predicción del modelo (residual) se eleva al cuadrado y se suma. El método de mínimos cuadrados de la regresión lineal busca minimizar esta suma.</p>
-<p>La <strong>regresión Lasso añade otro parámetro conocido como L1</strong>. L1 es la suma de los valores absolutos de los coeficientes del modelo. Lasso busca minimizar la suma de L1 y la suma de cuadrados. Por lo tanto, Lasso busca el menor valor absoluto posible de los coeficientes, que se traduce en menor L1. Este proceso se llama “regularización L1”, y produce una “contracción” de los coeficientes (los hace más pequeños).</p>
-<p>Toda regresión Lasso incluye un parámetro adicional, <strong>lambda</strong> (<span class="math inline">\(\lambda\)</span>). Lambda mide cuánta importancia le da el modelo al parámetro L1:</p>
-<ul>
-<li>Si <span class="math inline">\(\lambda = 0\)</span>, no hay contracción de coeficientes y el modelo es equivalente a una regresión lineal normal.</li>
-<li>Conforme <span class="math inline">\(\lambda\)</span> aumenta, hay más contracción de coeficientes y se eliminan más variables.</li>
-<li>Si <span class="math inline">\(\lambda\)</span> = infinito, hay contracción máxima y se eliminan todos los coeficientes.</li>
-</ul>
-</section>
-<section id="fórmula-de-la-regresión-lasso" class="level2">
-<h2 class="anchored" data-anchor-id="fórmula-de-la-regresión-lasso">Fórmula de la regresión Lasso</h2>
+<section id="lasso-regression-formula" class="level3">
+<h3 class="anchored" data-anchor-id="lasso-regression-formula">Lasso regression formula</h3>
 <p><span class="math inline">\(min(RSS + \lambda \sum |\beta_j|)\)</span></p>
-<p>Donde</p>
+<p>Where</p>
 <ul>
-<li><span class="math inline">\(RSS\)</span> es la suma de residuos cuadrados.</li>
-<li><span class="math inline">\(\lambda\)</span> es el parámetro de penalización de Lasso.</li>
-<li><span class="math inline">\(\sum |\beta_j|\)</span> es la suma de los valores absolutos de los coeficientes de las variables.</li>
+<li><span class="math inline">\(RSS\)</span> es the residuals’ square sum.</li>
+<li><span class="math inline">\(\lambda\)</span> is Lasso’s penalizing factor.</li>
+<li><span class="math inline">\(\sum |\beta_j|\)</span> is the sum of the absolute values of the regression coefficients.</li>
 </ul>
 </section>
 </section>
-<section id="código-en-r" class="level1">
-<h1>Código en R</h1>
-<section id="preparativos" class="level2">
-<h2 class="anchored" data-anchor-id="preparativos">Preparativos</h2>
-<p>Para este ejemplo, usaremos la biblioteca <code>glmnet</code> y la biblioteca de ejemplo <code>mtcars</code>.</p>
+</section>
+<section id="code-in-r" class="level1">
+<h1>Code in R</h1>
+<section id="getting-ready" class="level2">
+<h2 class="anchored" data-anchor-id="getting-ready">Getting ready</h2>
+<p>In this example, we’ll use the <code>glmnet</code> library and the example dataset in <code>mtcars</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("glmnet") # Instalar el paquete</span></span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("glmnet") # Install the package (only once)</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mtcars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -304,17 +302,17 @@ Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
 Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
 </div>
 </div>
-<p>Usaremos <code>mpg</code> (millas por galón) como la variable resultado, y <code>cyl</code> (nº. de cilindros), <code>hp</code> (caballos de vapor), <code>wt</code> (peso), <code>gear</code> (nº. de marchas) y <code>drat</code> (relación del eje) como predictoras.</p>
+<p>We’ll use <code>mpg</code> (miles per galon) as the outcome variable, and <code>cyl</code> (number of cylinders), <code>hp</code> (horsepower), <code>wt</code> (weight), <code>gear</code> (gear number) y <code>drat</code> (axis relation?) as predictive variables.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># definir la variable resultado</span></span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the outcome variable</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> mtcars<span class="sc">$</span>mpg</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># definir las variables predictoras</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the predictive variables</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">data.matrix</span>(mtcars[, <span class="fu">c</span>(<span class="st">"cyl"</span>, <span class="st">"hp"</span>, <span class="st">"wt"</span>, <span class="st">"drat"</span>, <span class="st">"gear"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="elegir-el-valor-de-lambda" class="level2">
-<h2 class="anchored" data-anchor-id="elegir-el-valor-de-lambda">Elegir el valor de lambda</h2>
+<section id="choose-a-value-for-lambda" class="level2">
+<h2 class="anchored" data-anchor-id="choose-a-value-for-lambda">Choose a value for lambda</h2>
 <p>Podemos elegir el valor de <span class="math inline">\(\lambda\)</span> que minimice el error cuadrado medio (<em>mean-squared error</em>, MSE). La función <code>cv.glmnet()</code> realiza “validación cruzada de k iteraciones” (<a href="https://www.statology.org/k-fold-cross-validation/">K-fold cross-validation</a>) para identificar este valor de <span class="math inline">\(\lambda\)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># validación cruzada</span></span>
@@ -324,7 +322,7 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>best_lambda <span class="ot">&lt;-</span> cv_model<span class="sc">$</span>lambda.min</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>best_lambda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2389017</code></pre>
+<pre><code>[1] 0.315814</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mostrar los resultados en un gráfico</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cv_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -332,7 +330,7 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 <p><img src="post_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>El valor de lambda que minimiza el MSE resulta ser 0.2389017, que en la gráfica corresponde al punto <span class="math inline">\(Log(\lambda)\)</span> = -1.4317031.</p>
+<p>El valor de lambda que minimiza el MSE resulta ser 0.315814, que en la gráfica corresponde al punto <span class="math inline">\(Log(\lambda)\)</span> = -1.1526019.</p>
 </section>
 <section id="ajustar-el-modelo" class="level2">
 <h2 class="anchored" data-anchor-id="ajustar-el-modelo">Ajustar el modelo</h2>
@@ -343,11 +341,11 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 <div class="cell-output cell-output-stdout">
 <pre><code>6 x 1 sparse Matrix of class "dgCMatrix"
                      s0
-(Intercept) 35.44959739
-cyl         -0.82180746
-hp          -0.01778732
-wt          -2.91614181
-drat         0.47742686
+(Intercept) 35.74777065
+cyl         -0.83999245
+hp          -0.01680443
+wt          -2.89776526
+drat         0.36928132
 gear         .         </code></pre>
 </div>
 </div>
@@ -362,11 +360,11 @@ gear         .         </code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>6 x 2 sparse Matrix of class "dgCMatrix"
                      s0      Linear
-(Intercept) 35.44959739 33.99417771
-cyl         -0.82180746 -0.72169272
-hp          -0.01778732 -0.02227636
-wt          -2.91614181 -2.92715539
-drat         0.47742686  0.73105753
+(Intercept) 35.74777065 33.99417771
+cyl         -0.83999245 -0.72169272
+hp          -0.01680443 -0.02227636
+wt          -2.89776526 -2.92715539
+drat         0.36928132  0.73105753
 gear         .           0.16750690</code></pre>
 </div>
 </div>
@@ -628,7 +626,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<script src="https://utteranc.es/client.js" repo="GraficosMedicos/blogComments" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+<script src="https://utteranc.es/client.js" repo="CarlosEpiStats/blogComments" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 
