@@ -1,1 +1,1 @@
-Sitemap: https://graficosmedicos.github.io/blog/sitemap.xml
+Sitemap: https://CarlosEpiStats.github.io/blog/sitemap.xml

@@ -16,9 +16,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "GráficosMédicos",
+    "title": "EpiStats",
     "section": "",
-    "text": "¡Hola! Me llamo Carlos Fernández y me encanta la bioestadística y la programación.\nEn este blog comparto cosas que aprendo sobre bioestadística y códigos en R, Stata, python o lo que surja.\nEscríbeme un correo si te gustaría que hablara de algún tema en particular.\n¡Gracias por pasarte!"
+    "text": "Hello there! I’m Carlos Fernández, MD, MPH, and I’m passionate about biostatistics, epidemiology, and programming.\nHere, I’ll share whatever I learn along the way regarding statistics, scientific methods, and coding in R, Stata, or Python.\nYou can reach me at carlosepistats@gmail.com\nThank you for stopping by!"
   },
   {
     "objectID": "posts/ggplot2-tips/ggplot-series.html",
