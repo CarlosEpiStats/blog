@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Carlos Fernández">
+<meta name="dcterms.date" content="2024-02-27">
+<meta name="description" content="Using R to load, explore, describe, and filter data, with a Japanese Kanji database example.">
+
+<title>EpiStats - Loading and Exploring Japanese Kanji Data Using R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">EpiStats</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html" rel="" target="">
+ <span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html" rel="" target="">
+ <span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="dropdown-header">
+ <span class="menu-text">about.qmd</span></li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../blog.xml" rel="" target=""><i class="bi bi-rss" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/CarlosEpiStats" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-resources" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Resources</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-resources">    
+        <li>
+    <a class="dropdown-item" href="https://rweekly.org" rel="" target="">
+ <span class="dropdown-text">R Weekly</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://www.r-bloggers.com" rel="" target="">
+ <span class="dropdown-text">R Bloggers</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../archive.html" rel="" target="">
+ <span class="menu-text">Archivo</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#setup-and-loading" id="toc-setup-and-loading" class="nav-link" data-scroll-target="#setup-and-loading">Setup and Loading</a></li>
+  <li><a href="#exploring-the-data" id="toc-exploring-the-data" class="nav-link" data-scroll-target="#exploring-the-data">Exploring the data</a></li>
+  <li><a href="#manipulating-the-data" id="toc-manipulating-the-data" class="nav-link" data-scroll-target="#manipulating-the-data">Manipulating the data</a></li>
+  <li><a href="#next-step-making-it-interactive" id="toc-next-step-making-it-interactive" class="nav-link" data-scroll-target="#next-step-making-it-interactive">Next step: making it interactive</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Loading and Exploring Japanese Kanji Data Using R</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">data cleaning</div>
+    <div class="quarto-category">exploratory</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Using R to load, explore, describe, and filter data, with a Japanese Kanji database example.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Carlos Fernández </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 27, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>In this blog post, I’ll demonstrate how to use R to load, explore, and filter data from a dataset containing Japanese characters, known as “kanji”. The datasets were obtained from an online <a href="https://www.kanjidatabase.com/index.php">Kanji database</a>. We’ll focus on using the <code>tidyverse</code> family of packages to illustrate how to select and filter relevant information efficiently.</p>
+</section>
+<section id="setup-and-loading" class="level1">
+<h1>Setup and Loading</h1>
+<p>To begin, we need to load necessary libraries and import the datasets:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># | warning: false</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading necessary libraries</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading datasets</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>data_kanji <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="fu">here</span>(<span class="st">"data/kanji"</span>, <span class="st">"Kanji_20240227_081842.csv"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>data_jukugo <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="fu">here</span>(<span class="st">"data/kanji"</span>, <span class="st">"Jukugo_20240227_081908.csv"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here’s a breakdown of the code:</p>
+<ul>
+<li><code>library(tidyverse)</code>: We load the <code>tidyverse</code> package, which includes <code>dplyr</code>, <code>ggplot2</code>, and other useful packages.</li>
+<li><code>library(here)</code>: This package helps manage file paths conveniently.</li>
+<li><code>library(janitor)</code>: Useful for standardizing variable names and data cleaning.</li>
+<li>We use <code>read.csv2()</code> to import CSV (comma-separated value) files with semicolons (;) as separators.</li>
+<li><code>here("data/kanji", "Kanji_20240227_081842.csv")</code> uses the function <code>here()</code> to access the data file, which is saved inside the folders data &gt; kanji.</li>
+<li>The characters <code>%&gt;%</code> are called a “pipe” in tidyverse. It can be written simply by pressing Ctrl + Shift + M (in Windows). Basically, it tells R that we want to apply some step to the previous data. In this example, I tell R that I want to use the function <code>clean_names()</code> to the data that I’ve already loaded using <code>read.csv2()</code>.</li>
+<li><code>clean_names()</code> is a <code>janitor</code> function that renames all variables in a standard format to make it easier to manipulate. Specifically, <code>clean_names()</code> sets all names to lowercase, removes punctuation and symbols, and replaces spaces with underscores.</li>
+</ul>
+<p>Now I have two separate datasets: one for kanji (single characters), and one for jukugo (compound words). Let’s take a look at them.</p>
+</section>
+<section id="exploring-the-data" class="level1">
+<h1>Exploring the data</h1>
+<p>Let’s examine the first few rows of each dataset:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_kanji)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    id kanji strokes grade
+1   41    一       1     1
+2  124    乙       1     7
+3 2060    了       2     7
+4 2074    力       2     1
+5 1577    二       2     1
+6 1070    人       2     1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_jukugo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   id comp_word frequency          grammatical_feature pronunciation
+1 173      一部     46289 possible to use as an adverb         itibu
+2 234      一般     39274                 general noun         ippan
+3 432      一時     25126 possible to use as an adverb         itizi
+4 461      一番     24155 possible to use as an adverb        itiban
+5 481      一緒     23453    light-verb -suru attached         issyo
+6 529      一致     21388    light-verb -suru attached          itti
+  english_translation position kanji kanji_id
+1            one part        L    一       41
+2             general        L    一       41
+3         one o'clock        L    一       41
+4                best        L    一       41
+5            together        L    一       41
+6         coincidence        L    一       41</code></pre>
+</div>
+</div>
+<p>We’re using the base function <code>head()</code>to show the first rows or observations of our datasets.</p>
+<p>We can see that <code>data_kanji</code> has four columns or variables:</p>
+<ul>
+<li><code>id</code> shows a unique identification number.</li>
+<li><code>kanji</code> stores the actual character.</li>
+<li><code>strokes</code> represents the number of distinct lines or strokes that the character has.</li>
+<li><code>grade</code> means the official categorization of Kanji by educational year in Japan. Grade 1 includes the easiest or most common kanji, and it goes all up to grade 7.</li>
+</ul>
+<p>On the other hand, <code>data_jukugo</code> contains nine variables:</p>
+<ul>
+<li><code>id</code> is the identification number for jukugos.</li>
+<li><code>comp_word</code> is the actual word.</li>
+<li><code>frequency</code> is a measure of how many times each jukugo appear in a selected corpus of Japanese literature (extracted from Japanese newspapers).</li>
+<li><code>grammatical_feature</code> gives us more context of how the word is used in grammatical terms.</li>
+<li><code>pronunciation</code> tells us the pronunciation in “romaji”, or the Latin alphabet.</li>
+<li><code>english_translation</code> stores the English translation.</li>
+</ul>
+<p>The last three variables in <code>data_jukugo</code> describes the kanji which is part of the jukugo:</p>
+<ul>
+<li><code>position</code> tells us if the kanji is used in left position “L” or right position “R”.</li>
+<li><code>kanji</code> shows the kanji used in the jukugo. The first rows all show jukugos composed with the kanji “一”.</li>
+<li><code>kanji_id</code> is the identification number of the kanji part. We can use this id to link <code>data_jukugo</code> with <code>data_kanji</code> if we want to.</li>
+</ul>
+<p>Another way of looking into a dataset is to explore how each variable is encoded:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(data_kanji)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 2,136
+Columns: 4
+$ id      &lt;int&gt; 41, 124, 2060, 2074, 1577, 1070, 1584, 829, 359, 1647, 1903, 1…
+$ kanji   &lt;chr&gt; "一", "乙", "了", "力", "二", "人", "入", "七", "九", "八", "…
+$ strokes &lt;int&gt; 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3,…
+$ grade   &lt;int&gt; 1, 7, 7, 1, 1, 1, 1, 1, 1, 1, 7, 3, 1, 2, 1, 2, 6, 7, 6, 1, 2,…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(data_jukugo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 52,791
+Columns: 9
+$ id                  &lt;int&gt; 173, 234, 432, 461, 481, 529, 937, 1465, 1521, 156…
+$ comp_word           &lt;chr&gt; "一部", "一般", "一時", "一番", "一緒", "一致", "…
+$ frequency           &lt;int&gt; 46289, 39274, 25126, 24155, 23453, 21388, 12477, 7…
+$ grammatical_feature &lt;chr&gt; "possible to use as an adverb", "general noun", "p…
+$ pronunciation       &lt;chr&gt; "itibu", "ippan", "itizi", "itiban", "issyo", "itt…
+$ english_translation &lt;chr&gt; "one part", "general", "one o'clock", "best", "tog…
+$ position            &lt;chr&gt; "L", "L", "L", "L", "L", "L", "L", "L", "L", "L", …
+$ kanji               &lt;chr&gt; "一", "一", "一", "一", "一", "一", "一", "一", "…
+$ kanji_id            &lt;int&gt; 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41…</code></pre>
+</div>
+</div>
+<p>The <code>glimpse()</code> function allows us to quickly glance at the data structure.</p>
+<p>We can see that <code>data_kanji</code> has 2,136 rows or observations and 4 columns or variables. We also see the first values of each of its four variables. More importantly, we can see which data type each variable stores. The <code>kanji</code> variable has <code>&lt;chr&gt;</code> type, which means “character” or “text”, while the rest of variables have <code>&lt;int&gt;</code> type, which means “integer” number, or a round number. R automatically detects the data types when importing data using functions like <code>read.csv2()</code>.</p>
+<p>Regarding <code>data_jukugo</code>, it has 52,791 rows and 9 columns, of which 3 have <code>&lt;int&gt;</code> type, and 6 have <code>&lt;char&gt;</code> type.</p>
+</section>
+<section id="manipulating-the-data" class="level1">
+<h1>Manipulating the data</h1>
+<p>Now that I’m familiarized with this dataset, it’s useful to lay down what my analysis plan is. In other words, what do I want to learn from this data? In this case, I want to be able to find words (jukugo) that only contain kanji from a selected list of kanji that I’m learning. So, for example, if I only know kanjis 一, 人, and 十, I want to know all the possible combinations of these three kanjis.</p>
+<p>For this exercise, I’m interested in separate jukugos in two parts: the left kanji, and the right kanji. The dataset already has half of this information, but sometimes it tells us the left kanji, and sometimes the right kanji (usually, the simplest kanji of the two). I want to get sistematically both left and right kanjis, so I’ll create new variables called <code>kanji_left</code> and <code>kanji_right</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data_jukugo <span class="ot">&lt;-</span> data_jukugo <span class="sc">%&gt;%</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">kanji_left =</span> <span class="fu">substr</span>(comp_word, <span class="dv">1</span>, <span class="dv">1</span>),</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">kanji_right =</span> <span class="fu">substr</span>(comp_word, <span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(data_jukugo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 52,791
+Columns: 11
+$ id                  &lt;int&gt; 173, 234, 432, 461, 481, 529, 937, 1465, 1521, 156…
+$ comp_word           &lt;chr&gt; "一部", "一般", "一時", "一番", "一緒", "一致", "…
+$ frequency           &lt;int&gt; 46289, 39274, 25126, 24155, 23453, 21388, 12477, 7…
+$ grammatical_feature &lt;chr&gt; "possible to use as an adverb", "general noun", "p…
+$ pronunciation       &lt;chr&gt; "itibu", "ippan", "itizi", "itiban", "issyo", "itt…
+$ english_translation &lt;chr&gt; "one part", "general", "one o'clock", "best", "tog…
+$ position            &lt;chr&gt; "L", "L", "L", "L", "L", "L", "L", "L", "L", "L", …
+$ kanji               &lt;chr&gt; "一", "一", "一", "一", "一", "一", "一", "一", "…
+$ kanji_id            &lt;int&gt; 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41…
+$ kanji_left          &lt;chr&gt; "一", "一", "一", "一", "一", "一", "一", "一", "…
+$ kanji_right         &lt;chr&gt; "部", "般", "時", "番", "緒", "致", "定", "連", "…</code></pre>
+</div>
+</div>
+<p>Let’s explain the code:</p>
+<ul>
+<li><code>mutate()</code> is the <code>dplyr</code> function used to create or change variables. Here, I create two variables, <code>kanji_left</code> and <code>kanji_right</code>.</li>
+<li><code>substr()</code> is a base function that subtracts a string of text from a character variable. <code>substr(comp_word, 1, 1)</code> means to subtract only the first character, and <code>substr(comp_word, 2, 2)</code> gets the second character.</li>
+</ul>
+<p>Alright, now I need to define the list of kanjis that I’m currently learning. This I need to do it manually, but later I’ll explain how to do it more dinamically.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>kanji_learning <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"一"</span>, <span class="st">"二"</span>, <span class="st">"三"</span>, <span class="st">"王"</span>, <span class="st">"玉"</span>, <span class="st">"十"</span>, <span class="st">"五"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Lastly, I’ll tell R to filter the jukugos that only include kanji that are on my learning list. I also want to sort the jukugos from more to less used.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>jukugo_learning <span class="ot">&lt;-</span> data_jukugo <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(kanji_left <span class="sc">%in%</span> kanji_learning, kanji_right <span class="sc">%in%</span> kanji_learning) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(frequency))</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(jukugo_learning)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     id comp_word frequency          grammatical_feature pronunciation
+1 17059      二三        32 possible to use as an adverb         nisan
+2 17059      二三        32 possible to use as an adverb         nisan
+3 20330      三一        12                 general noun        sanpin
+4 20330      三一        12                 general noun        sanpin
+5 23443      一一         4 possible to use as an adverb        itiiti
+6 23443      一一         4 possible to use as an adverb        itiiti
+  english_translation position kanji kanji_id kanji_left kanji_right
+1        two or three        L    二     1577         二          三
+2        two or three        R    三      744         二          三
+3 low-ranking samurai        R    一       41         三          一
+4 low-ranking samurai        L    三      744         三          一
+5          one-by-one        L    一       41         一          一
+6          one-by-one        R    一       41         一          一</code></pre>
+</div>
+</div>
+<p>The <code>filter()</code> function selects rows based on one or more conditions. I’ve passed two conditions: that <code>kanji_left</code> is included in the <code>kanji_learning</code> “list” (in R we’d call this a vector, not a list), and that <code>kanji_right</code> is also included in <code>kanji_learning</code>. The term “is included in” is represented in R with the operand <code>%in%</code>.</p>
+<p>The <code>arrange()</code> function reorders the rows based on one or more variables. I’ve passed the argument <code>desc(frequency)</code> because I want the words to be sorted in descending order of frequency (from more to less frequency).</p>
+<p>Now, something odd has happened: now we have two copies of each jukugo. These are complete duplicates in the dataset, with the only difference of which kanji appears in the variables <code>position</code>, <code>kanji</code>, and <code>kanji_id</code>. For example, “nisan” (二三) appears twice, one with <code>position</code> L, <code>kanji</code> 二, and <code>kanji_id</code> 1577, and another with <code>position</code> R, <code>kanji</code> 三, and <code>kanji_id</code> 744. This is somethin that I didn’t see first time I explored the dataset.</p>
+<p>I could have done things differently. Instead of splitting the jukugos manually, I could have performed a “self-join” of the duplicated rows. But one cool thing about data cleaning and analysis is that there are always different ways to reach the same goal. It’s an iterative process, and by trial and error I can learn a lot and find alternative methods of doing things.</p>
+<p>Moving forward, since I’m only interested in keeping one record of each jukugo, I can drop these duplicates. Aditionally, I’ll keep only the variables I’m interested in.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>jukugo_learning <span class="ot">&lt;-</span> jukugo_learning <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, comp_word, frequency, grammatical_feature, pronunciation, english_translation, kanji_left, kanji_right) <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(jukugo_learning)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     id comp_word frequency          grammatical_feature pronunciation
+1 17059      二三        32 possible to use as an adverb         nisan
+2 20330      三一        12                 general noun        sanpin
+3 23443      一一         4 possible to use as an adverb        itiiti
+4 25773      二王         2                 general noun          nioo
+          english_translation kanji_left kanji_right
+1                two or three         二          三
+2         low-ranking samurai         三          一
+3                  one-by-one         一          一
+4 the two guardian Deva kings         二          王</code></pre>
+</div>
+</div>
+<p>I’ve used two new <code>dplyr</code> functions: <code>select()</code> keeps some columns or variables, and <code>distinct()</code> keeps only non-duplicated rows.</p>
+<p>The final result contains four distinct jukugos: 二三, 三一, 一一, and 二王. All of them are very low-frequency, with the most common of them appearing only 32 times.</p>
+</section>
+<section id="next-step-making-it-interactive" class="level1">
+<h1>Next step: making it interactive</h1>
+<p>So far, I have created a code that filters Japanese kanji words based on whatever Kanji components I want. However, the whole process would be nicer if I had a way of selecting the data interactivelly, maybe pressing some buttons. We can do just that using R Shiny applications. But that’s for another day!</p>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<ul>
+<li><a href="https://www.kanjidatabase.com/index.php">Kanji database</a>.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="CarlosEpiStats/blogComments" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,159 @@
+---
+title: 'Loading and Exploring Japanese Kanji Data Using R'
+date: "2024-02-27"
+categories: ['R', 'data cleaning', 'exploratory']
+description: "Using R to load, explore, describe, and filter data, with a Japanese Kanji database example."
+execute: 
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+---
+
+# Introduction
+
+In this blog post, I'll demonstrate how to use R to load, explore, and filter data from a dataset containing Japanese characters, known as "kanji". The datasets were obtained from an online [Kanji database](https://www.kanjidatabase.com/index.php). We'll focus on using the `tidyverse` family of packages to illustrate how to select and filter relevant information efficiently.
+
+# Setup and Loading
+
+To begin, we need to load necessary libraries and import the datasets:
+
+```{r}
+# | warning: false
+# Loading necessary libraries
+library(tidyverse)
+library(here)
+library(janitor)
+
+# Loading datasets
+
+data_kanji <- read.csv2(here("data/kanji", "Kanji_20240227_081842.csv")) %>% 
+  clean_names()
+
+data_jukugo <- read.csv2(here("data/kanji", "Jukugo_20240227_081908.csv")) %>% 
+  clean_names()
+
+```
+
+Here's a breakdown of the code:
+
+* `library(tidyverse)`: We load the `tidyverse` package, which includes `dplyr`, `ggplot2`, and other useful packages.
+* `library(here)`: This package helps manage file paths conveniently.
+* `library(janitor)`: Useful for standardizing variable names and data cleaning.
+* We use `read.csv2()` to import CSV (comma-separated value) files with semicolons (;) as separators. 
+* `here("data/kanji", "Kanji_20240227_081842.csv")` uses the function `here()` to access the data file, which is saved inside the folders data > kanji.
+* The characters `%>%` are called a "pipe" in tidyverse. It can be written simply by pressing Ctrl + Shift + M (in Windows). Basically, it tells R that we want to apply some step to the previous data. In this example, I tell R that I want to use the function `clean_names()` to the data that I've already loaded using `read.csv2()`.
+* `clean_names()` is a `janitor` function that renames all variables in a standard format to make it easier to manipulate. Specifically, `clean_names()` sets all names to lowercase, removes punctuation and symbols, and replaces spaces with underscores.
+
+Now I have two separate datasets: one for kanji (single characters), and one for jukugo (compound words). Let's take a look at them.
+
+# Exploring the data
+
+Let's examine the first few rows of each dataset:
+
+```{r}
+head(data_kanji)
+
+head(data_jukugo)
+```
+We're using the base function `head()`to show the first rows or observations of our datasets. 
+
+We can see that `data_kanji` has four columns or variables: 
+
+* `id` shows a unique identification number.
+* `kanji` stores the actual character.
+* `strokes` represents the number of distinct lines or strokes that the character has. 
+* `grade` means the official categorization of Kanji by educational year in Japan. Grade 1 includes the easiest or most common kanji, and it goes all up to grade 7. 
+
+On the other hand, `data_jukugo` contains nine variables:
+
+* `id` is the identification number for jukugos.
+* `comp_word` is the actual word.
+* `frequency` is a measure of how many times each jukugo appear in a selected corpus of Japanese literature (extracted from Japanese newspapers).
+* `grammatical_feature` gives us more context of how the word is used in grammatical terms.
+* `pronunciation` tells us the pronunciation in "romaji", or the Latin alphabet.
+* `english_translation` stores the English translation.
+
+The last three variables in `data_jukugo` describes the kanji which is part of the jukugo:
+
+* `position` tells us if the kanji is used in left position "L" or right position "R".
+* `kanji` shows the kanji used in the jukugo. The first rows all show jukugos composed with the kanji "一".
+* `kanji_id` is the identification number of the kanji part. We can use this id to link `data_jukugo` with `data_kanji` if we want to.
+
+Another way of looking into a dataset is to explore how each variable is encoded:
+
+```{r}
+glimpse(data_kanji)
+glimpse(data_jukugo)
+```
+
+The `glimpse()` function allows us to quickly glance at the data structure. 
+
+We can see that `data_kanji` has 2,136 rows or observations and 4 columns or variables. We also see the first values of each of its four variables. More importantly, we can see which data type each variable stores. The `kanji` variable has `<chr>` type, which means "character" or "text", while the rest of variables have `<int>` type, which means "integer" number, or a round number. R automatically detects the data types when importing data using functions like `read.csv2()`.
+
+Regarding `data_jukugo`, it has 52,791 rows and 9 columns, of which 3 have `<int>` type, and 6 have `<char>` type.
+
+# Manipulating the data
+
+Now that I'm familiarized with this dataset, it's useful to lay down what my analysis plan is. In other words, what do I want to learn from this data? In this case, I want to be able to find words (jukugo) that only contain kanji from a selected list of kanji that I'm learning. So, for example, if I only know kanjis 一, 人, and 十, I want to know all the possible combinations of these three kanjis.
+
+For this exercise, I'm interested in separating jukugos in two parts: the left kanji, and the right kanji. The dataset already has half of this information, but sometimes it tells us the left kanji, and sometimes the right kanji (more on this later). I want to get sistematically both left and right kanjis in the same row, so I'll create new variables called `kanji_left` and `kanji_right`.
+
+```{r}
+data_jukugo <- data_jukugo %>% 
+  mutate(kanji_left = substr(comp_word, 1, 1),
+         kanji_right = substr(comp_word, 2, 2))
+
+glimpse(data_jukugo)
+```
+
+Let's explain the code:
+
+* `mutate()` is the `dplyr` function used to create or change variables. Here, I create two variables, `kanji_left` and `kanji_right`.
+* `substr()` is a base function that subtracts a string of text from a character variable. `substr(comp_word, 1, 1)` means to subtract only the first character, and `substr(comp_word, 2, 2)` gets the second character.
+
+Alright, now I need to define the list of kanjis that I'm currently learning. This I need to do it manually, but later I'll explain how to do it more dinamically.
+
+```{r}
+
+kanji_learning <- c("一", "二", "三", "王", "玉", "十", "五")
+```
+
+Lastly, I'll tell R to filter the jukugos that only include kanji that are on my learning list. I also want to sort the jukugos from more to less used.
+
+```{r}
+jukugo_learning <- data_jukugo %>% 
+  filter(kanji_left %in% kanji_learning, kanji_right %in% kanji_learning) %>% 
+  arrange(desc(frequency))
+
+head(jukugo_learning)
+```
+The `filter()` function selects rows based on one or more conditions. I've passed two conditions: that `kanji_left` is included in the `kanji_learning` "list" (in R we'd call this a vector, not a list), and that `kanji_right` is also included in `kanji_learning`. The term "is included in" is represented in R with the operand `%in%`.
+
+The `arrange()` function reorders the rows based on one or more variables. I've passed the argument `desc(frequency)` because I want the words to be sorted in descending order of frequency (from more to less frequency).
+
+However, something odd has happened: now we have two copies of each jukugo. There are complete duplicates in the dataset, with the only difference of which kanji appears in the variables `position`, `kanji`, and `kanji_id`. For example, "nisan" (二三) appears twice, one with `position` L, `kanji` 二, and `kanji_id` 1577, and another with `position` R, `kanji` 三, and `kanji_id` 744. This is something that I didn't see first time I explored the dataset.
+
+I could have done things differently. Instead of splitting the jukugos manually, I could have performed a "self-join" of the duplicated rows. But one cool thing about data cleaning and analysis is that there are always different ways to reach the same goal. It's an iterative process, and by trial and error I can learn a lot and find alternative methods of doing things.
+
+Moving forward, since I'm only interested in keeping one record of each jukugo, I can drop these duplicates. Aditionally, I'll keep only the variables I'm interested in.
+
+```{r}
+jukugo_learning <- jukugo_learning %>% 
+  select(id, comp_word, frequency, grammatical_feature, pronunciation, english_translation, kanji_left, kanji_right) %>%
+  distinct()
+
+head(jukugo_learning)
+```
+
+I've used two new `dplyr` functions: `select()` keeps some columns or variables, and `distinct()` keeps only non-duplicated rows.
+
+The final result contains four distinct jukugos: 二三, 三一, 一一, and 二王. All of them are very low-frequency, with the most common of them appearing only 32 times.
+
+# Next step: making it interactive
+
+So far, I have created a code that filters Japanese kanji words based on whatever Kanji components I want. However, the whole process would be nicer if I had a way of selecting the data interactivelly, maybe pressing some buttons. We can do just that using R Shiny applications. But that's for another day!
+
+# References
+
+* [Kanji database](https://www.kanjidatabase.com/index.php).
