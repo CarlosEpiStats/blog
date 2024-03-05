@@ -1,6 +1,6 @@
 ---
 title: 'Lasso regression'
-date: "2024-01-26"
+date: "2024-02-06"
 categories: ['regression', 'R', 'lasso']
 description: "What is, what is it used for, and how to use Lasso regression, with code in R."
 execute: 

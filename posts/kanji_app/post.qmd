@@ -1,3 +1,62 @@
+---
+title: 'Interactive List of Japanese Words Using R Shiny Apps'
+date: "2024-03-06"
+categories: ['R', 'shiny', 'exploratory']
+description: "Using R Shiny to interactively explore data, with a Japanese Kanji database example."
+execute: 
+  message: false
+  warning: false
+  eval: false
+editor_options: 
+  chunk_output_type: console
+---
+
+# Introduction
+
+In a [previous post](https://carlosepistats.github.io/blog/posts/kanji/post.html), I demonstrated how to use R to load, explore, and filter data from a dataset containing Japanese characters, known as "kanji". 
+
+Today, we'll focus on making that data exploration interactive using the R package `shiny`.
+
+# App design
+
+Every interactive app has at least three components: input, output, and a back-end server. The server transforms the user's input into output. My "kanji app" has the following input and output:
+
+Input:
+
+* A list of kanji that the user (that is, me) is currently learning.
+
+Output:
+
+* A table with all the possible words formed by combination of those kanji, as well as their pronunciation and an English translation. This table can be downloaded in CSV or XLSX format.
+* A table with example sentences that contain words formed by combination of those kanji, as well as their pronunciation and an English translation. 
+* A table that displays how many different words contain each of the learning kanji.
+
+
+# Shiny App
+
+```{=html}
+ <iframe id="example1" src="https://epistats.shinyapps.io/Kanji_app/" style="border: none; width: 100%; height: 720px" frameborder="0"></iframe>
+```
+
+
+# Code breakdown
+
+
+## Setup and Loading Data
+
+To begin, we need to load necessary libraries and import the datasets. I'll use six different datasets to form the whole "dictionary":
+ 
+* A list of kanji downloaded from XXX
+* A list of jukugo (words composed by two kanji) downloaded from XXX
+* A list of words obtained from an Anki deck from XXX
+* A list of sentences obtained from an Anki deck from XXX
+* A list of sentences obtained from an Anki deck from XXX
+* A dataset of Japanese numbers from 0 to 100, created manually.
+
+Each dataset contains three columns: `word` (in kanji), `pronunciation` (in hiragana or romaji), and `meaning` (in English).
+
+```{r}
+# | warning: false
 # Loading necessary libraries ####
 library(tidyverse)
 # library(here)
@@ -85,7 +144,6 @@ data_sentences2 <- read_excel(file_sentences2)
 data_sentences <- rbind(data_sentences1, data_sentences2)
 rm(data_sentences1, data_sentences2)
 
-
 # Extract kana ####
 
 hiragana_chars <- intToUtf8(seq(12353, 12438)) # Unicode range for hiragana characters
@@ -132,6 +190,8 @@ data_all <- data_bind %>%
                           too_few = "align_start") %>% 
   filter(!is.na(kanji_1))
 
+
+
 # Functions ####
 
 make_study_list <- function(kanji_learning) {
@@ -172,6 +232,15 @@ make_sentences_list <- function(kanji_learning) {
 
 
 
+```
+
+Here's a breakdown of the code:
+
+* TBD
+
+## Shiny App code
+
+```{r}
 # Shiny App ####
 
 ui <- fluidPage(
@@ -352,7 +421,13 @@ server <- function(input, output) {
 
 
 shinyApp(ui = ui, server = server)
+```
+
+Here's a breakdown of the code:
+
+TBD
 
 
+# References
 
-
+* [Kanji database](https://www.kanjidatabase.com/index.php).

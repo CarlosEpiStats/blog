@@ -3,6 +3,7 @@
     "listing": "/archive.html",
     "items": [
       "/posts/ggplot2-tips/ggplot-series.html",
+      "/posts/kanji_app/post.html",
       "/posts/kanji/post.html",
       "/posts/alluvial_plot/post.html",
       "/posts/lasso_regression/post.html"
@@ -12,6 +13,7 @@
     "listing": "/blog.html",
     "items": [
       "/posts/ggplot2-tips/ggplot-series.html",
+      "/posts/kanji_app/post.html",
       "/posts/kanji/post.html",
       "/posts/alluvial_plot/post.html",
       "/posts/lasso_regression/post.html"
