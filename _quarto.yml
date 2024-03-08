@@ -22,7 +22,7 @@ website:
         href: archive.qmd
     left:
       - href: index.qmd
-        text: Inicio
+        text: Home
       - href: blog.qmd
         text: Blog
       - about.qmd

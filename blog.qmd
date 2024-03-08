@@ -12,8 +12,3 @@ listing:
 page-layout: full
 title-block-banner: false
 ---
-
-# Series
-
-#### [ggplot2-series](ggplot-series.html)
-Demo series of ggplot2 tips
