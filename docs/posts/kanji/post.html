@@ -119,7 +119,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="../../index.html" rel="" target="">
- <span class="menu-text">Inicio</span></a>
+ <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../blog.html" rel="" target="">
@@ -347,7 +347,7 @@ $ kanji_id            &lt;int&gt; 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41
 <section id="manipulating-the-data" class="level1">
 <h1>Manipulating the data</h1>
 <p>Now that I’m familiarized with this dataset, it’s useful to lay down what my analysis plan is. In other words, what do I want to learn from this data? In this case, I want to be able to find words (jukugo) that only contain kanji from a selected list of kanji that I’m learning. So, for example, if I only know kanjis 一, 人, and 十, I want to know all the possible combinations of these three kanjis.</p>
-<p>For this exercise, I’m interested in separate jukugos in two parts: the left kanji, and the right kanji. The dataset already has half of this information, but sometimes it tells us the left kanji, and sometimes the right kanji (usually, the simplest kanji of the two). I want to get sistematically both left and right kanjis, so I’ll create new variables called <code>kanji_left</code> and <code>kanji_right</code>.</p>
+<p>For this exercise, I’m interested in separating jukugos in two parts: the left kanji, and the right kanji. The dataset already has half of this information, but sometimes it tells us the left kanji, and sometimes the right kanji (more on this later). I want to get sistematically both left and right kanjis in the same row, so I’ll create new variables called <code>kanji_left</code> and <code>kanji_right</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data_jukugo <span class="ot">&lt;-</span> data_jukugo <span class="sc">%&gt;%</span> </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">kanji_left =</span> <span class="fu">substr</span>(comp_word, <span class="dv">1</span>, <span class="dv">1</span>),</span>
@@ -405,7 +405,7 @@ $ kanji_right         &lt;chr&gt; "部", "般", "時", "番", "緒", "致", "定
 </div>
 <p>The <code>filter()</code> function selects rows based on one or more conditions. I’ve passed two conditions: that <code>kanji_left</code> is included in the <code>kanji_learning</code> “list” (in R we’d call this a vector, not a list), and that <code>kanji_right</code> is also included in <code>kanji_learning</code>. The term “is included in” is represented in R with the operand <code>%in%</code>.</p>
 <p>The <code>arrange()</code> function reorders the rows based on one or more variables. I’ve passed the argument <code>desc(frequency)</code> because I want the words to be sorted in descending order of frequency (from more to less frequency).</p>
-<p>Now, something odd has happened: now we have two copies of each jukugo. These are complete duplicates in the dataset, with the only difference of which kanji appears in the variables <code>position</code>, <code>kanji</code>, and <code>kanji_id</code>. For example, “nisan” (二三) appears twice, one with <code>position</code> L, <code>kanji</code> 二, and <code>kanji_id</code> 1577, and another with <code>position</code> R, <code>kanji</code> 三, and <code>kanji_id</code> 744. This is somethin that I didn’t see first time I explored the dataset.</p>
+<p>However, something odd has happened: now we have two copies of each jukugo. There are complete duplicates in the dataset, with the only difference of which kanji appears in the variables <code>position</code>, <code>kanji</code>, and <code>kanji_id</code>. For example, “nisan” (二三) appears twice, one with <code>position</code> L, <code>kanji</code> 二, and <code>kanji_id</code> 1577, and another with <code>position</code> R, <code>kanji</code> 三, and <code>kanji_id</code> 744. This is something that I didn’t see first time I explored the dataset.</p>
 <p>I could have done things differently. Instead of splitting the jukugos manually, I could have performed a “self-join” of the duplicated rows. But one cool thing about data cleaning and analysis is that there are always different ways to reach the same goal. It’s an iterative process, and by trial and error I can learn a lot and find alternative methods of doing things.</p>
 <p>Moving forward, since I’m only interested in keeping one record of each jukugo, I can drop these duplicates. Aditionally, I’ll keep only the variables I’m interested in.</p>
 <div class="cell">
@@ -432,7 +432,7 @@ $ kanji_right         &lt;chr&gt; "部", "般", "時", "番", "緒", "致", "定
 </section>
 <section id="next-step-making-it-interactive" class="level1">
 <h1>Next step: making it interactive</h1>
-<p>So far, I have created a code that filters Japanese kanji words based on whatever Kanji components I want. However, the whole process would be nicer if I had a way of selecting the data interactivelly, maybe pressing some buttons. We can do just that using R Shiny applications. But that’s for another day!</p>
+<p>So far, I have created a code that filters Japanese kanji words based on whatever Kanji components I want. However, the whole process would be nicer if I had a way of selecting the data interactivelly, maybe pressing some buttons. We can do just that using R Shiny applications. Find how in <a href="https://carlosepistats.github.io/blog/posts/kanji_app/post.html">this post</a>!</p>
 </section>
 <section id="references" class="level1">
 <h1>References</h1>

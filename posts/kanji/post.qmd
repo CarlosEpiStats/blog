@@ -152,7 +152,7 @@ The final result contains four distinct jukugos: 二三, 三一, 一一, and 二
 
 # Next step: making it interactive
 
-So far, I have created a code that filters Japanese kanji words based on whatever Kanji components I want. However, the whole process would be nicer if I had a way of selecting the data interactivelly, maybe pressing some buttons. We can do just that using R Shiny applications. But that's for another day!
+So far, I have created a code that filters Japanese kanji words based on whatever Kanji components I want. However, the whole process would be nicer if I had a way of selecting the data interactivelly, maybe pressing some buttons. We can do just that using R Shiny applications. Find how in [this post](https://carlosepistats.github.io/blog/posts/kanji_app/post.html)!
 
 # References
 
