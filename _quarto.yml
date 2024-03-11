@@ -18,7 +18,7 @@ website:
             href: https://rweekly.org
           - text: R Bloggers
             href: https://www.r-bloggers.com
-      - text: Archivo
+      - text: Archive
         href: archive.qmd
     left:
       - href: index.qmd

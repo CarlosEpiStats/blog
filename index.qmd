@@ -8,6 +8,9 @@ about:
     - text: Email
       icon: envelope
       href: mailto:carlosepistats@gmail.com
+    - text: Twitter
+      icon: twitter
+      href: https://twitter.com/CarlosEpiStats
 ---
 
 Hello there! I'm Carlos Fernández, MD, MPH, and I'm passionate about biostatistics, epidemiology, and programming.
