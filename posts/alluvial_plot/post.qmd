@@ -1,92 +1,90 @@
 ---
-title: 'Diagrama aluvial (alluvial plot)'
+title: 'How to Create an Aluvial Plot in R'
 date: "2024-02-22"
-categories: ['ggplot', 'plot', 'alluvial']
-description: "Cómo crear un diagrama aluvial en R."
+categories: ['ggplot', 'plot', 'alluvial', 'R']
+description: "How to draw an Alluvial Plot in R with example code."
 execute: 
   message: false
   warning: false
 editor_options: 
   chunk_output_type: console
+format: 
+  html:
+    code-fold: true
+    code-summary: "Show the code"
 ---
 
-# Introducción
+# Introduction
 
-En este post explico cómo crear un diagrama aluvial (*alluvial plot*) usando código en R.
+In this post, I explain how to create an alluvial plot using code in R
 
+## What is an Alluvial Diagram
 
-## Qué es un diagrama aluvial
+An alluvial diagram or plot displays the flow of information from one categorical variable or stage to the next. The term "alluvial" refers to its resemblance to the flow of a river.
 
-Un diagrama o gráfico aluvial muestra el flujo de información de un estadio al siguiente. El nombre "aluvial" alude a su parecido con el flujo de un río.
+## Uses of Alluvial Diagrams
 
-## Para qué se usan los diagramas aluviales
+Alluvial diagrams are commonly used in the following situations:
 
-Un diagrama aluvial se suele utilizar en las siguientes situaciones:
+* To demonstrate the number of participants in a study transitioning from one baseline category to a subsequent category. For example, the number of participants randomized at the beginning of the study and who continue to follow-up at the end. It serves as a graphical supplement to flowcharts, which present information with arrows and boxes containing text and numbers.
+* To show the distribution of participants among different categorical variables. In this case, it provides a more "visually appealing" alternative to stacked column charts.
 
-* Para mostrar el número de participantes de un estudio que cambian desde una categoría basal a una categoría siguiente. Por ejemplo, el número de participantes aleatorizados al principio del estudio y que continúan en seguimiento al final. Es un complemento gráfico a los diagramas de flujo, que presentan la información con flechas y cajas con texto y números.
-* Para mostrar la distribución de participantes entre distintas variables categóricas. En este caso es una alternativa más "vistosa" a los diagramas de columnas apilados.
-
-# Código en R
+# R Code
 
 ## Preparativos
 
-Para este ejemplo, usaremos la biblioteca `ggalluvial` y `ggplot2`. Los datos proceden de un estudio sobre aprendizaje de idiomas usando la aplicación web *LingQ* ([Enlace al artículo](http://comparelanguageapps.com/documentation/LingQ_Efficacy_2023.pdf)). 
+For this example, we will use the `ggalluvial` and `ggplot2` libraries. The data come from a study on language learning using the web application *LingQ* ([Link to the article](http://comparelanguageapps.com/documentation/LingQ_Efficacy_2023.pdf)). 
 
 ```{r}
-#| warning: false
-
-# Cargar las bibliotecas necesarias
-library(tidyverse) # Incluye ggplot2
+# Load necessary libraries
+library(tidyverse) # Includes ggplot2
 library(ggalluvial)
 library(knitr)
 
-# Datos de ejemplo
+# Input data
 
 data <- data.frame(
-  Inicial = rep(c("Primero", "Segundo", "Tercero", "Cuarto+"), each = 4),
-  Final = rep(c("Primero", "Segundo", "Tercero", "Cuarto+"), 4), 
-  Frecuencia = c(28, 28, 10, 4, 3, 6, 7, 5,	0, 3, 3, 3, 0, 0, 0, 1)
+  Initial = rep(c("First", "Second", "Third", "Fourth+"), each = 4),
+  Final = rep(c("First", "Second", "Third", "Fourth+"), 4), 
+  Frequency = c(28, 28, 10, 4, 3, 6, 7, 5,	0, 3, 3, 3, 0, 0, 0, 1)
 ) %>% 
   mutate(
-    Inicial = factor(Inicial, levels = c("Primero", "Segundo", "Tercero", "Cuarto+")),
-    Final = factor(Final, levels = c("Primero", "Segundo", "Tercero", "Cuarto+"))
+    Initial = factor(Initial, levels = c("First", "Second", "Third", "Fourth+")),
+    Final = factor(Final, levels = c("First", "Second", "Third", "Fourth+"))
   )
 
 head(data)
 
 ```
 
-En este estudio, un total de 192 personas fueron seleccionados para la muestra y completaron el test de conocimientos inicial. De ellas, 101 completaron el test final y estudiaron al menos dos horas en la aplicación, y fueron incluidas en el análisis. Los datos muestran cuál era el conocimiento de idiomas equivalente en semestres de educación formal ("Primero", "Segundo", "Tercero", "Cuarto o más") al principio del estudio ("Inicial") y tras usar la aplicación ("Final"). 
+In this study, a total of 192 individuals were selected for the sample and completed the initial knowledge test. Out of these, 101 completed the final test and studied for at least two hours in the application, and were included in the analysis. The data show the equivalent language knowledge in formal education semesters ("First", "Second", "Third", "Fourth or more") at the beginning of the study ("Initial") and after using the application ("Final").
 
-*Nota: Los datos se han extraído del artículo de ejemplo a partir de las tablas de resultados y son solo un ejemplo de una distribución de datos compatible con esos resultados.*
+*Note: The data have been extracted from the example article from the result tables and are just an example of a data distribution compatible with those results.*
 
-## Gráfico
+## Alluvial Plot
 
 ```{r}
-#| warning: false
-
-# Diagrama aluvial
 data %>% 
-ggplot(aes(axis1 = fct_rev(Inicial), axis2 = fct_rev(Final),
-           y = Frecuencia)) +
-  scale_x_discrete(limits = c("Inicial", "Final"), expand = c(.2, .05)) +
+ggplot(aes(axis1 = fct_rev(Initial), axis2 = fct_rev(Final),
+           y = Frequency)) +
+  scale_x_discrete(limits = c("Initial", "Final"), expand = c(.2, .05)) +
   geom_alluvium(aes(fill = Final)) +
   geom_stratum() +
   geom_text(stat = "stratum", aes(label = after_stat(stratum))) +
   theme_minimal() +
-  labs(x = "Semestres equivalentes de educación formal")
+  labs(x = "Equivalent formal education semesters")
 ```
 
-En el diagrama aluvial, el área de las zonas coloreadas es proporcional a la frecuencia, por lo que "flujos" más anchos representan más participantes. 
+In the alluvial diagram, the area of the colored zones is proportional to the frequency, so wider "flows" represent more participants.
 
-En el gráfico se aprecia cómo la mayor parte del flujo ocurre de abajo arriba; es decir, el conocimiento tiende a mejorar más que a empeorar. Por ejemplo, más de la mitad de los participantes que partían del primer semestre de conocimientos subieron al segundo, tercer o cuarto semestre. 
+The graph shows how the majority of the flow occurs from bottom to top; that is, knowledge tends to improve more than deteriorate. For example, more than half of the participants who started from the first semester of knowledge progressed to the second, third, or fourth semester.
 
-También se puede ver como casi todos los participantes que acabaron con un nivel de conocimientos equivalente al primer semestre partían de ese nivel previo, y unos pocos bajaron del segundo semestre al primer semestre.
+It can also be seen that almost all participants who ended with a knowledge level equivalent to the first semester started from that previous level, and a few decreased from the second semester to the first semester.
 
-En definitiva, los diagramas aluviales proporcionan una opción visual para entender mejor los flujos de datos entre categorías, especialmente si hay algún componente temporal asociado a ellas.
+In conclusion, alluvial diagrams provide a visual option for better understanding data flows between categories.
 
-# Referencias
+# References
 
-* [Biblioteca ggalluvial](https://corybrunson.github.io/ggalluvial/)
-* [Estudio de aprendizaje de idiomas con LingQ](http://comparelanguageapps.com/documentation/LingQ_Efficacy_2023.pdf)
+* [ggalluvial package](https://corybrunson.github.io/ggalluvial/)
+* [Language learning study with LingQ](http://comparelanguageapps.com/documentation/LingQ_Efficacy_2023.pdf)
 

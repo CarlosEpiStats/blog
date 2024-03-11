@@ -6,9 +6,12 @@ description: "Using R Shiny to interactively explore data, with a Japanese Kanji
 execute: 
   message: false
   warning: false
-  eval: false
 editor_options: 
   chunk_output_type: console
+format: 
+  html:
+    code-fold: true
+    code-summary: "Show the code"
 ---
 
 # Introduction
@@ -17,15 +20,15 @@ In a [previous post](https://carlosepistats.github.io/blog/posts/kanji/post.html
 
 Today, we'll focus on making that data exploration interactive using the R package `shiny`.
 
-# App design
+# App Design
 
 Every interactive app has at least three components: input, output, and a back-end server. The server transforms the user's input into output. My "kanji app" has the following input and output:
 
-Input:
+**Input**:
 
-* A list of kanji that the user (that is, me) is currently learning.
+* A list of kanji that the user is currently learning.
 
-Output:
+**Output**:
 
 * A table with all the possible words formed by combination of those kanji, as well as their pronunciation and an English translation. This table can be downloaded in CSV or XLSX format.
 * A table with example sentences that contain words formed by combination of those kanji, as well as their pronunciation and an English translation. 
@@ -34,37 +37,38 @@ Output:
 
 # Shiny App
 
+Here you can find the embedded version of this Shiny app. To access the full screen version, click on [this link](https://epistats.shinyapps.io/Kanji_app/).
+
 ```{=html}
- <iframe id="example1" src="https://epistats.shinyapps.io/Kanji_app/" style="border: none; width: 100%; height: 720px" frameborder="0"></iframe>
+ <iframe id="example1" src="https://epistats.shinyapps.io/Kanji_app/" style="border: 1px solid black; width: 100%; height: 720px" ></iframe>
 ```
 
 
-# Code breakdown
+# Code Breakdown
 
 
 ## Setup and Loading Data
 
-To begin, we need to load necessary libraries and import the datasets. I'll use six different datasets to form the whole "dictionary":
+To begin, we need to load the necessary libraries and import the datasets. I'll use five different datasets to form the whole "dictionary":
  
-* A list of kanji downloaded from XXX
-* A list of jukugo (words composed by two kanji) downloaded from XXX
-* A list of words obtained from an Anki deck from XXX
-* A list of sentences obtained from an Anki deck from XXX
-* A list of sentences obtained from an Anki deck from XXX
+* A list of kanji downloaded from [Kanji database](https://www.kanjidatabase.com/index.php)
+* A list of jukugo (words composed by two kanji) downloaded from [Kanji database](https://www.kanjidatabase.com/index.php)
+* A list of words obtained from an Anki deck from [here](https://ankiweb.net/shared/info/2141233552)
+* A list of sentences obtained from an Anki deck from [here](https://ankiweb.net/shared/info/1880390099)
 * A dataset of Japanese numbers from 0 to 100, created manually.
 
 Each dataset contains three columns: `word` (in kanji), `pronunciation` (in hiragana or romaji), and `meaning` (in English).
 
-```{r}
-# | warning: false
+```{r loading}
 # Loading necessary libraries ####
 library(tidyverse)
-# library(here)
+library(here)
 library(janitor)
 library(readxl)
 library(writexl)
-#library(shiny)
+library(shiny)
 library(DT)
+library(flextable)
 
 # Loading datasets ####
 
@@ -75,11 +79,11 @@ file_sentences1 <- "Sentences.xlsx"
 file_sentences2 <- "Sentences_core.xlsx"
 
 ## Kanji list ####
-data_kanji <- read.csv2(file_kanji) %>% 
+data_kanji <- read.csv2(here("data/kanji", file_kanji)) %>% 
   clean_names()
 
 ## Jukugo list ####
-data_jukugo <- read.csv2(file_jukugo) %>% 
+data_jukugo <- read.csv2(here("data/kanji", file_jukugo)) %>% 
   clean_names() %>% 
   arrange(desc(frequency)) %>% 
   select(comp_word, pronunciation, english_translation) %>%
@@ -99,7 +103,7 @@ data_jukugo <- read.csv2(file_jukugo) %>%
     )
 
 ## word list ####
-data_words <- read.csv(file_words) %>% 
+data_words <- read.csv(here("data/kanji", file_words)) %>% 
   clean_names() %>% 
   arrange(core_index) %>% 
   select(vocab_expression, vocab_kana, vocab_meaning) %>% 
@@ -138,8 +142,8 @@ data_numbers <- data.frame(
   )
 
 # Sentence list ####
-data_sentences1 <- read_excel(file_sentences1) 
-data_sentences2 <- read_excel(file_sentences2)
+data_sentences1 <- read_excel(here("data/kanji", file_sentences1)) 
+data_sentences2 <- read_excel(here("data/kanji", file_sentences2))
 
 data_sentences <- rbind(data_sentences1, data_sentences2)
 rm(data_sentences1, data_sentences2)
@@ -153,8 +157,6 @@ kana <- paste0(hiragana_chars, katakana_chars) %>%
   str_split_1(pattern = "") %>% 
   paste(collapse = "|")
 
-kana
-
 
 # All data ####
 data_bind <- data_words %>% 
@@ -163,8 +165,6 @@ data_bind <- data_words %>%
         data_jukugo) %>% 
   mutate(word = str_remove_all(word, "[ a-zA-Z]")) %>% 
   distinct(word, .keep_all = TRUE)
-
-data_bind
 
 # Extract kanji ####
 
@@ -190,8 +190,28 @@ data_all <- data_bind %>%
                           too_few = "align_start") %>% 
   filter(!is.na(kanji_1))
 
+flextable(head(data_all))
+```
 
 
+Here's a breakdown of the final "dictionary":
+
+* `word`: This column contains the Japanese word.
+* `pronunciation`: It shows the pronunciation of the word.
+* `meaning`: This column provides the English translation or meaning of the word.
+* `kanji_1`, `kanji_2`, `kanji_3`, `kanji_4`, `kanji_5`: These columns represents the kanji characters that compose each word. 
+
+Each row corresponds to a different Japanese word, and the columns contain related information about each word, including its pronunciation, meaning in English, and associated kanji characters.
+
+For example:
+
+* The word "見る" (miru) means "see, look at", and its associated kanji is "見".
+* The word "円" (en) means "circle", and its associated kanji is "円".
+* The word "多い" (ooi) means "lots of", and its associated kanji is "多".
+
+## Custom Functions to Create the Study Table
+
+```{r functions}
 # Functions ####
 
 make_study_list <- function(kanji_learning) {
@@ -230,17 +250,39 @@ make_sentences_list <- function(kanji_learning) {
   
 }
 
-
-
 ```
 
-Here's a breakdown of the code:
+This code defines two functions: `make_study_list` and `make_sentences_list`. Let's break down what each function does:
 
-* TBD
+1. **`make_study_list` function**:
 
-## Shiny App code
+  * **Input**: `kanji_learning` is a vector containing the kanji characters that the user wants to learn.
+  * **Output**: `study_words` is a data frame containing words from `data_all` dataset that contain only the kanji characters specified in `kanji_learning`.
+  * **Functionality**:
+    + Filters the `data_all` dataset to select words that contain only the kanji characters specified in `kanji_learning`.
+    + This is done by filtering the rows where each kanji column (`kanji_1`, `kanji_2`, `kanji_3`, `kanji_4`, `kanji_5`) matches one of the kanji characters in `kanji_learning`, or where the kanji column is `NA` (missing).
+    + Removes the `kanji_` columns from the resulting dataset.
+    + Returns the filtered dataset containing only the selected words.
 
-```{r}
+2. **`make_sentences_list` function**:
+
+  * **Input**: `kanji_learning` is a vector containing the kanji characters that the user wants to learn.
+  * **Output**: `sentences_list` is a data frame containing sentences from `data_sentences` dataset that contain kanji characters specified in `kanji_learning`.
+  * **Functionality**:
+    + Concatenates the kanji characters in `kanji_learning` into a single regular expression pattern `kanji_list`.
+    + Defines regular expression patterns for lowercase letters, uppercase letters, numbers, and symbols.
+    + Uses these patterns to define other_characters, which includes all characters that are not kanji.
+    + For each sentence in `data_sentences`, removes all characters that are not kanji, then removes all kanji characters that are not in `kanji_learning`.
+    + Filters the sentences to keep only those that contain kanji characters specified in `kanji_learning`.
+    + Selects the filtered sentences along with their corresponding hiragana representation and meaning.
+  * **Note**: The `str_remove_all` function from the stringr package is used to remove all occurrences of a pattern from a string.
+
+These functions are designed to help users generate study lists of words and sentences containing specific kanji characters they want to learn.
+
+## Shiny App Code
+
+```{r shiny}
+#| eval: false
 # Shiny App ####
 
 ui <- fluidPage(
@@ -250,7 +292,8 @@ ui <- fluidPage(
   sidebarLayout(
     
     sidebarPanel(
-      
+      p("Created by CarlosEpiStats"),
+      uiOutput("blog_link"),
       downloadButton("downloadExcel", "Download Excel file"),
       downloadButton("downloadCSV", "Download CSV file"),
       selectInput ("kanji_selected", "Select Kanji:",  
@@ -287,6 +330,14 @@ ui <- fluidPage(
 )
 
 server <- function(input, output) {
+  
+  # Blog link ####
+  url <- a("CarlosEpiStats", href="https://carlosepistats.github.io/blog/")
+ 
+  output$blog_link <- renderUI({
+    tagList("Blog:", url)
+  })
+  
   
   # Reactive table words ####
   rval_table_words <- reactive({
@@ -423,9 +474,30 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server)
 ```
 
-Here's a breakdown of the code:
 
-TBD
+This code defines a Shiny web application that allows users to generate lists of Japanese words and sentences containing specific kanji characters they want to learn. Here's an explanation of the key components:
+
+1. **User Interface Definition (`ui`)**:
+
+* The UI is defined using `fluidPage` layout.
+* It consists of a title panel, a sidebar layout with a sidebar panel containing download buttons and a select input to choose kanji characters, and a main panel containing tabs to display the lists of words and sentences.
+* The tabs include a list of words, a list of sentences, and a stats tab.
+* Various output elements like text, tables, and DT (DataTables) are defined to display data.
+
+2. **Server Logic (`server`)**:
+
+* The server logic defines the functionality of the Shiny app.
+* It contains reactive expressions to dynamically update the output elements based on user input.
+* It defines functions to generate lists of words and sentences based on selected kanji characters (`make_study_list` and `make_sentences_list`).
+* It calculates the number of occurrences of each kanji character in the selected words and displays them in a table on the "Stats" tab.
+* It provides output functions to display the generated lists of words and sentences.
+* It includes download handlers to allow users to download the generated lists in Excel and CSV formats.
+
+3. **ShinyApp function**:
+
+* The `shinyApp` function combines the UI and server logic to create the Shiny application.
+
+Overall, this Shiny app provides an interactive interface for users to explore and download lists of Japanese words and sentences containing specific kanji characters they are interested in learning.
 
 
 # References

@@ -1,5 +1,5 @@
 ---
-title: 'Lasso regression'
+title: 'Lasso Regression'
 date: "2024-02-06"
 categories: ['regression', 'R', 'lasso']
 description: "What is, what is it used for, and how to use Lasso regression, with code in R."
@@ -8,6 +8,10 @@ execute:
   warning: false
 editor_options: 
   chunk_output_type: console
+format: 
+  html:
+    code-fold: true
+    code-summary: "Show the code"
 ---
 
 # Introduction
@@ -60,7 +64,7 @@ Where
 
 # Code in R
 
-## Getting ready
+## Getting Ready
 
 In this example, we'll use the `glmnet` library and the example dataset in `mtcars`.
 
@@ -70,7 +74,7 @@ library(glmnet)
 head(mtcars)
 ```
 
-We'll use `mpg` (miles per galon) as the outcome variable, and `cyl` (number of cylinders), `hp` (horsepower), `wt` (weight), `gear` (gear number) y `drat` (axis relation?) as predictive variables. 
+We'll use `mpg` (miles per galon) as the outcome variable, and `cyl` (number of cylinders), `hp` (horsepower), `wt` (weight), `gear` (gear number), and `drat` (rear axle ratio) as predictive variables. 
 
 ```{r}
 # Define the outcome variable
@@ -81,57 +85,61 @@ x <- data.matrix(mtcars[, c("cyl", "hp", "wt", "drat", "gear")])
 ```
 
 
-## Choose a value for lambda
+## Choose a Value for Lambda
 
-Podemos elegir el valor de $\lambda$ que minimice el error cuadrado medio (*mean-squared error*, MSE). La función `cv.glmnet()` realiza "validación cruzada de k iteraciones" ([K-fold cross-validation](https://www.statology.org/k-fold-cross-validation/)) para identificar este valor de $\lambda$.
+We can choose the value of $\lambda$ that minimizes the mean-squared error (MSE). The `cv.glmnet()` function performs "[K-fold cross-validation](https://www.statology.org/k-fold-cross-validation/)" to identify this $\lambda$ value.
+
 
 ```{r}
-# validación cruzada
-cv_model <- cv.glmnet(x, y, alpha = 1)  # Cambiar el parámetro alpha da lugar a otros tipos de regresión
+# Cross-validation
+cv_model <- cv.glmnet(x, y, alpha = 1)  # Changing the alpha parameter leads to other types of regression
 
-# encontrar el valor lambda que minimiza el MSE
+# Find the lambda value that minimizes the MSE
 best_lambda <- cv_model$lambda.min
 best_lambda
 
-# mostrar los resultados en un gráfico
+# Display the results in a plot
 plot(cv_model)
 ```
 
-El valor de lambda que minimiza el MSE resulta ser `r best_lambda`, que en la gráfica corresponde al punto $Log(\lambda)$ = `r log(best_lambda)`.
+The value of lambda that minimizes the MSE turns out to be `r best_lambda`, which in the plot corresponds to the point $Log(\lambda)$ = `r log(best_lambda)`.
 
-## Ajustar el modelo
+
+## Fitting the Model
 
 ```{r}
-# coeficientes del modelo 
+# Model coefficients
 best_model <- glmnet(x, y, alpha = 1, lambda = best_lambda)
 coef(best_model)
 ```
 
-Podemos observar como el coeficiente de `gear` aparece como un punto, lo que indica que la regresión Lasso ha eliminado el coeficiente, ya que la variable no era lo suficientemente importante.
+We can observe that the coefficient of `gear` appears as a point, indicating that the Lasso regression has eliminated the coefficient since the variable was not important enough.
 
-## Comparación con la regresión lineal sin Lasso
+## Comparison with Linear Regression without Lasso
 
-Como comparación, podemos ver los coeficientes que resultarían de un modelo de regresión lineal múltiple sin contracción de parámetros ni selección de variables.
+For comparison, we can see the coefficients that would result from a multiple linear regression model without parameter shrinkage or variable selection.
 
 ```{r}
 linear_model <- lm(mpg ~ cyl + hp + wt + drat + gear, data = mtcars)
-cbind(coef(best_model), "Linear" = coef(linear_model))
+model_table <- cbind(coef(best_model), coef(linear_model))
+colnames(model_table) <- c("Lasso", "Linear")
+model_table
 ```
 
-Los coeficientes del modelo Lasso se han contraído un poco, especialmente de la variable `drat`, y la variable `gear` ha sido automáticamente excluida.
+The coefficients of the Lasso model have been shrunk slightly, especially for the `drat` variable, and the `gear` variable has been automatically excluded.
 
-# Dudas y curiosidades
+# Questions and Curiosities
 
-Algunas preguntas que me surgen para investigar y escribir nuevos posts:
+Some questions arise for further investigation and writing new posts:
 
-* ¿Cómo elegir el valor de lambda?
-* ¿Qué es el método de *K-fold cross-validation*?
-* ¿Qué diferencia a Lasso de otros modelos similares como Ridge?
-* ¿Qué utilidad tiene la regresión Lasso en el mundo de la salud pública? ¿Qué base de datos puedo usar como ejemplo?
-* ¿Qué artículos hay publicados con esta metodología?
+* How to choose the value of lambda?
+* How does the method of K-fold cross-validation work?
+* What sets Lasso apart from other similar models like Ridge?
+* What is the utility of Lasso regression in the field of public health? What databases can be used as an example?
+* What articles in the public health field are published using this methodology?
 
 
-# Referencias
+# References
 
 * [Statology](https://www.statology.org/lasso-regression-in-r/)
 * [Geeks for Geeks](https://www.geeksforgeeks.org/lasso-regression-in-r-programming/)

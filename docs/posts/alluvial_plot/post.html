@@ -8,9 +8,9 @@
 
 <meta name="author" content="Carlos Fernández">
 <meta name="dcterms.date" content="2024-02-22">
-<meta name="description" content="Cómo crear un diagrama aluvial en R.">
+<meta name="description" content="How to draw an Alluvial Plot in R with example code.">
 
-<title>GráficosMédicos - Diagrama aluvial (alluvial plot)</title>
+<title>EpiStats - How to Create an Aluvial Plot in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -108,7 +108,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">GráficosMédicos</span>
+    <span class="navbar-title">EpiStats</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -119,7 +119,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="../../index.html" rel="" target="">
- <span class="menu-text">Inicio</span></a>
+ <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../blog.html" rel="" target="">
@@ -135,7 +135,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/GraficosMedicos" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/CarlosEpiStats" rel="" target=""><i class="bi bi-github" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
@@ -174,17 +174,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción">Introducción</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
   <ul class="collapse">
-  <li><a href="#qué-es-un-diagrama-aluvial" id="toc-qué-es-un-diagrama-aluvial" class="nav-link" data-scroll-target="#qué-es-un-diagrama-aluvial">Qué es un diagrama aluvial</a></li>
-  <li><a href="#para-qué-se-usan-los-diagramas-aluviales" id="toc-para-qué-se-usan-los-diagramas-aluviales" class="nav-link" data-scroll-target="#para-qué-se-usan-los-diagramas-aluviales">Para qué se usan los diagramas aluviales</a></li>
+  <li><a href="#what-is-an-alluvial-diagram" id="toc-what-is-an-alluvial-diagram" class="nav-link" data-scroll-target="#what-is-an-alluvial-diagram">What is an Alluvial Diagram</a></li>
+  <li><a href="#uses-of-alluvial-diagrams" id="toc-uses-of-alluvial-diagrams" class="nav-link" data-scroll-target="#uses-of-alluvial-diagrams">Uses of Alluvial Diagrams</a></li>
   </ul></li>
-  <li><a href="#código-en-r" id="toc-código-en-r" class="nav-link" data-scroll-target="#código-en-r">Código en R</a>
+  <li><a href="#r-code" id="toc-r-code" class="nav-link" data-scroll-target="#r-code">R Code</a>
   <ul class="collapse">
   <li><a href="#preparativos" id="toc-preparativos" class="nav-link" data-scroll-target="#preparativos">Preparativos</a></li>
-  <li><a href="#gráfico" id="toc-gráfico" class="nav-link" data-scroll-target="#gráfico">Gráfico</a></li>
+  <li><a href="#alluvial-plot" id="toc-alluvial-plot" class="nav-link" data-scroll-target="#alluvial-plot">Alluvial Plot</a></li>
   </ul></li>
-  <li><a href="#referencias" id="toc-referencias" class="nav-link" data-scroll-target="#referencias">Referencias</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
     </div>
@@ -193,17 +193,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Diagrama aluvial (alluvial plot)</h1>
+<h1 class="title">How to Create an Aluvial Plot in R</h1>
   <div class="quarto-categories">
     <div class="quarto-category">ggplot</div>
     <div class="quarto-category">plot</div>
     <div class="quarto-category">alluvial</div>
+    <div class="quarto-category">R</div>
   </div>
   </div>
 
 <div>
   <div class="description">
-    Cómo crear un diagrama aluvial en R.
+    How to draw an Alluvial Plot in R with example code.
   </div>
 </div>
 
@@ -230,87 +231,92 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="introducción" class="level1">
-<h1>Introducción</h1>
-<p>En este post explico cómo crear un diagrama aluvial (<em>alluvial plot</em>) usando código en R.</p>
-<section id="qué-es-un-diagrama-aluvial" class="level2">
-<h2 class="anchored" data-anchor-id="qué-es-un-diagrama-aluvial">Qué es un diagrama aluvial</h2>
-<p>Un diagrama o gráfico aluvial muestra el flujo de información de un estadio al siguiente. El nombre “aluvial” alude a su parecido con el flujo de un río.</p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>In this post, I explain how to create an alluvial plot using code in R</p>
+<section id="what-is-an-alluvial-diagram" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-an-alluvial-diagram">What is an Alluvial Diagram</h2>
+<p>An alluvial diagram or plot displays the flow of information from one categorical variable or stage to the next. The term “alluvial” refers to its resemblance to the flow of a river.</p>
 </section>
-<section id="para-qué-se-usan-los-diagramas-aluviales" class="level2">
-<h2 class="anchored" data-anchor-id="para-qué-se-usan-los-diagramas-aluviales">Para qué se usan los diagramas aluviales</h2>
-<p>Un diagrama aluvial se suele utilizar en las siguientes situaciones:</p>
+<section id="uses-of-alluvial-diagrams" class="level2">
+<h2 class="anchored" data-anchor-id="uses-of-alluvial-diagrams">Uses of Alluvial Diagrams</h2>
+<p>Alluvial diagrams are commonly used in the following situations:</p>
 <ul>
-<li>Para mostrar el número de participantes de un estudio que cambian desde una categoría basal a una categoría siguiente. Por ejemplo, el número de participantes aleatorizados al principio del estudio y que continúan en seguimiento al final. Es un complemento gráfico a los diagramas de flujo, que presentan la información con flechas y cajas con texto y números.</li>
-<li>Para mostrar la distribución de participantes entre distintas variables categóricas. En este caso es una alternativa más “vistosa” a los diagramas de columnas apilados.</li>
+<li>To demonstrate the number of participants in a study transitioning from one baseline category to a subsequent category. For example, the number of participants randomized at the beginning of the study and who continue to follow-up at the end. It serves as a graphical supplement to flowcharts, which present information with arrows and boxes containing text and numbers.</li>
+<li>To show the distribution of participants among different categorical variables. In this case, it provides a more “visually appealing” alternative to stacked column charts.</li>
 </ul>
 </section>
 </section>
-<section id="código-en-r" class="level1">
-<h1>Código en R</h1>
+<section id="r-code" class="level1">
+<h1>R Code</h1>
 <section id="preparativos" class="level2">
 <h2 class="anchored" data-anchor-id="preparativos">Preparativos</h2>
-<p>Para este ejemplo, usaremos la biblioteca <code>ggalluvial</code> y <code>ggplot2</code>. Los datos proceden de un estudio sobre aprendizaje de idiomas usando la aplicación web <em>LingQ</em> (<a href="http://comparelanguageapps.com/documentation/LingQ_Efficacy_2023.pdf">Enlace al artículo</a>).</p>
+<p>For this example, we will use the <code>ggalluvial</code> and <code>ggplot2</code> libraries. The data come from a study on language learning using the web application <em>LingQ</em> (<a href="http://comparelanguageapps.com/documentation/LingQ_Efficacy_2023.pdf">Link to the article</a>).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar las bibliotecas necesarias</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># Incluye ggplot2</span></span>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># Includes ggplot2</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggalluvial)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos de ejemplo</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Input data</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Inicial =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Primero"</span>, <span class="st">"Segundo"</span>, <span class="st">"Tercero"</span>, <span class="st">"Cuarto+"</span>), <span class="at">each =</span> <span class="dv">4</span>),</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Final =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Primero"</span>, <span class="st">"Segundo"</span>, <span class="st">"Tercero"</span>, <span class="st">"Cuarto+"</span>), <span class="dv">4</span>), </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">Frecuencia =</span> <span class="fu">c</span>(<span class="dv">28</span>, <span class="dv">28</span>, <span class="dv">10</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Initial =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"First"</span>, <span class="st">"Second"</span>, <span class="st">"Third"</span>, <span class="st">"Fourth+"</span>), <span class="at">each =</span> <span class="dv">4</span>),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Final =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"First"</span>, <span class="st">"Second"</span>, <span class="st">"Third"</span>, <span class="st">"Fourth+"</span>), <span class="dv">4</span>), </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">Frequency =</span> <span class="fu">c</span>(<span class="dv">28</span>, <span class="dv">28</span>, <span class="dv">10</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">5</span>,  <span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">Inicial =</span> <span class="fu">factor</span>(Inicial, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Primero"</span>, <span class="st">"Segundo"</span>, <span class="st">"Tercero"</span>, <span class="st">"Cuarto+"</span>)),</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">Final =</span> <span class="fu">factor</span>(Final, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Primero"</span>, <span class="st">"Segundo"</span>, <span class="st">"Tercero"</span>, <span class="st">"Cuarto+"</span>))</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">Initial =</span> <span class="fu">factor</span>(Initial, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"First"</span>, <span class="st">"Second"</span>, <span class="st">"Third"</span>, <span class="st">"Fourth+"</span>)),</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">Final =</span> <span class="fu">factor</span>(Final, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"First"</span>, <span class="st">"Second"</span>, <span class="st">"Third"</span>, <span class="st">"Fourth+"</span>))</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
-<pre><code>  Inicial   Final Frecuencia
-1 Primero Primero         28
-2 Primero Segundo         28
-3 Primero Tercero         10
-4 Primero Cuarto+          4
-5 Segundo Primero          3
-6 Segundo Segundo          6</code></pre>
+<pre><code>  Initial   Final Frequency
+1   First   First        28
+2   First  Second        28
+3   First   Third        10
+4   First Fourth+         4
+5  Second   First         3
+6  Second  Second         6</code></pre>
 </div>
 </div>
-<p>En este estudio, un total de 192 personas fueron seleccionados para la muestra y completaron el test de conocimientos inicial. De ellas, 101 completaron el test final y estudiaron al menos dos horas en la aplicación, y fueron incluidas en el análisis. Los datos muestran cuál era el conocimiento de idiomas equivalente en semestres de educación formal (“Primero”, “Segundo”, “Tercero”, “Cuarto o más”) al principio del estudio (“Inicial”) y tras usar la aplicación (“Final”).</p>
-<p><em>Nota: Los datos se han extraído del artículo de ejemplo a partir de las tablas de resultados y son solo un ejemplo de una distribución de datos compatible con esos resultados.</em></p>
+<p>In this study, a total of 192 individuals were selected for the sample and completed the initial knowledge test. Out of these, 101 completed the final test and studied for at least two hours in the application, and were included in the analysis. The data show the equivalent language knowledge in formal education semesters (“First”, “Second”, “Third”, “Fourth or more”) at the beginning of the study (“Initial”) and after using the application (“Final”).</p>
+<p><em>Note: The data have been extracted from the example article from the result tables and are just an example of a data distribution compatible with those results.</em></p>
 </section>
-<section id="gráfico" class="level2">
-<h2 class="anchored" data-anchor-id="gráfico">Gráfico</h2>
+<section id="alluvial-plot" class="level2">
+<h2 class="anchored" data-anchor-id="alluvial-plot">Alluvial Plot</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrama aluvial</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">axis1 =</span> <span class="fu">fct_rev</span>(Inicial), <span class="at">axis2 =</span> <span class="fu">fct_rev</span>(Final),</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> Frecuencia)) <span class="sc">+</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="st">"Inicial"</span>, <span class="st">"Final"</span>), <span class="at">expand =</span> <span class="fu">c</span>(.<span class="dv">2</span>, .<span class="dv">05</span>)) <span class="sc">+</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_alluvium</span>(<span class="fu">aes</span>(<span class="at">fill =</span> Final)) <span class="sc">+</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_stratum</span>() <span class="sc">+</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">stat =</span> <span class="st">"stratum"</span>, <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">after_stat</span>(stratum))) <span class="sc">+</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Semestres equivalentes de educación formal"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">axis1 =</span> <span class="fu">fct_rev</span>(Initial), <span class="at">axis2 =</span> <span class="fu">fct_rev</span>(Final),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> Frequency)) <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="st">"Initial"</span>, <span class="st">"Final"</span>), <span class="at">expand =</span> <span class="fu">c</span>(.<span class="dv">2</span>, .<span class="dv">05</span>)) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_alluvium</span>(<span class="fu">aes</span>(<span class="at">fill =</span> Final)) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_stratum</span>() <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">stat =</span> <span class="st">"stratum"</span>, <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">after_stat</span>(stratum))) <span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Equivalent formal education semesters"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <p><img src="post_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>En el diagrama aluvial, el área de las zonas coloreadas es proporcional a la frecuencia, por lo que “flujos” más anchos representan más participantes.</p>
-<p>En el gráfico se aprecia cómo la mayor parte del flujo ocurre de abajo arriba; es decir, el conocimiento tiende a mejorar más que a empeorar. Por ejemplo, más de la mitad de los participantes que partían del primer semestre de conocimientos subieron al segundo, tercer o cuarto semestre.</p>
-<p>También se puede ver como casi todos los participantes que acabaron con un nivel de conocimientos equivalente al primer semestre partían de ese nivel previo, y unos pocos bajaron del segundo semestre al primer semestre.</p>
-<p>En definitiva, los diagramas aluviales proporcionan una opción visual para entender mejor los flujos de datos entre categorías, especialmente si hay algún componente temporal asociado a ellas.</p>
+<p>In the alluvial diagram, the area of the colored zones is proportional to the frequency, so wider “flows” represent more participants.</p>
+<p>The graph shows how the majority of the flow occurs from bottom to top; that is, knowledge tends to improve more than deteriorate. For example, more than half of the participants who started from the first semester of knowledge progressed to the second, third, or fourth semester.</p>
+<p>It can also be seen that almost all participants who ended with a knowledge level equivalent to the first semester started from that previous level, and a few decreased from the second semester to the first semester.</p>
+<p>In conclusion, alluvial diagrams provide a visual option for better understanding data flows between categories.</p>
 </section>
 </section>
-<section id="referencias" class="level1">
-<h1>Referencias</h1>
+<section id="references" class="level1">
+<h1>References</h1>
 <ul>
-<li><a href="https://corybrunson.github.io/ggalluvial/">Biblioteca ggalluvial</a></li>
-<li><a href="http://comparelanguageapps.com/documentation/LingQ_Efficacy_2023.pdf">Estudio de aprendizaje de idiomas con LingQ</a></li>
+<li><a href="https://corybrunson.github.io/ggalluvial/">ggalluvial package</a></li>
+<li><a href="http://comparelanguageapps.com/documentation/LingQ_Efficacy_2023.pdf">Language learning study with LingQ</a></li>
 </ul>
 
 
@@ -550,7 +556,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<script src="https://utteranc.es/client.js" repo="GraficosMedicos/blogComments" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+<script src="https://utteranc.es/client.js" repo="CarlosEpiStats/blogComments" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 

@@ -181,7 +181,8 @@ ui <- fluidPage(
   sidebarLayout(
     
     sidebarPanel(
-      
+      p("Created by CarlosEpiStats"),
+      uiOutput("blog_link"),
       downloadButton("downloadExcel", "Download Excel file"),
       downloadButton("downloadCSV", "Download CSV file"),
       selectInput ("kanji_selected", "Select Kanji:",  
@@ -218,6 +219,14 @@ ui <- fluidPage(
 )
 
 server <- function(input, output) {
+  
+  # Blog link ####
+  url <- a("CarlosEpiStats", href="https://carlosepistats.github.io/blog/")
+ 
+  output$blog_link <- renderUI({
+    tagList("Blog:", url)
+  })
+  
   
   # Reactive table words ####
   rval_table_words <- reactive({

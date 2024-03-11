@@ -5,7 +5,7 @@ account: epistats
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 11405431
-bundleId: 8334007
+bundleId: 8358301
 url: https://epistats.shinyapps.io/Kanji_app/
 version: 1
 asMultiple: FALSE
