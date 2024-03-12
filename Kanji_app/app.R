@@ -341,7 +341,7 @@ server <- function(input, output) {
       paste0("study_list_k", rval_n_kanji(), "_w", rval_n_words(),".xlsx")
     },
     content = function(file) {
-      write_xlsx(rval_table_words(), file)
+      write_xlsx(rval_table_words(), file, col_names = FALSE)
       
     })
   
@@ -353,7 +353,7 @@ server <- function(input, output) {
       paste0("study_list_k", rval_n_kanji(), "_w", rval_n_words(),".csv")
     },
     content = function(file) {
-      write_csv(rval_table_words(), file)
+      write_csv(rval_table_words(), file, col_names = FALSE)
       
     })
 
