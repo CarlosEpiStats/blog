@@ -1,5 +1,5 @@
 ---
-title: 'How to Create an Aluvial Plot in R'
+title: 'How to Create an Alluvial Plot in R'
 date: "2024-02-22"
 categories: ['ggplot', 'plot', 'alluvial', 'R']
 description: "How to draw an Alluvial Plot in R with example code."
