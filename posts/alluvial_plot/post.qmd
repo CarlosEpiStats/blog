@@ -45,15 +45,16 @@ library(knitr)
 
 data <- data.frame(
   Initial = rep(c("First", "Second", "Third", "Fourth+"), each = 4),
-  Final = rep(c("First", "Second", "Third", "Fourth+"), 4),
-  Frequency = c(28, 28, 10, 4, 3, 6, 7, 5, 0, 3, 3, 3, 0, 0, 0, 1)
-) %>%
+  Final = rep(c("First", "Second", "Third", "Fourth+"), 4), 
+  Frequency = c(28, 28, 10, 4, 3, 6, 7, 5,	0, 3, 3, 3, 0, 0, 0, 1)
+) %>% 
   mutate(
     Initial = factor(Initial, levels = c("First", "Second", "Third", "Fourth+")),
     Final = factor(Final, levels = c("First", "Second", "Third", "Fourth+"))
   )
 
 head(data)
+
 ```
 
 In this study, a total of 192 individuals were selected for the sample and completed the initial knowledge test. Out of these, 101 completed the final test and studied for at least two hours in the application, and were included in the analysis. The data show the equivalent language knowledge in formal education semesters ("First", "Second", "Third", "Fourth or more") at the beginning of the study ("Initial") and after using the application ("Final").
@@ -63,11 +64,9 @@ In this study, a total of 192 individuals were selected for the sample and compl
 ## Alluvial Plot
 
 ```{r}
-data %>%
-  ggplot(aes(
-    axis1 = fct_rev(Initial), axis2 = fct_rev(Final),
-    y = Frequency
-  )) +
+data %>% 
+ggplot(aes(axis1 = fct_rev(Initial), axis2 = fct_rev(Final),
+           y = Frequency)) +
   scale_x_discrete(limits = c("Initial", "Final"), expand = c(.2, .05)) +
   geom_alluvium(aes(fill = Final)) +
   geom_stratum() +
@@ -88,3 +87,4 @@ In conclusion, alluvial diagrams provide a visual option for better understandin
 
 * [ggalluvial package](https://corybrunson.github.io/ggalluvial/)
 * [Language learning study with LingQ](http://comparelanguageapps.com/documentation/LingQ_Efficacy_2023.pdf)
+

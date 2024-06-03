@@ -37,7 +37,7 @@ data_jukugo <- read.csv2(file_jukugo) %>%
     pronunciation = gsub("sy", "shy", pronunciation),
     pronunciation = gsub("tu", "tsu", pronunciation),
     pronunciation = gsub("hu", "fu", pronunciation)
-  )
+    )
 
 ## word list ####
 data_words <- read.csv(file_words) %>% 
@@ -143,7 +143,6 @@ make_study_list <- function(kanji_learning) {
              kanji_3 %in% kanji_learning | is.na(kanji_3),
              kanji_4 %in% kanji_learning | is.na(kanji_4),
              kanji_5 %in% kanji_learning | is.na(kanji_5)) %>% 
-    mutate(order = row_number()) %>% 
     select(!starts_with("kanji_"))
   
   study_words
@@ -171,189 +170,6 @@ make_sentences_list <- function(kanji_learning) {
   
 }
 
-# Kanji in order by Genetic Kanji
-
-genetic_kanji_grade1 <- "一二三丨王玉五十七上下八亅小匸匹四亠六木林森本人入亻休体千九丸田力男丁町日月早艸草倝朝匕化花茶屮又友口右工左目儿見貝員負糸細白百曰大太天犬立音暗出土生星年青晴先寸村水川氵也池地他文子宀字学女好穴空中虫交校夕卜外名多夜止正足走歩火灬赤雨気車耳手毛个竹厂石山岩" %>% 
-  str_split_1(pattern = "")
-
-genetic_kanji_grade2 <- "汽占点广店電雪云雲買言士売読続舌話活市姉未妹味心必意思厶禾私公広台始回己記起氏紙谷魚黒戸角計算委秋斗科春矢知西北南母毎海父至室肀聿書筆画亼今巾帚婦帰豕豚家鳥島鳴馬舟船古苦丂可欠哥歌何皀食飲刀切分刂前明東隹羽翟曜習旦尸尺昼駅米番半来麦面支攴攵牧毋婁娄数老孝考教豆自頁頭首辵辶道用甬通周週調弓引弱弘強弔弟第泉線原願源且組助声直真植夂冬終夊夏当同銅凡風万方放斿遊旅族衣表長巾帳門問聞間開閉里理予野肉有亲親斤新所近遠光囗国図園夭笑高喬橋吾語会亼合答午許寺時彳亍行後黄横卩邑色冂内丙病" %>% 
-  str_split_1(pattern = "")
-
-genetic_kanji_grade3 <- "具歯卩令命
-                        服丂号世枼
-                        葉安全育
-                        充流辰晨
-                        曲農濃畑品
-                        酉乍作昨酒
-                        配非悲相想
-                        箱亜悪業反
-                        坂板返皮波
-                        兔免勉晩自
-                        鼻息勿物樂
-                        楽薬由油笛
-                        羊美着差洋
-                        羕様和亏于
-                        平少秒壬重
-                        動働童夂各
-                        洛落路客易
-                        昜阜阝陽湯
-                        咅倍部殳役
-                        投両柬練录
-                        緑豕豚彖縁
-                        歹死列例皿
-                        血丶主注註
-                        柱住氷永泳
-                        州庫転軍運
-                        揮短爪 受
-                        授艮根銀眼
-                        失鉄及級汲
-                        進灷送束速
-                        敕整取趣最
-                        扌打元完院
-                        次央英映尸
-                        句局屋昷温
-                        界比皆階咸
-                        感減堇漢難
-                        弋代式試茻
-                        寒巷港者都
-                        暑匚匸医区
-                        県縣懸史吏
-                        使事守癶発
-                        登荷対肖消
-                        去廴廷庭章
-                        商官館
-                        管其期急呂
-                        宮求球救追
-                        尹君郡群
-                        系係胡湖向
-                        幸仕旨指実
-                        与舄寫写宿
-                        券巻朕勝
-                        乗身罙深昔
-                        借定是題厂
-                        屵炭干岸炎
-                        談庶度席
-                        服報圣軽径
-                        経召昭照招
-                        夬決快寺待
-                        持詩等特" %>% 
-  str_remove_all("\n") %>% 
-  str_split_1(pattern = "")
-
-genetic_kanji_grade4 <- "拾給成功改
-                        紀孫好料札
-                        漁衣類胃腸
-                        芸侖輪論倫
-                        連器信塩季
-                        節覚関巽
-                        選挙散治
-                        祝初臣帯
-                        隊墜達置仲
-                        宁貯兆典徒
-                        灯得夫規婦
-                        掃辺変包法
-                        満民眠無舞
-                        要厤歴暦老
-                        若彡参勇痛
-                        井囲億憶戒
-                        械亭停勺的
-                        約責積績債
-                        付府愛念案
-                        果課巣松吉
-                        結壴喜建健
-                        種氐低底象
-                        像奴努告造
-                        圭街佳固個
-                        然燃熒栄営
-                        蛍養飯版仮
-                        弗費佛仏加
-                        賀貨尚賞堂
-                        常党雚観眾
-                        众衆権勧戈
-                        我幾機義議
-                        共供彥産吅
-                        単戦敗争静
-                        清情精亢航
-                        訓順昌唱堯
-                        焼梅毐毒則
-                        側測升昇飛
-                        競竟鏡境采
-                        採菜察際隶
-                        康畐副富
-                        亡望忘専伝
-                        甫補尃博侯
-                        候兵丘別利
-                        末抹亟極僉
-                        験険検牙芽
-                        卒雑冫冷領
-                        票標更便派
-                        脈戔浅残銭
-                        旗基旧児位
-                        泣粉貧印布
-                        希刷量录
-                        録刑型良限
-                        朗网置値朮
-                        杀殺坴陸埶
-                        熱勢享熟害
-                        割憲損不否
-                        省砂辛辞
-                        乱折断労協
-                        呆保浴容欲
-                        以似倉創" %>% 
-  str_remove_all("\n") %>% 
-  str_split_1(pattern = "")
-
-genetic_kanji_grade5 <- "解件圧厚久
-                        移兑税往徳
-                        祖禁査攸修
-                        條条効效鉱
-                        拡弁益演液
-                        瞢夢妻妾接
-                        櫻桜隺確屰
-                        逆夋酸師師
-                        現在舎舍忄
-                        性素応忩総
-                        總統蜀獨独
-                        犯屬属居故
-                        率筑築張提
-                        過迷退導団
-                        團扁編破判
-                        刊幹俵武豊
-                        豐防暴帛綿
-                        錦刖俞輸評
-                        余除戠職識
-                        織韋衛偉司
-                        飼詞因恩述
-                        術复復複腹
-                        帝啻適敵冉
-                        再冓構講耕
-                        卯卵留貿質
-                        賛贊任呈程
-                        賃貸証政蒦
-                        護肥絶曾曽
-                        増層匀均臼
-                        興額略格閣
-                        序預矛務河
-                        奇寄技枝制
-                        製准準備価
-                        契喫絜潔
-                        蒸承片爿状
-                        壮装能態" %>% 
-  str_remove_all("\n") %>% 
-  str_split_1(pattern = "")
-
-
-
-kanji_grade1 <- genetic_kanji_grade1[genetic_kanji_grade1 %in% all_kanji]
-kanji_grade2 <- genetic_kanji_grade2[genetic_kanji_grade2 %in% all_kanji]
-kanji_grade3 <- genetic_kanji_grade3[genetic_kanji_grade3 %in% all_kanji]
-kanji_grade4 <- genetic_kanji_grade4[genetic_kanji_grade4 %in% all_kanji]
-kanji_grade5 <- genetic_kanji_grade5[genetic_kanji_grade5 %in% all_kanji]
-
-kanji_grade_other <- all_kanji[!all_kanji %in% c(kanji_grade1, kanji_grade2, kanji_grade3, kanji_grade4, kanji_grade5)]
-
-kanji_order_grade <-c(kanji_grade1, kanji_grade2, kanji_grade3, kanji_grade4, kanji_grade5, kanji_grade_other)
-
 
 
 # Shiny App ####
@@ -369,24 +185,8 @@ ui <- fluidPage(
       uiOutput("blog_link"),
       downloadButton("downloadExcel", "Download Excel file"),
       downloadButton("downloadCSV", "Download CSV file"),
-      checkboxGroupInput("kanji_selected1", "Select Kanji (Grade 1):",  
-                  choices = kanji_grade1, inline = TRUE),
-      
-      actionButton("select_all_kanji1", "Select All Kanji Grade 1"),
-      actionButton("deselect_all_kanji1", "Deselect All Kanji Grade 1"),
-      
-      checkboxGroupInput("kanji_selected2", "Select Kanji (Grade 2):",  
-                         choices = kanji_grade2, inline = TRUE),
-      
-      actionButton("select_all_kanji2", "Select All Kanji Grade 2"),
-      actionButton("deselect_all_kanji2", "Deselect All Kanji Grade 2"),
-      
-      selectInput("kanji_selected3", "Select Kanji (Grade 3):",  
-                  choices = kanji_grade3, multiple = TRUE, ),
-      selectInput("kanji_selected4", "Select Kanji (Grade 4):",  
-                   choices = kanji_grade4, multiple = TRUE, ),
-      selectInput("kanji_selected5", "Select Kanji (Grade 5):",  
-                   choices = kanji_grade5, multiple = TRUE, )
+      selectInput ("kanji_selected", "Select Kanji:",  
+                  choices = all_kanji, multiple = TRUE)
 
     ),
     
@@ -396,13 +196,8 @@ ui <- fluidPage(
         
         tabPanel(
           "List of words",
-          p("Number of Kanji and Words in the Study Table"),
           textOutput("n_kanji"),
           textOutput("n_words"),
-          p("\nWords with last Kanji added"),
-          textOutput("last_kanji"),
-          DTOutput("words_last_kanji"),
-          p("\nAll words"),
           DTOutput("table_words")
           ),
         
@@ -414,7 +209,7 @@ ui <- fluidPage(
         
         tabPanel(
           "Stats",
-          DTOutput("number_words_per_kanji")
+          tableOutput("number_words_per_kanji")
         )
       )
       
@@ -423,7 +218,7 @@ ui <- fluidPage(
   )
 )
 
-server <- function(input, output, session) {
+server <- function(input, output) {
   
   # Blog link ####
   url <- a("CarlosEpiStats", href="https://carlosepistats.github.io/blog/")
@@ -432,53 +227,17 @@ server <- function(input, output, session) {
     tagList("Blog:", url)
   })
   
-  # Reactive input_kanji ####
-  rval_input_kanji <- reactive({
-    c(input$kanji_selected1, input$kanji_selected2, input$kanji_selected3, input$kanji_selected4, input$kanji_selected5)
-  })
-  
-  # This observer will update checkboxes of Kanji grade 1 to TRUE whenever select_all_kanji1 is clicked
-  observeEvent(input$select_all_kanji1, {
-      updateCheckboxGroupInput(session = session, 
-                                     inputId = "kanji_selected1", 
-                                     selected = kanji_grade1 )
-    }
-  )
-  
-  # This observer will uncheck checkboxes of Kanji grade 1 to TRUE whenever deselect_all_kanji1 is clicked
-  observeEvent(input$deselect_all_kanji1, {
-    updateCheckboxGroupInput(session = session, 
-                             inputId = "kanji_selected1", 
-                             selected = character(0))
-  }
-  ) 
-  
-  # This observer will update checkboxes of Kanji grade 2 to TRUE whenever select_all_kanji2 is clicked
-  observeEvent(input$select_all_kanji2, {
-    updateCheckboxGroupInput(session = session, 
-                             inputId = "kanji_selected2", 
-                             selected = kanji_grade2 )
-  }
-  )
-  
-  # This observer will uncheck checkboxes of Kanji grade 2 to TRUE whenever deselect_all_kanji2 is clicked
-  observeEvent(input$deselect_all_kanji2, {
-    updateCheckboxGroupInput(session = session, 
-                             inputId = "kanji_selected2", 
-                             selected = character(0))
-  }
-  )   
   
   # Reactive table words ####
   rval_table_words <- reactive({
-    study_table <- make_study_list(rval_input_kanji())
+    study_table <- make_study_list(input$kanji_selected)
     study_table
   })
   
   
   # Reactive table sentences ####
   rval_table_sentences <- reactive({
-    study_table <- make_sentences_list(rval_input_kanji())
+    study_table <- make_sentences_list(input$kanji_selected)
     study_table
   })
   
@@ -487,29 +246,29 @@ server <- function(input, output, session) {
   rval_table_counter <- reactive({
     
     study_words <- data_all %>% 
-      filter(kanji_1 %in% rval_input_kanji(), 
-             kanji_2 %in% rval_input_kanji() | is.na(kanji_2),
-             kanji_3 %in% rval_input_kanji() | is.na(kanji_3),
-             kanji_4 %in% rval_input_kanji() | is.na(kanji_4),
-             kanji_5 %in% rval_input_kanji() | is.na(kanji_5))
+      filter(kanji_1 %in% input$kanji_selected, 
+             kanji_2 %in% input$kanji_selected | is.na(kanji_2),
+             kanji_3 %in% input$kanji_selected | is.na(kanji_3),
+             kanji_4 %in% input$kanji_selected | is.na(kanji_4),
+             kanji_5 %in% input$kanji_selected | is.na(kanji_5))
     
-    learning_length <- length(rval_input_kanji())
+    learning_length <- length(input$kanji_selected)
     
     kanji_counter <- c()
     
     for (i in 1:learning_length){
       
       kanji_counter[i] <- study_words %>% 
-        filter(kanji_1 %in% rval_input_kanji()[i] | 
-                 kanji_2 %in% rval_input_kanji()[i] | 
-                 kanji_3 %in% rval_input_kanji()[i] |
-                 kanji_4 %in% rval_input_kanji()[i] | 
-                 kanji_5 %in% rval_input_kanji()[i] ) %>% 
+        filter(kanji_1 %in% input$kanji_selected[i] | 
+                 kanji_2 %in% input$kanji_selected[i] | 
+                 kanji_3 %in% input$kanji_selected[i] |
+                 kanji_4 %in% input$kanji_selected[i] | 
+                 kanji_5 %in% input$kanji_selected[i] ) %>% 
         nrow()
       
     }
     
-    table_counter <- data.frame(kanji = rval_input_kanji(),
+    table_counter <- data.frame(kanji = input$kanji_selected,
                                 times = kanji_counter)
     
     table_counter
@@ -518,7 +277,7 @@ server <- function(input, output, session) {
   
   # Reactive number kanji ####
   rval_n_kanji <- reactive({
-    number_words <- length(rval_input_kanji())
+    number_words <- length(input$kanji_selected)
     number_words
   }) 
   
@@ -569,7 +328,7 @@ server <- function(input, output, session) {
   
   # output table counter ####
   
-  output$number_words_per_kanji <- renderDT({
+  output$number_words_per_kanji <- renderTable({
     table_counter <- rval_table_counter()
     table_counter
   })
@@ -597,33 +356,6 @@ server <- function(input, output, session) {
       write_csv(rval_table_words(), file, col_names = FALSE)
       
     })
-  
-  # Show last kanji added ####
-  
-  output$last_kanji <- renderText({
-    
-    last_kanji <- rval_input_kanji()[rval_n_kanji()]
-    
-    paste0("Last kanji selected: ", last_kanji)
-    
-  })
-  
-  # Words of last kanji selected ####
-  
-  output$words_last_kanji <- renderDT({
-    
-    if (length(rval_input_kanji()) > 0 ){
-    last_kanji <- rval_input_kanji()[rval_n_kanji()]
-    
-    rval_table_words() %>% 
-      filter(grepl(last_kanji, word)) %>% 
-      mutate(order = row_number())
-    } else {
-      matrix(0)
-    }
-    
-    
-  })
 
 }
 
