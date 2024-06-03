@@ -1,0 +1,96 @@
+---
+title: "Exploring the `count()` Function in R's tidyverse"
+date: "2024-06-03"
+categories: ['R', 'tidyverse']
+description: "Tips and Tricks in Data Cleaning and Visualization, Part II."
+execute: 
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+format: 
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+---
+
+R's tidyverse is a collection of packages designed for data science. One of the most useful functions within this suite is `count()`, part of the `dplyr` package. This function is used to count occurrences of unique values within a dataset, which is crucial for data analysis and exploratory data analysis (EDA). In this blog post, we'll delve into how `count()` works, particularly with the `sort = TRUE` option, and we'll use datasets from the `medicaldata` package to illustrate its application.
+
+# Introduction to `count()`
+
+The `count()` function in `dplyr` is designed to count the number of occurrences of each unique value of one or more variables. It returns a data frame with the counts of these values. Here's a basic syntax of the function:
+
+`count(data, vars, wt = NULL, sort = FALSE, name = "n")`
+
+-   `data`: The data frame.
+-   `vars`: The variable(s) to count unique values of.
+-   `wt`: Optional. If provided, counts will be weighted by this variable.
+-   `sort`: If `TRUE`, the resulting data frame will be sorted in descending order by the count.
+-   `name`: The name of the count column. Default is "n".
+
+# Using `count()` with `sort = TRUE`
+
+Setting `sort = TRUE` orders the output by the count in descending order, which is helpful when you want to quickly see the most frequent values.
+
+## Example with the `medicaldata` package
+
+The `medicaldata` package contains various datasets from medical research, which are great for demonstration. We'll use the `covid_testing` dataset for our example.
+
+First, install and load the required packages:
+
+```{r}
+# install.packages("tidyverse")
+# install.packages("medicaldata")
+
+library(tidyverse)
+library(medicaldata)
+```
+
+Next, load the `covid_testing` dataset and take a look at its structure:
+
+```{r}
+data("covid_testing")
+glimpse(covid_testing)
+```
+
+The `covid_testing` dataset contains data from deidentified results of COVID-19 testing at the Children's Hospital of Pennsylvania (CHOP) in 2020. Suppose we want to count the number of participants according to the COVID-19 test result and sort the results by the count in descending order. Here's how we can do that:
+
+```{r}
+covid_testing %>%
+  count(result, sort = TRUE)
+```
+
+## Interpreting the Results
+
+The output is a tibble where the first column is the test `result`, and the second column, named `n`, shows the counts. Because we used `sort = TRUE`, the result with the highest count (`negative`) will appear first (n = 14,358 patients), followed by positive results (n = 865), and invalid results (n = 301).
+
+## Adding Multiple Variables
+
+You can also count combinations of multiple variables. For example, if we want to count combinations of result and gender:
+
+```{r}
+covid_testing %>%
+  count(result, gender, sort = TRUE)
+```
+
+This will give us a data frame with the counts of each result-gender combination, sorted by the count.
+
+# Practical Use Cases
+
+The `count()` function is particularly useful for:
+
+-   **EDA**: Quickly understanding the distribution of values in your dataset.
+-   **Data Cleaning**: Identifying and handling rare or common categories.
+-   **Reporting**: Summarizing data in a clear and sorted manner for presentations or reports.
+
+# Conclusion
+
+The `count()` function in R's `tidyverse` is a powerful tool for summarizing data. By using the `sort = TRUE` option, you can quickly identify the most frequent values in your dataset. Whether you're counting single variables or combinations of variables, `count()` simplifies the task and makes your data analysis workflow more efficient.
+
+Happy counting!
+
+# References
+
+-   Higgins P (2021). *medicaldata: Data Package for Medical Datasets*. R package version 0.2.0, <https://CRAN.R-project.org/package=medicaldata>.
+
+-   Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, Grolemund G, Hayes A, Henry L, Hester J, Kuhn M, Pedersen TL, Miller E, Bache SM, Müller K, Ooms J, Robinson D, Seidel DP, Spinu V, Takahashi K, Vaughan D, Wilke C, Woo K, Yutani H (2019). "Welcome to the tidyverse." *Journal of Open Source Software*, *4*(43), 1686. doi:10.21105/joss.01686 <https://doi.org/10.21105/joss.01686>.
