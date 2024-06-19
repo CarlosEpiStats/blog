@@ -13,7 +13,7 @@ about:
       href: https://twitter.com/CarlosEpiStats
 ---
 
-Hello there! I'm Carlos Fernández, MD, MPH, and I'm passionate about biostatistics, epidemiology, and programming.
+Hello there! I'm Carlos Fernández-Escobar, MD, MPH, and I'm passionate about biostatistics, epidemiology, and programming.
 
 Here, I'll share whatever I learn along the way regarding statistics, scientific methods, and coding in R, Stata, or Python.
 

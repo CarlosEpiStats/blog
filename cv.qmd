@@ -1,0 +1,103 @@
+---
+title: "Carlos Fernández-Escobar, Curriculum Vitae"
+author: "Epidemiologist & Biostatistician"
+format: html
+---
+
+# Contact Information
+
+**Location:** Alicante, Spain\
+**Email:** [carlosepistats\@gmail.com](mailto:carlosepistats@gmail.com)
+
+# Social Media
+
+**LinkedIn:** [CFEpidemiology](https://www.linkedin.com/in/CFEpidemiology)
+
+# Technical Skills
+
+**Statistical Programming:**
+
+-   Advanced R: tidyverse, ggplot, shiny, markdown, Quarto
+-   Intermediate Python: pandas, numpy, matplotlib
+-   Advanced Stata
+-   SQL, Power BI, Microsoft Excel
+
+**Data Analysis Skills:**
+
+-   Data cleaning and manipulation
+-   Descriptive analysis and data visualization
+-   Inferential analysis, regression models, time-series, and multilevel models
+-   Reporting, table, list, and figure generation
+
+**Design** and analysis of **observational and interventional** **studies**: cohort, case-control, transversal, modelling, time-series, randomized clinical trials, causal inference.
+
+Experience with large healthcare **databases**, real-world evidence, national health surveys, public health surveillance databases.
+
+# Work Experience
+
+**Medical Research Fellow**\
+*Barcelona Institute for Global Health (ISGlobal), Spain*\
+*2024 - now*
+
+-   Biostatistician in charge of analysis of Randomized Controlled Trials and observational studies
+-   Provide epidemiological and statistical support to trainees.
+
+**Biostatistician & Scientific Advisor**\
+*Medical Statistics Consulting (MSC), Valencia, Spain*\
+*2022 - 2023*
+
+-   Collaborated with clinical and industry clients on Real World Evidence projects.
+-   Performed data cleaning, manipulation, analysis, and reporting.
+-   Taught Biostatistics, Study Design, and Critical Appraisal of medical literature to clinicians and pharmaceutical companies.
+
+**Researcher & Data Manager**\
+*Epidemiology and Public Health Research Group, University of Alcalá (UAH), Madrid, Spain*\
+*2022*
+
+-   Managed data and designed observational studies.
+-   Conducted data analysis.
+
+**Medical Resident, Preventive Medicine and Public Health**\
+*Institute of Health Carlos III, Madrid, Spain*\
+*2017 - 2021*
+
+-   Specialized in research methodology, healthcare research support, database management, and statistical analyses.
+-   Developed national COVID-19 situation reports at the National Center of Epidemiology.
+-   Provided epidemiological and statistical support to over 10 healthcare and public health research projects.
+-   Taught Biostatistics and Epidemiology.
+
+# Education
+
+**Medical Specialist in Preventive Medicine and Public Health**\
+*Institute of Health Carlos III, Madrid, Spain*\
+*2017 - 2021*
+
+**Master in Public Health (MPH)**\
+*Institute of Health Carlos III, Madrid, Spain*\
+*2018*
+
+**Doctor of Medicine (MD)**\
+*University of Castilla-La Mancha (UCLM), Spain*\
+*2010 - 2016*
+
+# Scientific Publications
+
+**ORCID:** [0000-0001-7361-3383](https://orcid.org/0000-0001-7361-3383)
+
+# Languages
+
+-   **English:** C2 ECFR
+-   **Spanish:** Native
+
+# General Competences
+
+-   Quick learner
+-   Analytical problem-solving
+-   Detail-oriented
+-   Communication skills
+-   Multi-disciplinary teamwork
+
+# Other Interests
+
+-   Member of MENSA International
+-   LudoSport athlete

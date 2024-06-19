@@ -5,7 +5,7 @@ project:
 website:
   title: "EpiStats"
   site-url: https://CarlosEpiStats.github.io/blog/
-  description: "A blog about Epidemiology and Biostatistics by Carlos Fernández, MD MPH."
+  description: "A blog about Epidemiology and Biostatistics by Carlos Fernández-Escobar, MD MPH."
   navbar:
     right: 
       - icon: rss
@@ -25,7 +25,8 @@ website:
         text: Home
       - href: blog.qmd
         text: Blog
-      - about.qmd
+      - href: cv.qmd
+        text: CV
 
 format:
   html:
