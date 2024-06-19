@@ -1,11 +1,11 @@
 ---
-title: "Exploring the `count()` Function in R's tidyverse"
+title: "Exploring the `count()` Function in R’s tidyverse"
 date: "2024-06-03"
-categories: ['R', 'tidyverse']
-description: "Tips and Tricks in Data Cleaning and Visualization, Part II."
+categories: ['R', 'tidyverse', 'regex']
+description: "Tips and Tricks in Data Cleaning and Visualization, Part III."
 execute: 
   message: false
-  warning: false
+warning: false
 editor_options: 
   chunk_output_type: console
 format: 
@@ -13,14 +13,14 @@ format:
     code-fold: true
     code-summary: "Show the code"
 ---
-
-R's tidyverse is a collection of packages designed for data science. One of the most useful functions within this suite is `count()`, part of the `dplyr` package. This function is used to count occurrences of unique values within a dataset, which is crucial for data analysis and exploratory data analysis (EDA). In this blog post, we'll delve into how `count()` works, particularly with the `sort = TRUE` option, and we'll use datasets from the `medicaldata` package to illustrate its application.
+  
+  R's tidyverse is a collection of packages designed for data science. One of the most useful functions within this suite is `count()`, part of the `dplyr` package. This function is used to count occurrences of unique values within a dataset, which is crucial for data analysis and exploratory data analysis (EDA). In this blog post, we'll delve into how `count()` works, particularly with the `sort = TRUE` option, and we'll use datasets from the `medicaldata` package to illustrate its application.
 
 # Introduction to `count()`
 
 The `count()` function in `dplyr` is designed to count the number of occurrences of each unique value of one or more variables. It returns a data frame with the counts of these values. Here's a basic syntax of the function:
-
-`count(data, vars, wt = NULL, sort = FALSE, name = "n")`
+  
+  `count(data, vars, wt = NULL, sort = FALSE, name = "n")`
 
 -   `data`: The data frame.
 -   `vars`: The variable(s) to count unique values of.

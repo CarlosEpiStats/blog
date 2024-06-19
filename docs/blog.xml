@@ -10,7 +10,550 @@
 <atom:link href="https://CarlosEpiStats.github.io/blog/blog.xml" rel="self" type="application/rss+xml"/>
 <description>A blog about Epidemiology and Biostatistics by Carlos Fernández, MD MPH.</description>
 <generator>quarto-1.3.353</generator>
-<lastBuildDate>Sun, 02 Jun 2024 22:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 18 Jun 2024 22:00:00 GMT</lastBuildDate>
+<item>
+  <title>Mastering Regular Expressions: Dealing with String Data in R, Part I</title>
+  <dc:creator>Carlos Fernández</dc:creator>
+  <link>https://CarlosEpiStats.github.io/blog/posts/regular_expressions/post.html</link>
+  <description><![CDATA[ 
+
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Regular expressions (regex) are a powerful tool for working with string data in R. They might seem complex at first, but with some practice, they can become an invaluable part of your data science toolkit. In this blog post, we will tackle the first three exercises from the <a href="https://r4ds.hadley.nz/">“R for Data Science” (2nd edition) book</a> on regular expressions. Let’s dive into the world of regex and see how we can manipulate and search text data effectively.</p>
+</section>
+<section id="setting-up" class="level1">
+<h1>Setting Up</h1>
+<p>First, let’s load the necessary library:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(tidyverse)</span></code></pre></div>
+</div>
+</section>
+<section id="exercise-1-matching-literal-strings" class="level1">
+<h1>Exercise 1: Matching Literal Strings</h1>
+<p><strong>Question:</strong> How would you match the literal string <code>"'\</code>? How about <code>"$^$"</code>?</p>
+<p><strong>Solution:</strong></p>
+<p>To match these literal strings, we need to handle special characters carefully. Special characters in regex need to be escaped with a backslash (<code>\</code>). Here’s how we can do it:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">string_1 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> r<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"("'\)"</span></span>
+<span id="cb2-2"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">string_2 &lt;- r"("$^$")"</span></span>
+<span id="cb2-3"></span>
+<span id="cb2-4"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;"># Visualize the strings</span></span>
+<span id="cb2-5"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">str_view(c(string_1, string_2))</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ "'\
+[2] │ "$^$"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Using escape backslashes</span></span>
+<span id="cb4-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(string_1, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\"\'\\\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Matches "'\</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;"'\&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(string_2, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\"\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">$</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">^</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">$</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\"</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Matches "$^$"</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;"$^$"&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Using character classes</span></span>
+<span id="cb8-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(string_2, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\"</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">[$]</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">^[$]</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\"</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Matches "$^$" using character classes</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;"$^$"&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Using raw strings (simplifies escaping)</span></span>
+<span id="cb10-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(string_1, r<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"("'</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">)") </span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;"'\&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(string_2, r<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"("</span>\<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>\<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">^</span>\<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">")"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;"$^$"&gt;</code></pre>
+</div>
+</div>
+<section id="exercise-2-why-patterns-dont-match-a-backslash" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2-why-patterns-dont-match-a-backslash">Exercise 2: Why Patterns Don’t Match a Backslash</h2>
+<p><strong>Question:</strong> Explain why each of these patterns don’t match a <code>\</code>:</p>
+<ul>
+<li><p>“\”</p></li>
+<li><p>“\\”</p></li>
+<li><p>“\\\”</p></li>
+</ul>
+<p><strong>Solution:</strong></p>
+<p>Let’s break down why these patterns fail to match a single backslash:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1">string <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> r<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"(\)"</span></span>
+<span id="cb14-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(string)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ \</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># str_view(string, "\") </span></span>
+<span id="cb16-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># This escapes the ", and the code is left incomplete</span></span>
+<span id="cb16-3"></span>
+<span id="cb16-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># str_view(string, "\\") </span></span>
+<span id="cb16-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># This throws an error "Unrecognized backslash escape secuence", \\ is used to escape special characters, but none follows it</span></span>
+<span id="cb16-6"></span>
+<span id="cb16-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># str_view(string, "\\\")</span></span>
+<span id="cb16-8"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># This escapes the ", and the code is left incomplete</span></span>
+<span id="cb16-9"></span>
+<span id="cb16-10"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Correct way:</span></span>
+<span id="cb16-11"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(string, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># This works because \\ in regex represents a literal backslash.</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;\&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Using raw strings (simplifies escaping):</span></span>
+<span id="cb18-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(string, r<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"(</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">)"</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Only needs to escape the backslash once.</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;\&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="exercise-3-searching-within-a-corpus" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3-searching-within-a-corpus">Exercise 3: Searching Within a Corpus</h2>
+<p><strong>Question:</strong> Given the corpus of common words in <code>stringr::words</code>, create regular expressions that find all words that:</p>
+<p>a. Start with “y”.</p>
+<p>b. Don’t start with “y”.</p>
+<p>c. End with “x”.</p>
+<p>d. Are exactly three letters long. (Don’t cheat by using <code>str_length()</code>!)</p>
+<p>e. Have seven letters or more.</p>
+<p>f. Contain a vowel-consonant pair.</p>
+<p>g. Contain at least two vowel-consonant pairs in a row.</p>
+<p>h. Only consists of repeated vowel-consonant pairs.</p>
+<p><strong>Solution:</strong></p>
+<p>Here are the regex patterns to match each condition:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Visualize all words</span></span>
+<span id="cb20-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(words)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] │ a
+ [2] │ able
+ [3] │ about
+ [4] │ absolute
+ [5] │ accept
+ [6] │ account
+ [7] │ achieve
+ [8] │ across
+ [9] │ act
+[10] │ active
+[11] │ actual
+[12] │ add
+[13] │ address
+[14] │ admit
+[15] │ advertise
+[16] │ affect
+[17] │ afford
+[18] │ after
+[19] │ afternoon
+[20] │ again
+... and 960 more</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># a. Start with "y".</span></span>
+<span id="cb22-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(words, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"^y"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[975] │ &lt;y&gt;ear
+[976] │ &lt;y&gt;es
+[977] │ &lt;y&gt;esterday
+[978] │ &lt;y&gt;et
+[979] │ &lt;y&gt;ou
+[980] │ &lt;y&gt;oung</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># b. Don't start with "y".</span></span>
+<span id="cb24-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(words[<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_detect</span>(words, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"^y"</span>)])</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] │ a
+ [2] │ able
+ [3] │ about
+ [4] │ absolute
+ [5] │ accept
+ [6] │ account
+ [7] │ achieve
+ [8] │ across
+ [9] │ act
+[10] │ active
+[11] │ actual
+[12] │ add
+[13] │ address
+[14] │ admit
+[15] │ advertise
+[16] │ affect
+[17] │ afford
+[18] │ after
+[19] │ afternoon
+[20] │ again
+... and 954 more</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># c. End with "x".</span></span>
+<span id="cb26-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(words, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"x$"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[108] │ bo&lt;x&gt;
+[747] │ se&lt;x&gt;
+[772] │ si&lt;x&gt;
+[841] │ ta&lt;x&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># d. Are exactly three letters long. (Don't cheat by using str_length()!)</span></span>
+<span id="cb28-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(words, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"^[a-z]{3}$"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [9] │ &lt;act&gt;
+ [12] │ &lt;add&gt;
+ [22] │ &lt;age&gt;
+ [24] │ &lt;ago&gt;
+ [26] │ &lt;air&gt;
+ [27] │ &lt;all&gt;
+ [38] │ &lt;and&gt;
+ [41] │ &lt;any&gt;
+ [51] │ &lt;arm&gt;
+ [54] │ &lt;art&gt;
+ [56] │ &lt;ask&gt;
+ [68] │ &lt;bad&gt;
+ [69] │ &lt;bag&gt;
+ [73] │ &lt;bar&gt;
+ [82] │ &lt;bed&gt;
+ [89] │ &lt;bet&gt;
+ [91] │ &lt;big&gt;
+ [94] │ &lt;bit&gt;
+[108] │ &lt;box&gt;
+[109] │ &lt;boy&gt;
+... and 90 more</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># e. Have seven letters or more.</span></span>
+<span id="cb30-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(words, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"^[a-z]{7,}$"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [4] │ &lt;absolute&gt;
+ [6] │ &lt;account&gt;
+ [7] │ &lt;achieve&gt;
+[13] │ &lt;address&gt;
+[15] │ &lt;advertise&gt;
+[19] │ &lt;afternoon&gt;
+[21] │ &lt;against&gt;
+[31] │ &lt;already&gt;
+[32] │ &lt;alright&gt;
+[34] │ &lt;although&gt;
+[36] │ &lt;america&gt;
+[39] │ &lt;another&gt;
+[43] │ &lt;apparent&gt;
+[46] │ &lt;appoint&gt;
+[47] │ &lt;approach&gt;
+[48] │ &lt;appropriate&gt;
+[53] │ &lt;arrange&gt;
+[57] │ &lt;associate&gt;
+[61] │ &lt;authority&gt;
+[62] │ &lt;available&gt;
+... and 198 more</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># f. Contain a vowel-consonant pair.</span></span>
+<span id="cb32-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(words, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"[aeiou][^aeiou]"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [2] │ &lt;ab&gt;le
+ [3] │ &lt;ab&gt;o&lt;ut&gt;
+ [4] │ &lt;ab&gt;s&lt;ol&gt;&lt;ut&gt;e
+ [5] │ &lt;ac&gt;c&lt;ep&gt;t
+ [6] │ &lt;ac&gt;co&lt;un&gt;t
+ [7] │ &lt;ac&gt;hi&lt;ev&gt;e
+ [8] │ &lt;ac&gt;r&lt;os&gt;s
+ [9] │ &lt;ac&gt;t
+[10] │ &lt;ac&gt;t&lt;iv&gt;e
+[11] │ &lt;ac&gt;tu&lt;al&gt;
+[12] │ &lt;ad&gt;d
+[13] │ &lt;ad&gt;dr&lt;es&gt;s
+[14] │ &lt;ad&gt;m&lt;it&gt;
+[15] │ &lt;ad&gt;v&lt;er&gt;t&lt;is&gt;e
+[16] │ &lt;af&gt;f&lt;ec&gt;t
+[17] │ &lt;af&gt;f&lt;or&gt;d
+[18] │ &lt;af&gt;t&lt;er&gt;
+[19] │ &lt;af&gt;t&lt;er&gt;no&lt;on&gt;
+[20] │ &lt;ag&gt;a&lt;in&gt;
+[21] │ &lt;ag&gt;a&lt;in&gt;st
+... and 924 more</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># g. Contain at least two vowel-consonant pairs in a row.</span></span>
+<span id="cb34-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(words, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"([aeiou][^aeiou]){2,}"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [4] │ abs&lt;olut&gt;e
+ [23] │ &lt;agen&gt;t
+ [30] │ &lt;alon&gt;g
+ [36] │ &lt;americ&gt;a
+ [39] │ &lt;anot&gt;her
+ [42] │ &lt;apar&gt;t
+ [43] │ app&lt;aren&gt;t
+ [61] │ auth&lt;orit&gt;y
+ [62] │ ava&lt;ilab&gt;le
+ [63] │ &lt;awar&gt;e
+ [64] │ &lt;away&gt;
+ [70] │ b&lt;alan&gt;ce
+ [75] │ b&lt;asis&gt;
+ [81] │ b&lt;ecom&gt;e
+ [83] │ b&lt;efor&gt;e
+ [84] │ b&lt;egin&gt;
+ [85] │ b&lt;ehin&gt;d
+ [87] │ b&lt;enefit&gt;
+[119] │ b&lt;usines&gt;s
+[143] │ ch&lt;arac&gt;ter
+... and 149 more</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># h. Only consists of repeated vowel-consonant pairs.</span></span>
+<span id="cb36-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(words, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"^([aeiou][^aeiou])</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">1+$"</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># No matches, let's try a positive match</span></span>
+<span id="cb36-3"></span>
+<span id="cb36-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Test with known patterns</span></span>
+<span id="cb36-5">pattern <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"^([aeiou][^aeiou])</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">1+$"</span></span>
+<span id="cb36-6">pos <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"anananan"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"erer"</span>)</span>
+<span id="cb36-7">neg <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"nananana"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"erere"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ananerer"</span>)</span>
+<span id="cb36-8"></span>
+<span id="cb36-9"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(pos, pattern)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;anananan&gt;
+[2] │ &lt;erer&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(neg, pattern)</span>
+<span id="cb38-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># It seems to work, there are no words with this pattern in stringr::words</span></span></code></pre></div>
+</div>
+<p>With these exercises, we’ve demonstrated how regular expressions can be used to manipulate and search text data in R. Whether you are searching for specific patterns or validating text data, regex provides a robust solution for your string processing needs.</p>
+<p>See you soon in Part II of these exercises.</p>
+<p>Happy regexing!</p>
+</section>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<ul>
+<li><p>R for Data Science (2ed), written by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund. <a href="https://r4ds.hadley.nz/" class="uri">https://r4ds.hadley.nz/</a></p></li>
+<li><p>Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, Grolemund G, Hayes A, Henry L, Hester J, Kuhn M, Pedersen TL, Miller E, Bache SM, Müller K, Ooms J, Robinson D, Seidel DP, Spinu V, Takahashi K, Vaughan D, Wilke C, Woo K, Yutani H (2019). “Welcome to the tidyverse.” <em>Journal of Open Source Software</em>, <em>4</em>(43), 1686. doi:10.21105/joss.01686 <a href="https://doi.org/10.21105/joss.01686" class="uri">https://doi.org/10.21105/joss.01686</a>.</p></li>
+</ul>
+
+
+</section>
+
+ ]]></description>
+  <category>R</category>
+  <category>tidyverse</category>
+  <category>regex</category>
+  <category>string</category>
+  <category>text</category>
+  <guid>https://CarlosEpiStats.github.io/blog/posts/regular_expressions/post.html</guid>
+  <pubDate>Tue, 18 Jun 2024 22:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Exploring the count() Function in R’s tidyverse</title>
   <dc:creator>Carlos Fernández</dc:creator>
@@ -180,6 +723,7 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
  ]]></description>
   <category>R</category>
   <category>tidyverse</category>
+  <category>regex</category>
   <guid>https://CarlosEpiStats.github.io/blog/posts/dplyr_count/post.html</guid>
   <pubDate>Sun, 02 Jun 2024 22:00:00 GMT</pubDate>
 </item>

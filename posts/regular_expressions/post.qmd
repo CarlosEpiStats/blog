@@ -1,0 +1,160 @@
+---
+title: "Mastering Regular Expressions: Dealing with String Data in R, Part I"
+date: "2024-06-19"
+categories: ['R', 'tidyverse', 'regex', 'string', 'text']
+description: "Solving R for Data Science (2ed) Exercises"
+execute: 
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+format: 
+  html
+---
+
+# Introduction
+
+Regular expressions (regex) are a powerful tool for working with string data in R. They might seem complex at first, but with some practice, they can become an invaluable part of your data science toolkit. In this blog post, we will tackle the first three exercises from the ["R for Data Science" (2nd edition) book](https://r4ds.hadley.nz/) on regular expressions. Let's dive into the world of regex and see how we can manipulate and search text data effectively.
+
+# Setting Up
+
+First, let's load the necessary library:
+
+```{r load_libraries}
+library(tidyverse)
+```
+
+# Exercise 1: Matching Literal Strings
+
+**Question:** How would you match the literal string `"'\`? How about `"$^$"`?
+
+**Solution:**
+
+To match these literal strings, we need to handle special characters carefully. Special characters in regex need to be escaped with a backslash (`\`). Here’s how we can do it:
+
+```{r exercise_1}
+string_1 <- r"("'\)"
+string_2 <- r"("$^$")"
+
+# Visualize the strings
+str_view(c(string_1, string_2))
+
+# Using escape backslashes
+str_view(string_1, "\"\'\\\\") # Matches "'\
+str_view(string_2, "\"\\$\\^\\$\"") # Matches "$^$"
+
+# Using character classes
+str_view(string_2, "\"[$]\\^[$]\"") # Matches "$^$" using character classes
+
+# Using raw strings (simplifies escaping)
+str_view(string_1, r"("'\\)") 
+str_view(string_2, r"("\$\^\$")")
+```
+
+## Exercise 2: Why Patterns Don't Match a Backslash
+
+**Question:** Explain why each of these patterns don't match a `\`:
+
+-   "\\"
+
+-   "\\\\"
+
+-   "\\\\\\"
+
+**Solution:**
+
+Let's break down why these patterns fail to match a single backslash:
+
+```{r exercise_2}
+string <- r"(\)"
+str_view(string)
+
+# str_view(string, "\") 
+# This escapes the ", and the code is left incomplete
+
+# str_view(string, "\\") 
+# This throws an error "Unrecognized backslash escape secuence", \\ is used to escape special characters, but none follows it
+
+# str_view(string, "\\\")
+# This escapes the ", and the code is left incomplete
+
+# Correct way:
+str_view(string, "\\\\") # This works because \\ in regex represents a literal backslash.
+
+# Using raw strings (simplifies escaping):
+str_view(string, r"(\\)") # Only needs to escape the backslash once.
+```
+
+## Exercise 3: Searching Within a Corpus
+
+**Question:** Given the corpus of common words in `stringr::words`, create regular expressions that find all words that:
+
+a\. Start with "y".
+
+b\. Don't start with "y".
+
+c\. End with "x".
+
+d\. Are exactly three letters long. (Don't cheat by using `str_length()`!)
+
+e\. Have seven letters or more.
+
+f\. Contain a vowel-consonant pair.
+
+g\. Contain at least two vowel-consonant pairs in a row.
+
+h\. Only consists of repeated vowel-consonant pairs.
+
+**Solution:**
+
+Here are the regex patterns to match each condition:
+
+```{r exercise_3}
+# Visualize all words
+str_view(words)
+
+# a. Start with "y".
+str_view(words, "^y")
+
+# b. Don't start with "y".
+str_view(words[!str_detect(words, "^y")])
+
+# c. End with "x".
+str_view(words, "x$")
+
+# d. Are exactly three letters long. (Don't cheat by using str_length()!)
+str_view(words, "^[a-z]{3}$")
+
+# e. Have seven letters or more.
+str_view(words, "^[a-z]{7,}$")
+
+# f. Contain a vowel-consonant pair.
+str_view(words, "[aeiou][^aeiou]")
+
+# g. Contain at least two vowel-consonant pairs in a row.
+str_view(words, "([aeiou][^aeiou]){2,}")
+
+# h. Only consists of repeated vowel-consonant pairs.
+str_view(words, "^([aeiou][^aeiou])\\1+$") # No matches, let's try a positive match
+
+# Test with known patterns
+pattern <- "^([aeiou][^aeiou])\\1+$"
+pos <- c("anananan", "erer")
+neg <- c("nananana", "erere", "ananerer")
+
+str_view(pos, pattern)
+str_view(neg, pattern)
+# It seems to work, there are no words with this pattern in stringr::words
+```
+
+With these exercises, we’ve demonstrated how regular expressions can be used to manipulate and search text data in R. Whether you are searching for specific patterns or validating text data, regex provides a robust solution for your string processing needs.
+
+See you soon in Part II of these exercises.
+
+Happy regexing!
+
+# References
+
+-   R for Data Science (2ed), written by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund. <https://r4ds.hadley.nz/>
+
+-   Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, Grolemund G, Hayes A, Henry L, Hester J, Kuhn M, Pedersen TL, Miller E, Bache SM, Müller K, Ooms J, Robinson D, Seidel DP, Spinu V, Takahashi K, Vaughan D, Wilke C, Woo K, Yutani H (2019). "Welcome to the tidyverse." *Journal of Open Source Software*, *4*(43), 1686. doi:10.21105/joss.01686 <https://doi.org/10.21105/joss.01686>.
