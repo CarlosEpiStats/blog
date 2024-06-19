@@ -42,7 +42,7 @@
   </url>
   <url>
     <loc>https://CarlosEpiStats.github.io/blog/index.html</loc>
-    <lastmod>2024-03-11T13:39:35.625Z</lastmod>
+    <lastmod>2024-06-19T12:00:03.317Z</lastmod>
   </url>
   <url>
     <loc>https://CarlosEpiStats.github.io/blog/posts/lasso_regression/post.html</loc>
@@ -83,5 +83,9 @@
   <url>
     <loc>https://CarlosEpiStats.github.io/blog/posts/regular_expressions/post.html</loc>
     <lastmod>2024-06-19T11:19:45.549Z</lastmod>
+  </url>
+  <url>
+    <loc>https://CarlosEpiStats.github.io/blog/cv.html</loc>
+    <lastmod>2024-06-19T12:00:04.561Z</lastmod>
   </url>
 </urlset>
