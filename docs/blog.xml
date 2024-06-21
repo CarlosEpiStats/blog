@@ -8,9 +8,979 @@
 <title>EpiStats</title>
 <link>https://CarlosEpiStats.github.io/blog/blog.html</link>
 <atom:link href="https://CarlosEpiStats.github.io/blog/blog.xml" rel="self" type="application/rss+xml"/>
-<description>A blog about Epidemiology and Biostatistics by Carlos Fernández, MD MPH.</description>
+<description>A blog about Epidemiology and Biostatistics by Carlos Fernández-Escobar, MD MPH.</description>
 <generator>quarto-1.3.353</generator>
-<lastBuildDate>Tue, 18 Jun 2024 22:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 20 Jun 2024 22:00:00 GMT</lastBuildDate>
+<item>
+  <title>Mastering Regular Expressions: Dealing with String Data in R, Part II</title>
+  <dc:creator>Carlos Fernández</dc:creator>
+  <link>https://CarlosEpiStats.github.io/blog/posts/regular_expressions_2/post.html</link>
+  <description><![CDATA[ 
+
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Regular expressions (regex) are a powerful tool for working with string data in R. They might seem complex at first, but with some practice, they can become an invaluable part of your data science toolkit. In this blog post, we will tackle the last four exercises from the <a href="https://r4ds.hadley.nz/">“R for Data Science” (2nd edition) book</a> on regular expressions. You can find the first part of the exercises <a href="https://carlosepistats.github.io/blog/posts/regular_expressions/post.html">here</a>.</p>
+<p>Let’s dive into the world of regex and see how we can manipulate and search text data effectively.</p>
+</section>
+<section id="setting-up" class="level1">
+<h1>Setting Up</h1>
+<p>First, let’s load the necessary library:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(tidyverse)</span></code></pre></div>
+</div>
+</section>
+<section id="exercise-4-british-and-american-spellings" class="level1">
+<h1>Exercise 4: British and American Spellings</h1>
+<p><strong>Question:</strong> Create 11 regular expressions that match the British or American spellings for each of the following words: airplane/aeroplane, aluminum/aluminium, analog/analogue, ass/arse, center/centre, defense/defence, donut/doughnut, gray/grey, modeling/modelling, skeptic/sceptic, summarize/summarise. Try to make the sorthest possible regex!</p>
+<p><strong>Solution:</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># airplane/aeroplane</span></span>
+<span id="cb2-2">strings <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"airplane"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"aeroplane"</span>)</span>
+<span id="cb2-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(strings, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"a[ei]ro?plane"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;airplane&gt;
+[2] │ &lt;aeroplane&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># aluminum/aluminium</span></span>
+<span id="cb4-2">strings <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"aluminum"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"aluminium"</span>)</span>
+<span id="cb4-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(strings, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"alumini?um"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;aluminum&gt;
+[2] │ &lt;aluminium&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># analog/analogue</span></span>
+<span id="cb6-2">strings <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"analog"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"analogue"</span>)</span>
+<span id="cb6-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(strings, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"analog(ue)?"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;analog&gt;
+[2] │ &lt;analogue&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># ass/arse</span></span>
+<span id="cb8-2">strings <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ass"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"arse"</span>)</span>
+<span id="cb8-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(strings, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"a[rs]se?"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;ass&gt;
+[2] │ &lt;arse&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># center/centre</span></span>
+<span id="cb10-2">strings <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"center"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"centre"</span>)</span>
+<span id="cb10-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(strings, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cent(er|re)"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;center&gt;
+[2] │ &lt;centre&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># defense/defence</span></span>
+<span id="cb12-2">strings <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"defense"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"defence"</span>)</span>
+<span id="cb12-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(strings, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"defen[cs]e"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;defense&gt;
+[2] │ &lt;defence&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># donut/doughnut</span></span>
+<span id="cb14-2">strings <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"donut"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"doughnut"</span>)</span>
+<span id="cb14-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(strings, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"do(ugh)?nut"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;donut&gt;
+[2] │ &lt;doughnut&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># gray/grey</span></span>
+<span id="cb16-2">strings <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gray"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"grey"</span>)</span>
+<span id="cb16-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(strings, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gr[ae]y"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;gray&gt;
+[2] │ &lt;grey&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># modeling/modelling</span></span>
+<span id="cb18-2">strings <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"modeling"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"modelling"</span>)</span>
+<span id="cb18-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(strings, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"modell?ing"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;modeling&gt;
+[2] │ &lt;modelling&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># skeptic/sceptic</span></span>
+<span id="cb20-2">strings <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"skeptic"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sceptic"</span>)</span>
+<span id="cb20-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(strings, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"s[ck]eptic"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;skeptic&gt;
+[2] │ &lt;sceptic&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># summarize/summarise</span></span>
+<span id="cb22-2">strings <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summarize"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summarise"</span>)</span>
+<span id="cb22-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(strings, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summari[sz]e"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;summarize&gt;
+[2] │ &lt;summarise&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="exercise-5-switching-first-and-last-letters" class="level1">
+<h1>Exercise 5: Switching First and Last Letters</h1>
+<p><strong>Question:</strong> Switch the first and last letters in <code>words</code>. Which of those strings are still <code>words</code>?</p>
+<p><strong>Solution:</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Inspect `words`</span></span>
+<span id="cb24-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(words)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] │ a
+ [2] │ able
+ [3] │ about
+ [4] │ absolute
+ [5] │ accept
+ [6] │ account
+ [7] │ achieve
+ [8] │ across
+ [9] │ act
+[10] │ active
+[11] │ actual
+[12] │ add
+[13] │ address
+[14] │ admit
+[15] │ advertise
+[16] │ affect
+[17] │ afford
+[18] │ after
+[19] │ afternoon
+[20] │ again
+... and 960 more</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Replace first letter with last letter</span></span>
+<span id="cb26-2">words_switch <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_replace</span>(words, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"(^.)(.*)(.$)"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">3</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">2</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">1"</span>)</span>
+<span id="cb26-3"></span>
+<span id="cb26-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Explore that the change is correct</span></span>
+<span id="cb26-5"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">cbind</span>(words, words_switch) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">head</span>()</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     words      words_switch
+[1,] "a"        "a"         
+[2,] "able"     "ebla"      
+[3,] "about"    "tboua"     
+[4,] "absolute" "ebsoluta"  
+[5,] "accept"   "tccepa"    
+[6,] "account"  "tccouna"   </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># View words that are the same as their switched counterparts</span></span>
+<span id="cb28-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(words[words <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> words_switch])</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] │ a
+ [2] │ america
+ [3] │ area
+ [4] │ dad
+ [5] │ dead
+ [6] │ depend
+ [7] │ educate
+ [8] │ else
+ [9] │ encourage
+[10] │ engine
+[11] │ europe
+[12] │ evidence
+[13] │ example
+[14] │ excuse
+[15] │ exercise
+[16] │ expense
+[17] │ experience
+[18] │ eye
+[19] │ health
+[20] │ high
+... and 17 more</code></pre>
+</div>
+</div>
+</section>
+<section id="exercise-6-describing-regular-expressions" class="level1">
+<h1>Exercise 6: Describing Regular Expressions</h1>
+<p><strong>Question:</strong> Describe in words what these regular expressions match (read carefully to see if each entry is a regular expression or a string that defines a regular expression):</p>
+<ol type="a">
+<li><code>^.*$</code></li>
+<li><code>"\\{.+\\}"</code></li>
+<li><code>\d{4}-\d{2}-\d{2}</code></li>
+<li><code>"\\\\{4}"</code></li>
+<li><code>\..\..\..</code></li>
+<li><code>(.)\1\1</code></li>
+<li><code>"(..)\\1"</code></li>
+</ol>
+<p><strong>Solution:</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># ^.*$</span></span>
+<span id="cb30-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Matches any string, including an empty string, from start to end.</span></span>
+<span id="cb30-3">strings <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"hello"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"hello world"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">""</span>)</span>
+<span id="cb30-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(strings, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"^.*$"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;hello&gt;
+[2] │ &lt;hello world&gt;
+[3] │ &lt;&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># "\\{.+\\}"</span></span>
+<span id="cb32-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Matches one or more characters enclosed in curly braces {}.</span></span>
+<span id="cb32-3">strings <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"{1}"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"{1234}"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"{}"</span>)</span>
+<span id="cb32-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(strings, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">{.+</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">}"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;{1}&gt;
+[2] │ &lt;{1234}&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># \d{4}-\d{2}-\d{2}</span></span>
+<span id="cb34-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Matches numbers in the format YYYY-MM-DD.</span></span>
+<span id="cb34-3">strings <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"2023-06-19"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"5678-56-56"</span>)</span>
+<span id="cb34-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(strings, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">d{4}-</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">d{2}-</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">d{2}"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;2023-06-19&gt;
+[2] │ &lt;5678-56-56&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># "\\\\{4}"</span></span>
+<span id="cb36-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Matches exactly four backslashes.</span></span>
+<span id="cb36-3">strings <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(r<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"(</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">)"</span>, r<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"(</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\\\\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">)"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"####"</span>)</span>
+<span id="cb36-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(strings, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">{4}"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;\\\\&gt;
+[2] │ &lt;\\\\&gt;\\</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># \..\..\..</span></span>
+<span id="cb38-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Matches three characters separated by dots, e.g., .a.b.c</span></span>
+<span id="cb38-3">strings <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">".a.b.c"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">".1.2.3"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">".x.y.z"</span>)</span>
+<span id="cb38-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(strings, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">..</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">..</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">.."</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;.a.b.c&gt;
+[2] │ &lt;.1.2.3&gt;
+[3] │ &lt;.x.y.z&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># (.)\1\1</span></span>
+<span id="cb40-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Matches any character repeated three times in a row.</span></span>
+<span id="cb40-3">strings <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"aaab"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bbbc"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ccc"</span>)</span>
+<span id="cb40-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(strings, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"(.)</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">1"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;aaa&gt;b
+[2] │ &lt;bbb&gt;c
+[3] │ &lt;ccc&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># "(..)\\1"</span></span>
+<span id="cb42-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Matches two characters repeated consecutively.</span></span>
+<span id="cb42-3">strings <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"abab"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"1212"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cdcd"</span>)</span>
+<span id="cb42-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_view</span>(strings, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"(..)</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">1"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;abab&gt;
+[2] │ &lt;1212&gt;
+[3] │ &lt;cdcd&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="exercise-7-solving-beginner-regexp-crosswords" class="level1">
+<h1>Exercise 7: Solving Beginner Regexp Crosswords</h1>
+<p><strong>Question:</strong> Solve the beginner regexp crosswords (<a href="https://oreil.ly//Db3NF" class="uri">https://oreil.ly//Db3NF</a>).</p>
+<p><strong>Solution:</strong></p>
+<p>Here are the solutions to the beginner regex crosswords:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Check crosswords function</span></span>
+<span id="cb44-2">check_crosswords <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">function</span>(pattern_row_1, pattern_row_2, pattern_column_1, pattern_column_2, solution){</span>
+<span id="cb44-3">solution <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">matrix</span>(solution, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">nrow =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">byrow =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>)</span>
+<span id="cb44-4">correct <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_detect</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_flatten</span>(solution[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, ]), pattern_row_1) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;</span> </span>
+<span id="cb44-5">   <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_detect</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_flatten</span>(solution[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, ]), pattern_row_2) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;</span></span>
+<span id="cb44-6">   <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_detect</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_flatten</span>(solution[, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]), pattern_column_1) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;</span></span>
+<span id="cb44-7">   <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_detect</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_flatten</span>(solution[, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]), pattern_column_2)</span>
+<span id="cb44-8">correct</span>
+<span id="cb44-9">}</span></code></pre></div>
+</div>
+<section id="crossword-1" class="level2">
+<h2 class="anchored" data-anchor-id="crossword-1">Crossword 1</h2>
+<p><img src="https://CarlosEpiStats.github.io/blog/posts/regular_expressions_2/Screenshot 2024-06-21 121408.png" class="img-fluid"></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1">pattern_row_1 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"HE|LL|O+"</span></span>
+<span id="cb45-2">pattern_row_2 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"[PLEASE]+"</span></span>
+<span id="cb45-3">pattern_column_1 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"[^SPEAK]+"</span></span>
+<span id="cb45-4">pattern_column_2 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"EP|IP|EF"</span></span>
+<span id="cb45-5"></span>
+<span id="cb45-6">solution <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"H"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"E"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"L"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"P"</span>)</span>
+<span id="cb45-7"></span>
+<span id="cb45-8"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">check_crosswords</span>(pattern_row_1, pattern_row_2, pattern_column_1, pattern_column_2, solution)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="crossword-2" class="level2">
+<h2 class="anchored" data-anchor-id="crossword-2">Crossword 2</h2>
+<p><img src="https://CarlosEpiStats.github.io/blog/posts/regular_expressions_2/images/clipboard-1019878229.png" class="img-fluid"></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1">pattern_row_1 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">".*M?O.*"</span></span>
+<span id="cb47-2">pattern_row_2 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"(AN|FE|BE)"</span></span>
+<span id="cb47-3">pattern_column_1 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"(A|B|C)</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">1"</span></span>
+<span id="cb47-4">pattern_column_2 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"(AB|OE|SK)"</span></span>
+<span id="cb47-5"></span>
+<span id="cb47-6">solution <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"B"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"O"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"B"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"E"</span>)</span>
+<span id="cb47-7"></span>
+<span id="cb47-8"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">check_crosswords</span>(pattern_row_1, pattern_row_2, pattern_column_1, pattern_column_2, solution)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="crossword-3" class="level2">
+<h2 class="anchored" data-anchor-id="crossword-3">Crossword 3</h2>
+<p><img src="https://CarlosEpiStats.github.io/blog/posts/regular_expressions_2/images/clipboard-420531577.png" class="img-fluid"></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1">pattern_row_1 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"(.)+</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">1"</span></span>
+<span id="cb49-2">pattern_row_2 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"[^ABRC]+"</span></span>
+<span id="cb49-3">pattern_column_1 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"[COBRA]+"</span></span>
+<span id="cb49-4">pattern_column_2 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"(AB|O|OR)+"</span></span>
+<span id="cb49-5"></span>
+<span id="cb49-6">solution <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"O"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"O"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"O"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"O"</span>)</span>
+<span id="cb49-7"></span>
+<span id="cb49-8"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">check_crosswords</span>(pattern_row_1, pattern_row_2, pattern_column_1, pattern_column_2, solution)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="crossword-4" class="level2">
+<h2 class="anchored" data-anchor-id="crossword-4">Crossword 4</h2>
+<p><img src="https://CarlosEpiStats.github.io/blog/posts/regular_expressions_2/images/clipboard-3189841030.png" class="img-fluid"></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1">pattern_row_1 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"[*]+"</span></span>
+<span id="cb51-2">pattern_row_2 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/+"</span></span>
+<span id="cb51-3">pattern_column_1 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">".?.+"</span></span>
+<span id="cb51-4">pattern_column_2 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">".+"</span></span>
+<span id="cb51-5"></span>
+<span id="cb51-6">solution <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"*"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"*"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/"</span>)</span>
+<span id="cb51-7"></span>
+<span id="cb51-8"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">check_crosswords</span>(pattern_row_1, pattern_row_2, pattern_column_1, pattern_column_2, solution)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="crossword-5" class="level2">
+<h2 class="anchored" data-anchor-id="crossword-5">Crossword 5</h2>
+<p><img src="https://CarlosEpiStats.github.io/blog/posts/regular_expressions_2/images/clipboard-3908736113.png" class="img-fluid"></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1">pattern_row_1 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"18|19|20"</span></span>
+<span id="cb53-2">pattern_row_2 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"[6789]</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">d"</span></span>
+<span id="cb53-3">pattern_column_1 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">d[2480]"</span></span>
+<span id="cb53-4">pattern_column_2 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"56|94|73"</span></span>
+<span id="cb53-5"></span>
+<span id="cb53-6">solution <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"1"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"9"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"8"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"4"</span>)</span>
+<span id="cb53-7"></span>
+<span id="cb53-8"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">check_crosswords</span>(pattern_row_1, pattern_row_2, pattern_column_1, pattern_column_2, solution)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>Regular expressions are a robust tool for string manipulation and text data analysis in R. While they may seem intimidating initially, with practice, they become a powerful asset in your data science toolkit. Through these exercises, we’ve explored various ways to utilize regex to solve complex text processing tasks, from matching patterns in different spellings to switching letters in words and solving regex-based puzzles. Keep practicing and experimenting with regular expressions to unlock their full potential in your data analysis projects.</p>
+<p>Happy regexing!</p>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<ul>
+<li><p>Mastering Regular Expressions: Dealing with String Data in R, Part I. EpiStats Blog. <a href="https://carlosepistats.github.io/blog/posts/regular_expressions/post.html" class="uri">https://carlosepistats.github.io/blog/posts/regular_expressions/post.html</a></p></li>
+<li><p>R for Data Science (2ed), written by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund. <a href="https://r4ds.hadley.nz/" class="uri">https://r4ds.hadley.nz/</a></p></li>
+<li><p>Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, Grolemund G, Hayes A, Henry L, Hester J, Kuhn M, Pedersen TL, Miller E, Bache SM, Müller K, Ooms J, Robinson D, Seidel DP, Spinu V, Takahashi K, Vaughan D, Wilke C, Woo K, Yutani H (2019). “Welcome to the tidyverse.” <em>Journal of Open Source Software</em>, <em>4</em>(43), 1686. doi:10.21105/joss.01686 <a href="https://doi.org/10.21105/joss.01686" class="uri">https://doi.org/10.21105/joss.01686</a>.</p></li>
+</ul>
+
+
+</section>
+
+ ]]></description>
+  <category>R</category>
+  <category>tidyverse</category>
+  <category>regex</category>
+  <category>string</category>
+  <category>text</category>
+  <guid>https://CarlosEpiStats.github.io/blog/posts/regular_expressions_2/post.html</guid>
+  <pubDate>Thu, 20 Jun 2024 22:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Mastering Regular Expressions: Dealing with String Data in R, Part I</title>
   <dc:creator>Carlos Fernández</dc:creator>

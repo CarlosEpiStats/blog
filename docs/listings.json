@@ -2,6 +2,7 @@
   {
     "listing": "/archive.html",
     "items": [
+      "/posts/regular_expressions_2/post.html",
       "/posts/regular_expressions/post.html",
       "/posts/dplyr_count/post.html",
       "/posts/tips_and_tricks_r4ds/post.html",
@@ -16,6 +17,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/regular_expressions_2/post.html",
       "/posts/regular_expressions/post.html",
       "/posts/dplyr_count/post.html",
       "/posts/tips_and_tricks_r4ds/post.html",
