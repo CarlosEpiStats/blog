@@ -2,11 +2,11 @@
   {
     "listing": "/archive.html",
     "items": [
+      "/posts/pokerogue_team/post.html",
       "/posts/regular_expressions_2/post.html",
       "/posts/regular_expressions/post.html",
       "/posts/dplyr_count/post.html",
       "/posts/tips_and_tricks_r4ds/post.html",
-      "/posts/outbreak_report/post.html",
       "/posts/alluvial_plot_stata/post.html",
       "/posts/kanji_app/post.html",
       "/posts/kanji/post.html",
@@ -17,6 +17,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/pokerogue_team/post.html",
       "/posts/regular_expressions_2/post.html",
       "/posts/regular_expressions/post.html",
       "/posts/dplyr_count/post.html",

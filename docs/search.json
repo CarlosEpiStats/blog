@@ -4,14 +4,14 @@
     "href": "archive.html",
     "title": "Archivo",
     "section": "",
-    "text": "Mastering Regular Expressions: Dealing with String Data in R, Part II\n\n\n\n\n\n\n\n\n\nJun 21, 2024\n\n\n\n\n\n\n\n\nMastering Regular Expressions: Dealing with String Data in R, Part I\n\n\n\n\n\n\n\n\n\nJun 19, 2024\n\n\n\n\n\n\n\n\nExploring the count() Function in R’s tidyverse\n\n\n\n\n\n\n\n\n\nJun 3, 2024\n\n\n\n\n\n\n\n\nUseful RStudio Shortcuts\n\n\n\n\n\n\n\n\n\nMay 25, 2024\n\n\n\n\n\n\n\n\nCOVID-19 Outbreak Report: An Example Using R\n\n\n\n\n\n\n\n\n\nMar 12, 2024\n\n\n\n\n\n\n\n\nHow to Create an Alluvial Plot in Stata\n\n\n\n\n\n\n\n\n\nMar 11, 2024\n\n\n\n\n\n\n\n\nInteractive List of Japanese Words Using R Shiny Apps\n\n\n\n\n\n\n\n\n\nMar 6, 2024\n\n\n\n\n\n\n\n\nLoading and Exploring Japanese Kanji Data Using R\n\n\n\n\n\n\n\n\n\nFeb 27, 2024\n\n\n\n\n\n\n\n\nHow to Create an Alluvial Plot in R\n\n\n\n\n\n\n\n\n\nFeb 22, 2024\n\n\n\n\n\n\n\n\nLasso Regression\n\n\n\n\n\n\n\n\n\nFeb 6, 2024\n\n\n\n\n\n\nNo matching items"
+    "text": "PokéRogue Random Team Selector in R\n\n\n\n\n\n\n\n\nJun 22, 2024\n\n\n\n\n\n\n\nMastering Regular Expressions: Dealing with String Data in R, Part II\n\n\n\n\n\n\n\n\nJun 21, 2024\n\n\n\n\n\n\n\nMastering Regular Expressions: Dealing with String Data in R, Part I\n\n\n\n\n\n\n\n\nJun 19, 2024\n\n\n\n\n\n\n\nExploring the count() Function in R’s tidyverse\n\n\n\n\n\n\n\n\nJun 3, 2024\n\n\n\n\n\n\n\nUseful RStudio Shortcuts\n\n\n\n\n\n\n\n\nMay 25, 2024\n\n\n\n\n\n\n\nHow to Create an Alluvial Plot in Stata\n\n\n\n\n\n\n\n\nMar 11, 2024\n\n\n\n\n\n\n\nInteractive List of Japanese Words Using R Shiny Apps\n\n\n\n\n\n\n\n\nMar 6, 2024\n\n\n\n\n\n\n\nLoading and Exploring Japanese Kanji Data Using R\n\n\n\n\n\n\n\n\nFeb 27, 2024\n\n\n\n\n\n\n\nHow to Create an Alluvial Plot in R\n\n\n\n\n\n\n\n\nFeb 22, 2024\n\n\n\n\n\n\n\nLasso Regression\n\n\n\n\n\n\n\n\nFeb 6, 2024\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "blog.html",
     "href": "blog.html",
     "title": "Blog",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n  \n\n\n\n\nMastering Regular Expressions: Dealing with String Data in R, Part II\n\n\n\n\n\n\n\nR\n\n\ntidyverse\n\n\nregex\n\n\nstring\n\n\ntext\n\n\n\n\nSolving R for Data Science (2ed) Exercises\n\n\n\n\n\n\nJun 21, 2024\n\n\n4 min\n\n\n\n\n\n\n  \n\n\n\n\nMastering Regular Expressions: Dealing with String Data in R, Part I\n\n\n\n\n\n\n\nR\n\n\ntidyverse\n\n\nregex\n\n\nstring\n\n\ntext\n\n\n\n\nSolving R for Data Science (2ed) Exercises\n\n\n\n\n\n\nJun 19, 2024\n\n\n3 min\n\n\n\n\n\n\n  \n\n\n\n\nExploring the count() Function in R’s tidyverse\n\n\n\n\n\n\n\nR\n\n\ntidyverse\n\n\nregex\n\n\n\n\nTips and Tricks in Data Cleaning and Visualization, Part III.\n\n\n\n\n\n\nJun 3, 2024\n\n\n4 min\n\n\n\n\n\n\n  \n\n\n\n\nUseful RStudio Shortcuts\n\n\n\n\n\n\n\nR\n\n\nggplot\n\n\ntidyverse\n\n\n\n\nTips and Tricks in Data Cleaning and Visualization, Part I.\n\n\n\n\n\n\nMay 25, 2024\n\n\n4 min\n\n\n\n\n\n\n  \n\n\n\n\nHow to Create an Alluvial Plot in Stata\n\n\n\n\n\n\n\nStata\n\n\nplot\n\n\nalluvial\n\n\n\n\nHow to draw an Alluvial Plot in Stata with example code.\n\n\n\n\n\n\nMar 11, 2024\n\n\n3 min\n\n\n\n\n\n\n  \n\n\n\n\nInteractive List of Japanese Words Using R Shiny Apps\n\n\n\n\n\n\n\nR\n\n\nshiny\n\n\nexploratory\n\n\n\n\nUsing R Shiny to interactively explore data, with a Japanese Kanji database example.\n\n\n\n\n\n\nMar 6, 2024\n\n\n17 min\n\n\n\n\n\n\n  \n\n\n\n\nLoading and Exploring Japanese Kanji Data Using R\n\n\n\n\n\n\n\nR\n\n\ndata cleaning\n\n\nexploratory\n\n\n\n\nUsing R to load, explore, describe, and filter data, with a Japanese Kanji database example.\n\n\n\n\n\n\nFeb 27, 2024\n\n\n7 min\n\n\n\n\n\n\n  \n\n\n\n\nHow to Create an Alluvial Plot in R\n\n\n\n\n\n\n\nggplot\n\n\nplot\n\n\nalluvial\n\n\nR\n\n\n\n\nHow to draw an Alluvial Plot in R with example code.\n\n\n\n\n\n\nFeb 22, 2024\n\n\n3 min\n\n\n\n\n\n\n  \n\n\n\n\nLasso Regression\n\n\n\n\n\n\n\nregression\n\n\nR\n\n\nlasso\n\n\n\n\nWhat is, what is it used for, and how to use Lasso regression, with code in R.\n\n\n\n\n\n\nFeb 6, 2024\n\n\n4 min\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nPokéRogue Random Team Selector in R\n\n\n\n\n\n\nR\n\n\npokerogue\n\n\nfunctions\n\n\nproject\n\n\n\nAutomate Your Pokémon Team Creation with R.\n\n\n\n\n\nJun 22, 2024\n\n\n7 min\n\n\n\n\n\n\n\n\n\n\n\n\nMastering Regular Expressions: Dealing with String Data in R, Part II\n\n\n\n\n\n\nR\n\n\ntidyverse\n\n\nregex\n\n\nstring\n\n\ntext\n\n\n\nSolving R for Data Science (2ed) Exercises\n\n\n\n\n\nJun 21, 2024\n\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\n\nMastering Regular Expressions: Dealing with String Data in R, Part I\n\n\n\n\n\n\nR\n\n\ntidyverse\n\n\nregex\n\n\nstring\n\n\ntext\n\n\n\nSolving R for Data Science (2ed) Exercises\n\n\n\n\n\nJun 19, 2024\n\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\n\nExploring the count() Function in R’s tidyverse\n\n\n\n\n\n\nR\n\n\ntidyverse\n\n\nregex\n\n\n\nTips and Tricks in Data Cleaning and Visualization, Part III.\n\n\n\n\n\nJun 3, 2024\n\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\n\nUseful RStudio Shortcuts\n\n\n\n\n\n\nR\n\n\nggplot\n\n\ntidyverse\n\n\n\nTips and Tricks in Data Cleaning and Visualization, Part I.\n\n\n\n\n\nMay 25, 2024\n\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\n\nHow to Create an Alluvial Plot in Stata\n\n\n\n\n\n\nStata\n\n\nplot\n\n\nalluvial\n\n\n\nHow to draw an Alluvial Plot in Stata with example code.\n\n\n\n\n\nMar 11, 2024\n\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\n\nInteractive List of Japanese Words Using R Shiny Apps\n\n\n\n\n\n\nR\n\n\nshiny\n\n\nexploratory\n\n\n\nUsing R Shiny to interactively explore data, with a Japanese Kanji database example.\n\n\n\n\n\nMar 6, 2024\n\n\n17 min\n\n\n\n\n\n\n\n\n\n\n\n\nLoading and Exploring Japanese Kanji Data Using R\n\n\n\n\n\n\nR\n\n\ndata cleaning\n\n\nexploratory\n\n\n\nUsing R to load, explore, describe, and filter data, with a Japanese Kanji database example.\n\n\n\n\n\nFeb 27, 2024\n\n\n7 min\n\n\n\n\n\n\n\n\n\n\n\n\nHow to Create an Alluvial Plot in R\n\n\n\n\n\n\nggplot\n\n\nplot\n\n\nalluvial\n\n\nR\n\n\n\nHow to draw an Alluvial Plot in R with example code.\n\n\n\n\n\nFeb 22, 2024\n\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\n\nLasso Regression\n\n\n\n\n\n\nregression\n\n\nR\n\n\nlasso\n\n\n\nWhat is, what is it used for, and how to use Lasso regression, with code in R.\n\n\n\n\n\nFeb 6, 2024\n\n\n4 min\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",
@@ -600,5 +600,75 @@
     "title": "Mastering Regular Expressions: Dealing with String Data in R, Part II",
     "section": "Crossword 5",
     "text": "Crossword 5\n\n\npattern_row_1 &lt;- \"18|19|20\"\npattern_row_2 &lt;- \"[6789]\\\\d\"\npattern_column_1 &lt;- \"\\\\d[2480]\"\npattern_column_2 &lt;- \"56|94|73\"\n\nsolution &lt;- c(\"1\", \"9\", \"8\", \"4\")\n\ncheck_crosswords(pattern_row_1, pattern_row_2, pattern_column_1, pattern_column_2, solution)\n\n[1] TRUE"
+  },
+  {
+    "objectID": "posts/pokerogue_team/post.html",
+    "href": "posts/pokerogue_team/post.html",
+    "title": "PokéRogue Random Team Selector in R",
+    "section": "",
+    "text": "Welcome to the PokéRogue Random Team Selector project!\nPokéRogue is a fan-made roguelike game where players can select a team of up to 6 Starter Pokémon at the beginning of any run. Players have a total budget of either 10 or 15 points, depending on the game mode, to spend on these initial Starters. The more powerful the Pokémon, the more points they cost. Additionally, three random Starter Pokémon receive Pokérus each day, a condition that allows for faster experience gain and leveling up. Shiny Pokémon variants improve the player’s luck in obtaining better items. You can play PokéRogue for free here.\nIn this project, we will use R to create functions that randomly generate Pokémon teams based on the criteria mentioned above. We’ll start by loading the necessary libraries and data, then proceed to define various helper functions and main team creation functions. Finally, we’ll demonstrate how to create different teams using these functions."
+  },
+  {
+    "objectID": "posts/pokerogue_team/post.html#select-random-pokémon",
+    "href": "posts/pokerogue_team/post.html#select-random-pokémon",
+    "title": "PokéRogue Random Team Selector in R",
+    "section": "Select Random Pokémon",
+    "text": "Select Random Pokémon\nThe select_random_pokemon function selects a Pokémon based on the provided criteria. It filters the dataset according to the budget and optional conditions like Pokérus or expensive Pokémon.\n\n\nShow the code\nselect_random_pokemon &lt;- function(df, points, pokerus = FALSE, expensive = FALSE) {\n  if (pokerus == TRUE) {\n    data_filtered &lt;- df |&gt; filter(Cost &lt;= points, Pokerus == \"Yes\")\n  } else if (expensive == TRUE) {\n    data_filtered &lt;- df |&gt; filter(Cost == min(points, max(Cost)))\n  } else {\n    data_filtered &lt;- df |&gt; filter(Cost &lt;= points)\n  }\n\n  pokemon_selected &lt;- slice_sample(data_filtered)\n  pokemon_selected\n}"
+  },
+  {
+    "objectID": "posts/pokerogue_team/post.html#count-shiny-pokémon",
+    "href": "posts/pokerogue_team/post.html#count-shiny-pokémon",
+    "title": "PokéRogue Random Team Selector in R",
+    "section": "Count Shiny Pokémon",
+    "text": "Count Shiny Pokémon\nThe count_shiny_pokemon function counts the number of available shiny Pokémon in the dataset.\n\n\nShow the code\ncount_shiny_pokemon &lt;- function(df) {\n  data_filtered &lt;- df |&gt; filter(!is.na(Shiny))\n  n_shiny &lt;- nrow(data_filtered)\n  n_shiny\n}"
+  },
+  {
+    "objectID": "posts/pokerogue_team/post.html#update-available-pokémon",
+    "href": "posts/pokerogue_team/post.html#update-available-pokémon",
+    "title": "PokéRogue Random Team Selector in R",
+    "section": "Update Available Pokémon",
+    "text": "Update Available Pokémon\nThe update_available_pokemon function updates the list of available Pokémon by removing the ones that have already been selected.\n\n\nShow the code\nupdate_available_pokemon &lt;- function(data_available, list_pokemon, already_chosen, current_pokemon) {\n  new_pokemon_name &lt;- list_pokemon[[current_pokemon]]$Starter\n  already_chosen &lt;- c(already_chosen, new_pokemon_name)\n  data_available &lt;- data_available |&gt; filter(!Starter %in% already_chosen)\n  data_available\n}"
+  },
+  {
+    "objectID": "posts/pokerogue_team/post.html#update-budget",
+    "href": "posts/pokerogue_team/post.html#update-budget",
+    "title": "PokéRogue Random Team Selector in R",
+    "section": "Update Budget",
+    "text": "Update Budget\nThe update_budget function updates the remaining budget after selecting a Pokémon.\n\n\nShow the code\nupdate_budget &lt;- function(budget_points, list_pokemon, current_pokemon) {\n  points_spent &lt;- sum(list_pokemon[[current_pokemon]]$Cost)\n  budget_points &lt;- budget_points - points_spent\n}"
+  },
+  {
+    "objectID": "posts/pokerogue_team/post.html#select-shiny-pokémon",
+    "href": "posts/pokerogue_team/post.html#select-shiny-pokémon",
+    "title": "PokéRogue Random Team Selector in R",
+    "section": "Select Shiny Pokémon",
+    "text": "Select Shiny Pokémon\nThe select_shiny_pokemon function selects a shiny Pokémon based on the budget. It can prioritize rarer shiny Pokémon if specified.\n\n\nShow the code\nselect_shiny_pokemon &lt;- function(df, points, best_shiny = TRUE) {\n  data_filtered &lt;- df |&gt; filter(Cost &lt;= points, !is.na(Shiny))\n\n  if (best_shiny == TRUE) {\n    data_filtered &lt;- data_filtered |&gt;\n      mutate(random_number = rnorm(nrow(data_filtered))) |&gt;\n      arrange(desc(Shiny), Cost, random_number) |&gt;\n      select(-random_number)\n\n    pokemon_selected &lt;- data_filtered |&gt; slice_head(n = 1)\n  } else {\n    pokemon_selected &lt;- data_filtered |&gt; slice_sample(n = 1)\n  }\n}"
+  },
+  {
+    "objectID": "posts/pokerogue_team/post.html#distribute-points",
+    "href": "posts/pokerogue_team/post.html#distribute-points",
+    "title": "PokéRogue Random Team Selector in R",
+    "section": "Distribute Points",
+    "text": "Distribute Points\nThe distribute_points function distributes the available points among the team members.\n\n\nShow the code\ndistribute_points &lt;- function(points, n_pokemon = 6) {\n  distribution &lt;- rep(1, n_pokemon)\n  points_left &lt;- points - n_pokemon\n\n  if (points_left &gt; 0) {\n    for (i in 1:points_left) {\n      pokemon_slot &lt;- sample(1:n_pokemon, 1)\n      distribution[pokemon_slot] &lt;- distribution[pokemon_slot] + 1\n    }\n  }\n\n  distribution &lt;- sort(distribution, decreasing = TRUE)\n  distribution\n}"
+  },
+  {
+    "objectID": "posts/pokerogue_team/post.html#create-team",
+    "href": "posts/pokerogue_team/post.html#create-team",
+    "title": "PokéRogue Random Team Selector in R",
+    "section": "Create Team",
+    "text": "Create Team\nThe create_team function creates a team based on the specified budget and criteria such as Pokérus and shiny Pokémon.\n\n\nShow the code\ncreate_team &lt;- function(points, pokerus = FALSE, shiny = 0, best_shiny = TRUE, arrange = FALSE) {\n  budget_points &lt;- points\n  list_pokemon &lt;- list()\n  current_pokemon &lt;- 1\n  already_chosen &lt;- c()\n  data_available &lt;- data_catched\n\n  list_pokemon[[current_pokemon]] &lt;- select_random_pokemon(data_available, budget_points, pokerus = pokerus)\n  data_available &lt;- update_available_pokemon(data_available, list_pokemon, already_chosen, current_pokemon)\n  budget_points &lt;- update_budget(budget_points, list_pokemon, current_pokemon)\n  current_pokemon &lt;- current_pokemon + 1\n\n  if (shiny &gt; 0) {\n    total_shiny_available &lt;- count_shiny_pokemon(data_available)\n    number_of_shinies &lt;- min(shiny, total_shiny_available)\n    end_loop &lt;- min(6, number_of_shinies + current_pokemon - 1)\n    for (i in current_pokemon:end_loop) {\n      list_pokemon[[i]] &lt;- select_shiny_pokemon(data_available, budget_points, best_shiny)\n      data_available &lt;- update_available_pokemon(data_available, list_pokemon, already_chosen, current_pokemon)\n      budget_points &lt;- update_budget(budget_points, list_pokemon, current_pokemon)\n      current_pokemon &lt;- current_pokemon + 1\n    }\n    team_after_shiny &lt;- list_rbind(list_pokemon)\n    current_pokemon &lt;- nrow(team_after_shiny) + 1\n  }\n\n  if (current_pokemon &lt;= 5 & budget_points &gt; 0) {\n    for (i in current_pokemon:5) {\n      list_pokemon[[i]] &lt;- select_random_pokemon(data_available, budget_points)\n      data_available &lt;- update_available_pokemon(data_available, list_pokemon, already_chosen, current_pokemon)\n      budget_points &lt;- update_budget(budget_points, list_pokemon, current_pokemon)\n      current_pokemon &lt;- current_pokemon + 1\n    }\n  }\n\n  if (current_pokemon == 6 & budget_points &gt; 0) {\n    list_pokemon[[current_pokemon]] &lt;- select_random_pokemon(data_available, budget_points, expensive = TRUE)\n  }\n\n  final_team &lt;- list_rbind(list_pokemon)\n\n  if (arrange == TRUE) {\n    final_team |&gt; arrange(Gen, Dex)\n  } else {\n    final_team\n  }\n}"
+  },
+  {
+    "objectID": "posts/pokerogue_team/post.html#create-expensive-team",
+    "href": "posts/pokerogue_team/post.html#create-expensive-team",
+    "title": "PokéRogue Random Team Selector in R",
+    "section": "Create Expensive Team",
+    "text": "Create Expensive Team\nThe create_expensive_team function creates a team that maximizes the use of the available budget by selecting the most expensive Pokémon possible.\n\n\nShow the code\ncreate_expensive_team &lt;- function(points, arrange = FALSE) {\n  budget_points &lt;- points\n  list_pokemon &lt;- list()\n  current_pokemon &lt;- 1\n  already_chosen &lt;- c()\n  data_available &lt;- data_catched\n\n  for (i in current_pokemon:6) {\n    list_pokemon[[i]] &lt;- select_random_pokemon(data_available, budget_points, expensive = TRUE)\n    data_available &lt;- update_available_pokemon(data_available, list_pokemon, already_chosen, current_pokemon)\n    budget_points &lt;- update_budget(budget_points, list_pokemon, current_pokemon)\n    current_pokemon &lt;- current_pokemon + 1\n  }\n\n  final_team &lt;- list_rbind(list_pokemon)\n\n  if (arrange == TRUE) {\n    final_team |&gt; arrange(Gen, Dex)\n  } else {\n    final_team\n  }\n}"
+  },
+  {
+    "objectID": "posts/pokerogue_team/post.html#create-random-6-team",
+    "href": "posts/pokerogue_team/post.html#create-random-6-team",
+    "title": "PokéRogue Random Team Selector in R",
+    "section": "Create Random 6 Team",
+    "text": "Create Random 6 Team\nThe create_random_6_team function creates a team with a random distribution of points among the six Pokémon, optionally including a Pokérus Pokémon.\n\n\nShow the code\ncreate_random_6_team &lt;- function(points, arrange = TRUE, pokerus = FALSE) {\n  budget_points &lt;- points\n  list_pokemon &lt;- list()\n  current_pokemon &lt;- 1\n\n\n  already_chosen &lt;- c()\n  data_available &lt;- data_catched\n  points_distribution &lt;- distribute_points(budget_points, 6)\n\n  for (i in current_pokemon:5) {\n    list_pokemon[[i]] &lt;- select_random_pokemon(data_available, points_distribution[i], pokerus)\n    data_available &lt;- update_available_pokemon(data_available, list_pokemon, already_chosen, current_pokemon)\n    current_pokemon &lt;- current_pokemon + 1\n  }\n\n  list_pokemon[[6]] &lt;- select_random_pokemon(data_available, points_distribution[6], expensive = TRUE)\n\n  final_team &lt;- list_rbind(list_pokemon)\n\n  if (arrange == TRUE) {\n    final_team |&gt; arrange(Gen, Dex)\n  } else {\n    final_team\n  }\n}"
   }
 ]

@@ -1,0 +1,402 @@
+---
+title: 'PokéRogue Random Team Selector in R'
+date: "2024-06-22"
+categories: ['R', 'pokerogue', 'functions', 'project']
+description: "Automate Your Pokémon Team Creation with R."
+execute: 
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+format: 
+  html
+---
+
+# Introduction
+
+Welcome to the PokéRogue Random Team Selector project!
+
+PokéRogue is a fan-made roguelike game where players can select a team of up to 6 Starter Pokémon at the beginning of any run. Players have a total budget of either 10 or 15 points, depending on the game mode, to spend on these initial Starters. The more powerful the Pokémon, the more points they cost. Additionally, three random Starter Pokémon receive Pokérus each day, a condition that allows for faster experience gain and leveling up. Shiny Pokémon variants improve the player's luck in obtaining better items. You can play PokéRogue for free [here](https://pokerogue.net/).
+
+![PokéRogue Starter selection screen](images/clipboard-3954178997.png)
+
+In this project, we will use R to create functions that randomly generate Pokémon teams based on the criteria mentioned above. We'll start by loading the necessary libraries and data, then proceed to define various helper functions and main team creation functions. Finally, we'll demonstrate how to create different teams using these functions.
+
+# Loading Libraries
+
+We start by loading the necessary libraries using `pacman::p_load`. This ensures that all required packages are installed and loaded.
+
+```{r}
+pacman::p_load(
+  tidyverse,
+  here,
+  rio
+)
+```
+
+# Loading Data
+
+Next, we load the dataset containing the list of available Pokémon. The data is imported from an Excel file using the `rio::import` function. This dataset includes information on whether the Pokémon has been caught, if it has a Shiny version, or if it has Pokérus.
+
+```{r}
+data_raw <- import(here("posts", "pokerogue_team", "Pokerogue starters list.xlsx"))
+
+data_catched <- data_raw |>
+  filter(Catched == "Yes") |>
+  select(Starter, Gen, Dex, Cost, Shiny, Pokerus)
+```
+
+Let's take a quick look at the imported data using `glimpse`.
+
+```{r}
+glimpse(data_catched)
+```
+
+# Creating Functions
+
+We define several helper functions to handle different aspects of the team selection process.
+
+## Select Random Pokémon
+
+The `select_random_pokemon` function is designed to select a Pokémon from the available dataset based on specific criteria such as budget points, Pokérus status, cost, or exact cost.
+
+```{r}
+select_random_pokemon <- function(df, points, pokerus = FALSE, expensive = FALSE, exact = FALSE) {
+
+  # Selects an affordable Pokémon with Pokérus
+  if (pokerus == TRUE){
+      data_filtered <- df |> filter(Cost <= points, Pokerus == "Yes")
+  } 
+  
+  # Selects an expensive Pókemon (all available points)
+  else if (expensive == TRUE) {
+      data_filtered <- df |> filter(Cost == min(points, max(Cost)))
+  }
+
+  # Selects a Pokémon with an exact cost
+  else if (exact == TRUE) {
+    data_filtered <- df |> filter(Cost == points)
+  }
+  
+  else {
+    data_filtered <- df |> filter(Cost <= points)
+  }
+  
+  pokemon_selected <- slice_sample(data_filtered)
+  pokemon_selected
+}
+```
+
+## Count Shiny Pokémon
+
+The `count_shiny_pokemon` function counts the number of available shiny Pokémon in the dataset.
+
+```{r}
+count_shiny_pokemon <- function(df) {
+  data_filtered <- df |> filter(!is.na(Shiny))
+  n_shiny <- nrow(data_filtered)
+  n_shiny
+}
+```
+
+## Update Available Pokémon
+
+The `update_available_pokemon` function updates the list of available Pokémon by removing the ones that have already been selected.
+
+```{r}
+update_available_pokemon <- function(data_available, list_pokemon, already_chosen, current_pokemon) {
+  new_pokemon_name <- list_pokemon[[current_pokemon]]$Starter
+  already_chosen <- c(already_chosen, new_pokemon_name)
+  data_available <- data_available |> filter(!Starter %in% already_chosen)
+  data_available
+}
+```
+
+## Update Budget
+
+The `update_budget` function updates the remaining budget after selecting a Pokémon.
+
+```{r}
+update_budget <- function(budget_points, list_pokemon, current_pokemon) {
+  points_spent <- sum(list_pokemon[[current_pokemon]]$Cost)
+  budget_points <- budget_points - points_spent
+}
+```
+
+## Select Shiny Pokémon
+
+The `select_shiny_pokemon` function selects a shiny Pokémon based on the budget. It can prioritize rarer shiny Pokémon if specified.
+
+```{r}
+select_shiny_pokemon <- function(df, points, best_shiny = TRUE) {
+  data_filtered <- df |> filter(Cost <= points, !is.na(Shiny))
+
+  if (best_shiny == TRUE) {
+    data_filtered <- data_filtered |>
+      mutate(random_number = rnorm(nrow(data_filtered))) |>
+      arrange(desc(Shiny), Cost, random_number) |>
+      select(-random_number)
+
+    pokemon_selected <- data_filtered |> slice_head(n = 1)
+  } else {
+    pokemon_selected <- data_filtered |> slice_sample(n = 1)
+  }
+}
+```
+
+## Distribute Points
+
+The `distribute_points` function distributes the available points among the team members.
+
+```{r}
+distribute_points <- function(points, n_pokemon = 6) {
+  distribution <- rep(1, n_pokemon)
+  points_left <- points - n_pokemon
+
+  if (points_left > 0) {
+    for (i in 1:points_left) {
+      pokemon_slot <- sample(1:n_pokemon, 1)
+      distribution[pokemon_slot] <- distribution[pokemon_slot] + 1
+    }
+  }
+
+  distribution <- sort(distribution, decreasing = TRUE)
+  distribution
+}
+```
+
+# Creating Teams
+
+With the helper functions defined, we now create the main team selection functions.
+
+## Create Team
+
+The `create_team` function creates a team based on the specified budget and criteria such as Pokérus and shiny Pokémon.
+
+```{r}
+create_team <- function(points, pokerus = FALSE, shiny = 0, best_shiny = TRUE, arrange = FALSE) {
+  # Set the starting budget
+  budget_points <- points
+
+  # Initialize empty lists and parameters
+  list_pokemon <- list()
+  current_pokemon <- 1
+  already_chosen <- c()
+  data_available <- data_catched
+
+  # First Pókemon, that may or may not be forced to be a Pokérus Pokémon
+  list_pokemon[[current_pokemon]] <- select_random_pokemon(data_available, budget_points, pokerus = pokerus)
+
+  # Update already chosen pokemon
+  data_available <- update_available_pokemon(data_available, list_pokemon, already_chosen, current_pokemon)
+
+  # Update disposible budget
+  budget_points <- update_budget(budget_points, list_pokemon, current_pokemon)
+
+  # Update current pókemon slot
+  current_pokemon <- current_pokemon + 1
+
+  # Find shiny Pókemon
+  if (shiny > 0) {
+    # Force a maximum of 6 Pókemon in the team, and calculate the number of shiny Pókemon to add
+    total_shiny_available <- count_shiny_pokemon(data_available)
+    number_of_shinies <- min(shiny, total_shiny_available)
+    end_loop <- min(6, number_of_shinies + current_pokemon - 1)
+
+    # Fill team with shiny Pókemon
+    for (i in current_pokemon:end_loop) {
+      list_pokemon[[i]] <- select_shiny_pokemon(data_available, budget_points, best_shiny)
+
+      # Update already chosen pokemon
+      data_available <- update_available_pokemon(data_available, list_pokemon, already_chosen, current_pokemon)
+
+      # Update disposible budget
+      budget_points <- update_budget(budget_points, list_pokemon, current_pokemon)
+
+      current_pokemon <- current_pokemon + 1
+    }
+
+    # Update current pókemon slot
+    team_after_shiny <- list_rbind(list_pokemon)
+    current_pokemon <- nrow(team_after_shiny) + 1
+  }
+
+  # Check if there are still places to fill in the team (until the 5th place)
+  if (current_pokemon <= 5 & budget_points > 0) {
+    # Loop for rest of max 6 Pókemon
+    for (i in current_pokemon:5) {
+      list_pokemon[[i]] <- select_random_pokemon(data_available, budget_points)
+
+      # Update already chosen pokemon
+      data_available <- update_available_pokemon(data_available, list_pokemon, already_chosen, current_pokemon)
+
+      # Update disposible budget
+      budget_points <- update_budget(budget_points, list_pokemon, current_pokemon)
+      current_pokemon <- current_pokemon + 1
+    }
+  }
+
+  # Ensure the last Pókemon spend all available points
+  if (current_pokemon == 6 & budget_points > 0) {
+    list_pokemon[[current_pokemon]] <- select_random_pokemon(data_available, budget_points, expensive = TRUE)
+  }
+
+  # Bind all Pókemon, in order of Generation and Dex number
+  final_team <- list_rbind(list_pokemon)
+
+  if (arrange == TRUE) {
+    final_team |>
+      arrange(Gen, Dex)
+  } else {
+    final_team
+  }
+}
+```
+
+## Create Expensive Team
+
+The `create_expensive_team` function creates a team that maximizes the use of the available budget by selecting the most expensive Pokémon possible.
+
+```{r}
+create_expensive_team <- function(points, arrange = FALSE) {
+  # Set the starting budget
+  budget_points <- points
+
+  # Initialize empty lists and parameters
+  list_pokemon <- list()
+  current_pokemon <- 1
+  already_chosen <- c()
+  data_available <- data_catched
+
+  # Loop for rest of max 6 Pókemon
+  for (i in current_pokemon:6) {
+    list_pokemon[[i]] <- select_random_pokemon(data_available, budget_points, expensive = TRUE)
+
+    # Update already chosen pokemon
+    data_available <- update_available_pokemon(data_available, list_pokemon, already_chosen, current_pokemon)
+
+    # Update disposible budget
+    budget_points <- update_budget(budget_points, list_pokemon, current_pokemon)
+
+    current_pokemon <- current_pokemon + 1
+  }
+
+  # Bind all Pókemon, in order of Generation and Dex number
+
+  final_team <- list_rbind(list_pokemon)
+
+  if (arrange == TRUE) {
+    final_team |>
+      arrange(Gen, Dex)
+  } else {
+    final_team
+  }
+}
+```
+
+## Create Random 6 Team
+
+The `create_random_6_team` function creates a team with a random distribution of points among the six Pokémon, optionally including a Pokérus Pokémon.
+
+```{r}
+create_random_6_team <- function(points, arrange = TRUE, pokerus = FALSE) {
+
+  # Set the starting budget
+  budget_points <- points
+  
+  # Initialize empty lists and parameters
+  list_pokemon <- list()
+  current_pokemon <- 1
+  already_chosen <- c()
+  data_available <- data_catched
+  
+  # Create a random distribution of points
+  distribution <- distribute_points(points, n_pokemon = 6)
+
+  # Coerce a Pokérus Pókemon
+  if (pokerus == TRUE){
+
+    pokerus_pokemon <-  data_available |> 
+      filter(Pokerus == "Yes") |> 
+      slice_sample(n = 1)
+    
+    list_pokemon[[current_pokemon]] <- pokerus_pokemon
+
+    # Update available
+    data_available <- update_available_pokemon(data_available, list_pokemon, already_chosen, current_pokemon)
+    budget_points <- update_budget(budget_points, list_pokemon, current_pokemon)
+    current_pokemon <- current_pokemon + 1
+
+    # Generate another distribution of points among the remaining 5 Pókemon
+    distribution <- c("NA", distribute_points(budget_points, n_pokemon = 5))
+  }
+  
+  for (i in current_pokemon:6) {
+    # Find random pókemon according to the point distribution
+    list_pokemon[[i]] <- select_random_pokemon(data_available, distribution[i], exact = TRUE)
+    
+    # Update
+    data_available <- update_available_pokemon(data_available, list_pokemon, already_chosen, current_pokemon)
+    budget_points <- update_budget(budget_points, list_pokemon, current_pokemon)
+    current_pokemon <- current_pokemon + 1
+  }
+  
+  # Bind all Pókemon, in order of Generation and Dex number
+  final_team <- list_rbind(list_pokemon)
+  
+  if (arrange == TRUE) {
+    final_team |> arrange(Gen, Dex)
+  } else {
+    final_team
+  }
+}
+
+```
+
+# Random Team Examples
+
+Now that we have our functions defined, let's see them in action. Here are some examples of creating random Pokémon teams using different criteria.
+
+## Example 1: Basic Team with a Budget of 10 Points
+
+This example creates a team with a budget of 10 points, without considering Pokérus or shiny variants, and arranges the team by Generation and Dex number.
+
+```{r}
+create_team(10, pokerus = FALSE, arrange = TRUE)
+```
+
+## Example 2: Enhanced Team with a Budget of 15 Points
+
+In this example, we create a team with a budget of 15 points, including Pokémon with Pokérus and up to 4 shiny Pokémon, prioritizing the best shiny variants. The team is also arranged by Generation and Dex number.
+
+```{r}
+create_team(15, pokerus = TRUE, shiny = 4, best_shiny = TRUE, arrange = TRUE)
+```
+
+## Example 3: Most Expensive Team with a Budget of 15 Points
+
+Here, we create a team that maximizes the use of the budget by selecting the most expensive Pokémon available, with a total budget of 15 points.
+
+```{r}
+create_expensive_team(15)
+```
+
+## Example 4: Random Team with a Budget of 10 Points
+
+This example creates a random team with a budget of 10 points, including at least one Pokémon with Pokérus, and distributes the points randomly among the six Pokémon.
+
+```{r}
+create_random_6_team(10, pokerus = TRUE)
+```
+
+These examples demonstrate the flexibility and power of our team creation functions, allowing you to generate a variety of Pokémon teams tailored to your preferences and game mode. Whether you want a balanced team, a team with specific conditions, or the most powerful team possible within your budget, these functions can help you achieve that.
+
+# Conclusion
+
+With these functions, you can generate a variety of Pokémon teams for your PokéRogue adventures. Whether you want a balanced team, a team with the most expensive Pokémon, or a team with specific conditions like Pokérus or shiny variants, these functions have you covered.
+
+Happy PokéRoguing!
+
+# References
+
+-   [PokéRogue game](https://pokerogue.net/).
