@@ -2,6 +2,7 @@
   {
     "listing": "/archive.html",
     "items": [
+      "/posts/bmi_spain_2020/post.html",
       "/posts/pokerogue_team/post.html",
       "/posts/regular_expressions_2/post.html",
       "/posts/regular_expressions/post.html",
@@ -17,6 +18,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/bmi_spain_2020/post.html",
       "/posts/pokerogue_team/post.html",
       "/posts/regular_expressions_2/post.html",
       "/posts/regular_expressions/post.html",
