@@ -38,7 +38,7 @@
   </url>
   <url>
     <loc>https://CarlosEpiStats.github.io/blog/blog.html</loc>
-    <lastmod>2024-06-23T11:47:18.188Z</lastmod>
+    <lastmod>2024-06-26T09:14:43.249Z</lastmod>
   </url>
   <url>
     <loc>https://CarlosEpiStats.github.io/blog/index.html</loc>
@@ -50,7 +50,7 @@
   </url>
   <url>
     <loc>https://CarlosEpiStats.github.io/blog/archive.html</loc>
-    <lastmod>2024-06-23T11:47:16.900Z</lastmod>
+    <lastmod>2024-06-26T09:14:41.665Z</lastmod>
   </url>
   <url>
     <loc>https://CarlosEpiStats.github.io/blog/posts/kanji/post.html</loc>
@@ -103,5 +103,9 @@
   <url>
     <loc>https://CarlosEpiStats.github.io/blog/dummy_post/outbreak_report/post.html</loc>
     <lastmod>2024-06-23T11:47:15.073Z</lastmod>
+  </url>
+  <url>
+    <loc>https://CarlosEpiStats.github.io/blog/posts/ggridges/post.html</loc>
+    <lastmod>2024-06-26T09:14:44.821Z</lastmod>
   </url>
 </urlset>
