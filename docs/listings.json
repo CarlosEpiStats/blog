@@ -2,6 +2,7 @@
   {
     "listing": "/archive.html",
     "items": [
+      "/posts/jitter_plot/post.html",
       "/posts/ggridges/post.html",
       "/posts/bmi_spain_2020/post.html",
       "/posts/pokerogue_team/post.html",
@@ -19,6 +20,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/jitter_plot/post.html",
       "/posts/ggridges/post.html",
       "/posts/bmi_spain_2020/post.html",
       "/posts/pokerogue_team/post.html",
