@@ -1,0 +1,329 @@
+---
+title: "Generating Random City Names Based on Syllable Formation Rules"
+date: "2024-07-15"
+categories: ['R', 'strings', 'functions', 'creative project']
+description: "A step-by-step guide on how to generate random city names using syllable-based rules in R."
+execute: 
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+format: 
+  html
+---
+
+# Introduction
+
+In this blog post, we'll explore how to generate random city names by applying various syllable-based rules to the names of municipalities in the Province of Alicante, Spain. We will be using several functions to transform and manipulate strings in R.
+
+# Motivation
+
+This post aims to create fictional names for locations, such as those found in fantasy novels, that resemble Spanish words but do not actually exist. This method can also be applied to generate names for characters or invent unique words for various creative projects. The main challenge is implementing rules for syllable formation, which are the building blocks of word generation, and then finding combinations of syllables present in real words to replicate something similar. By doing so, we can produce names that sound authentic yet are entirely new.
+
+# Load Libraries
+
+First, we load the necessary libraries.
+
+```{r}
+#| label: setup
+library(tidyverse)
+library(rvest)
+library(ggwordcloud)
+
+sessionInfo()
+```
+
+# Import and Clean Data
+
+We start by importing the data of municipalities in the Province of Alicante from Wikipedia and cleaning it.
+
+```{r}
+#| label: cities-alicante
+# Import data of municipalities in Alacant Province -------------------------------------------------------------
+html_alacant <- read_html("https://es.wikipedia.org/wiki/Anexo:Municipios_de_la_provincia_de_Alicante")
+
+cities_alicante <- html_alacant |>
+  html_element(".wikitable") |>
+  html_table() |>
+  select(name = `Nombre en castellano`)
+
+head(cities_alicante)
+
+```
+
+# Functions
+
+## Pre-process Words
+
+This function transforms the names into a format suitable for syllable extraction. It converts the names to lowercase, replaces spaces and commas, and substitutes specific letter combinations with symbols.
+
+```{r}
+#| label: letter-to-symbol
+
+letter_to_symbol <- function(df, var) {
+  df |>
+    mutate(
+      palabras = str_to_lower({{ var }}),
+      palabras = str_replace(palabras, "(.*), (.*)", "\\2 \\1"),
+      palabras = str_replace_all(palabras, " ", "_"),
+      palabras = str_replace_all(palabras, ",", ""),
+      palabras = str_replace_all(palabras, "ch", "ʧ"),
+      palabras = str_replace_all(palabras, "rr", "ʀ"),
+      palabras = str_replace_all(palabras, "qu", "q"),
+      palabras = str_replace_all(palabras, "ll", "ʝ"),
+      palabras = str_replace_all(palabras, "c([aou])", "k\\1")
+    )
+}
+```
+
+
+## Apply Syllable-Based Rules
+
+This function applies a regex rule to separate syllables based on predefined patterns. It detects and splits words according to the rule, handling cases where the rule does not apply.
+
+```{r}
+#| label: apply-rule
+
+apply_rule <- function(df, regex) {
+  df |>
+    mutate(
+      rule = str_detect(palabras, regex),
+      syllable = as_tibble(str_match(palabras, regex)[, -1], .name_repair = "minimal")
+    ) |>
+    unnest_wider(syllable, names_sep = "_") |>
+    pivot_longer(
+      cols = starts_with("syllable"),
+      values_to = "silabas",
+      names_to = "norma"
+    ) |>
+    mutate(
+      silabas = ifelse(rule == FALSE & norma == "syllable_1", palabras, silabas)
+    ) |>
+    filter(!is.na(silabas) & silabas != "") |>
+    select(
+      name,
+      palabras = silabas
+    )
+}
+```
+
+## Apply Rules in Loop
+
+This function repeatedly applies the given regex rule until no more changes occur in the dataset, ensuring all possible syllable separations are handled.
+
+```{r}
+#| label: loop-apply-rule
+
+loop_apply_rule <- function(df, regex) {
+  loop_controller <- TRUE
+  while (loop_controller == TRUE) {
+    previous_nrow <- nrow(df)
+    df <- apply_rule(df, regex)
+    new_nrow <- nrow(df)
+    loop_controller <- ifelse(previous_nrow == new_nrow, FALSE, TRUE)
+  }
+  df
+}
+```
+
+## Revert Symbols to Original Letters
+
+This function reverses the symbol transformations applied by `letter_to_symbol`, converting symbols back to their original letter combinations.
+
+```{r}
+#| label: symbol-to-letter
+
+symbol_to_letter <- function(df, var) {
+  df |>
+    mutate(
+      {{ var }} := str_replace_all({{ var }}, "_", " "),
+      {{ var }} := str_replace_all({{ var }}, "ʧ", "ch"),
+      {{ var }} := str_replace_all({{ var }}, "ʝ", "ll"),
+      {{ var }} := str_replace_all({{ var }}, "ʀ", "rr"),
+      {{ var }} := str_replace_all({{ var }}, "q", "qu"),
+      {{ var }} := str_replace_all({{ var }}, "k([aou])", "c\\1")
+    )
+}
+```
+
+## Spanish Syllable Rules
+
+Here, we define the regex rules for syllable separation. These are based on Spanish rules for syllable separation (inspiration from [this document](http://elies.rediris.es/elies4/Fon2.htm)).
+
+These rules are completely dependent on the language we are trying to imitate.
+
+```{r}
+#| label: syllable-rules
+
+norma_0a <- regex("(^.+)(_[dy].*_)(.+$)") # handle separation words, such as "de", "de los", etc.
+norma_0b <- regex("(^[^_]+_)(.+)") # handle separation words, such as "de", "de los", etc.
+norma_1 <- regex("(.*[aeiouáéíóú])([^_aeiouáéíóú][aeiouáéíóú].*)") # VCV -> V-CV
+norma_2a <- regex("(.*)([pkbgf][rl].*)") # C1 C2 -> - C1 C2 (obstruyente + líquida)
+norma_2b <- regex("(.*)([dt][r].*)") # C1 C2 -> - C1 C2 (obstruyente + líquida)
+norma_2c <- regex("(.*[^_aeiouáéíóú])([^_aeiouáéíóúrl][^_].*)") # C1 C2 -> C1 - C2 
+norma_2d <- regex("(.*[^_aeiouáéíóúpkbgfdt])([rl].+)") # C1 C2 -> C1 - C2 
+norma_2e <- regex("(.*[^_aeiouáéíóúpkbgf])([l].+)") # C1 C2 -> C1 - C2 
+norma_5 <- regex("(.*[aeo])([aeo].*)") # V1 V2 -> V1 - V2 (vocales altas)
+norma_6a <- regex("(.*[íú])([aeiou].*)") # V1 V2 -> V1 - V2 (hiatos)
+norma_6b <- regex("(.*[aeiou])([íú].*)") # V1 V2 -> V1 - V2 (hiatos)
+
+```
+
+## Separate Words into Syllables
+
+This function applies all the syllable separation rules to the names and converts them back from symbols to letters. It also labels each syllable's position in the word.
+
+```{r}
+#| label: names-to-syllables
+
+names_to_syllables <- function(df) {
+  df |>
+    letter_to_symbol(name) |>
+    loop_apply_rule(norma_0a) |>
+    loop_apply_rule(norma_0b) |>
+    loop_apply_rule(norma_1) |>
+    loop_apply_rule(norma_2a) |>
+    loop_apply_rule(norma_2b) |>
+    loop_apply_rule(norma_2c) |>
+    loop_apply_rule(norma_2d) |>
+    loop_apply_rule(norma_2e) |>
+    loop_apply_rule(norma_5) |>
+    loop_apply_rule(norma_6a) |>
+    loop_apply_rule(norma_6b) |>
+    symbol_to_letter(palabras) |>
+    group_by(name) |>
+    mutate(
+      posicion = case_when(
+        row_number() == 1 ~ "inicio",
+        row_number() == n() ~ "final",
+        TRUE ~ "medio"
+      )
+    ) |>
+    ungroup() |>
+    rename(silaba = palabras)
+}
+
+```
+
+## Create Randomly-Generated City Name
+
+This function generates random city names by selecting syllables based on their frequency and position within existing names.
+
+```{r}
+#| label: create-random-name
+
+create_random_name <- function(df_syllables_per_word, df_syllables_freq, length = 1, beginning = "") {
+  new_names_vector <- ""
+  for (x in 1:length) {
+    n_syllables <- df_syllables_per_word |>
+      slice_sample(n = 1) |>
+      pull(n)
+    new_name <- ""
+    for (i in 1:n_syllables) {
+      place <- case_when(
+        i == 1 ~ "inicio",
+        i == n_syllables ~ "final",
+        TRUE ~ "medio"
+      )
+      new_name[i] <- df_syllables_freq |>
+        filter(posicion == place) |>
+        slice_sample(n = 1, weight_by = n) |>
+        pull(silaba)
+    }
+    new_name <- str_c(beginning, str_flatten(new_name)) |> str_to_title()
+    new_names_vector[x] <- new_name
+  }
+  new_names_vector
+}
+```
+
+## Putting All Together
+
+Combine all steps into a single function to generate random city names.
+
+```{r}
+#| label: create-city-names
+
+create_city_names <- function(df, length = 1, beginning = "") {
+  syllables <- names_to_syllables(df)
+  syllables_freq <- syllables |> count(posicion, silaba)
+  syllables_per_word <- syllables |> count(name)
+  create_random_name(syllables_per_word, syllables_freq, length = length, beginning = beginning)
+}
+```
+
+# Applying to Alicante Cities Data
+
+Transform the Alicante municipalities' names into syllables.
+
+## Names to Syllables
+
+```{r}
+#| label: syllables-alicante
+
+silabas <- cities_alicante |> names_to_syllables()
+head(silabas)
+```
+
+
+## Syllable Frequency
+
+Calculate the frequency of each syllable and its position.
+
+```{r}
+#| label: syllables-freq
+
+silabas_freq <- silabas |> count(posicion, silaba)
+head(silabas_freq)
+
+silabas_freq |> 
+  filter(n >= 2) |>
+  ggplot(aes(label = silaba, size = n)) +
+  scale_size_area(max_size = 20) +
+  geom_text_wordcloud() +
+  theme_minimal()
+```
+
+## Syllables per Word 
+
+Count the number of syllables per name and visualize the distribution.
+
+```{r}
+#| label: syllables-per-word
+
+silabas_por_palabra <- silabas |> count(name)
+
+ggplot(silabas_por_palabra, aes(x = n)) +
+  geom_bar() +
+  theme_classic() +
+  scale_y_continuous(expand = c(0, 0)) +
+  scale_x_continuous(breaks = 1:8) +
+  labs(
+    x = "Number of syllables per City Name",
+    y = "Count"
+  )
+```
+
+## Generate Random Names
+
+Generate a set of random city names based on the Alicante data.
+
+```{r}
+#| label: output-alicante
+#| 
+set.seed(1234)
+create_city_names(cities_alicante, length = 20)
+```
+
+# Challenges Left
+
+Despite the progress made, several challenges remain. Post-processing errors, such as double blank spaces, multiple accents in a single word, and overly long or difficult-to-pronounce words, need to be addressed. Future improvements could involve using two-syllable combinations instead of single-syllable building blocks, which would create more natural-sounding names at the expense of reduced variety.
+
+# Conclusion
+
+In this post, we demonstrated how to generate random city names by applying syllable-based rules to the names of municipalities in Alicante, Spain. By following these steps, you can create your own set of random names for any dataset of city names.
+
+# References
+
+-   [Municipios de la Provincia de Alicante](https://es.wikipedia.org/wiki/Anexo:Municipios_de_la_provincia_de_Alicante)
+-   [Reglas de silabación del castellano](http://elies.rediris.es/elies4/Fon2.htm)

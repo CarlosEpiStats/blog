@@ -2,6 +2,7 @@
   {
     "listing": "/archive.html",
     "items": [
+      "/posts/random_words/post.html",
       "/posts/jitter_plot/post.html",
       "/posts/ggridges/post.html",
       "/posts/bmi_spain_2020/post.html",
@@ -20,6 +21,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/random_words/post.html",
       "/posts/jitter_plot/post.html",
       "/posts/ggridges/post.html",
       "/posts/bmi_spain_2020/post.html",
