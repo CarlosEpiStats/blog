@@ -2,6 +2,7 @@
   {
     "listing": "/archive.html",
     "items": [
+      "/posts/survival/post.html",
       "/posts/random_words/post.html",
       "/posts/jitter_plot/post.html",
       "/posts/ggridges/post.html",
@@ -21,6 +22,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/survival/post.html",
       "/posts/random_words/post.html",
       "/posts/jitter_plot/post.html",
       "/posts/ggridges/post.html",

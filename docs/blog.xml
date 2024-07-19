@@ -10,7 +10,455 @@
 <atom:link href="https://CarlosEpiStats.github.io/blog/blog.xml" rel="self" type="application/rss+xml"/>
 <description>A blog about Epidemiology and Biostatistics by Carlos Fernández-Escobar, MD MPH.</description>
 <generator>quarto-1.3.353</generator>
-<lastBuildDate>Sun, 14 Jul 2024 22:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 18 Jul 2024 22:00:00 GMT</lastBuildDate>
+<item>
+  <title>Enhancing Survival Analysis in R with Custom Functions</title>
+  <dc:creator>Carlos Fernández</dc:creator>
+  <link>https://CarlosEpiStats.github.io/blog/posts/survival/post.html</link>
+  <description><![CDATA[ 
+
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Survival analysis is a critical aspect of statistical research, particularly in medical studies where time-to-event data, such as patient survival times, are analyzed. The primary goal is to understand and visualize the survival probability over time, often comparing different groups.</p>
+<p>While R provides robust packages for survival analysis, automating and simplifying these tasks through custom functions can save time and reduce errors. This blog post introduces a set of custom functions in R designed to streamline survival analysis, from fitting survival models to plotting Kaplan-Meier curves with p-values.</p>
+<section id="introduction-to-the-code" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-the-code">Introduction to the Code</h2>
+<p>The R code presented here comprises a series of custom functions that facilitate the steps involved in survival analysis. The functions leverage libraries like <code>tidyverse</code>, <code>survival</code>, <code>ggfortify</code>, and <code>scales</code>. Here’s a breakdown of what each function does:</p>
+</section>
+<section id="loading-necessary-libraries" class="level2">
+<h2 class="anchored" data-anchor-id="loading-necessary-libraries">Loading Necessary Libraries</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(tidyverse)</span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(survival)</span>
+<span id="cb1-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(ggfortify)</span>
+<span id="cb1-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(scales)</span></code></pre></div>
+</div>
+<p>These libraries are essential for data manipulation (<code>tidyverse</code>), survival analysis (<code>survival</code>), plotting (<code>ggfortify</code>), and formatting scales in plots (<code>scales</code>).</p>
+</section>
+<section id="custom-functions-for-survival-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="custom-functions-for-survival-analysis">Custom Functions for Survival Analysis</h2>
+<section id="fitting-a-survival-object-get_survival_analysis" class="level3">
+<h3 class="anchored" data-anchor-id="fitting-a-survival-object-get_survival_analysis">1. Fitting a Survival Object: <code>get_survival_analysis</code></h3>
+<p>This function fits a survival object using the <code>survfit</code> function from the <code>survival</code> package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">get_survival_analysis <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">function</span>(time, event, group, data){</span>
+<span id="cb2-2">  params <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(</span>
+<span id="cb2-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">time =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">substitute</span>(time),</span>
+<span id="cb2-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">event =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">substitute</span>(event),</span>
+<span id="cb2-5">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">group =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">substitute</span>(group),</span>
+<span id="cb2-6">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">substitute</span>(data)</span>
+<span id="cb2-7">  )</span>
+<span id="cb2-8">  expr <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">substitute</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">survfit</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Surv</span>(time, event) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> group, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> data), params)</span>
+<span id="cb2-9">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">eval.parent</span>(expr)</span>
+<span id="cb2-10">}</span></code></pre></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li><p><strong>Purpose:</strong> Fits a survival model to the data.</p></li>
+<li><p><strong>Parameters:</strong> <code>time</code> (time to event), <code>event</code> (event status), <code>group</code> (grouping variable), <code>data</code> (dataset).</p></li>
+<li><p><strong>Functionality:</strong> Creates a survival object by substituting the parameters into the <code>survfit</code> function and evaluating it in the parent environment.</p></li>
+</ul>
+</section>
+<section id="obtaining-p-values-from-log-rank-test-get_p_log_rank" class="level3">
+<h3 class="anchored" data-anchor-id="obtaining-p-values-from-log-rank-test-get_p_log_rank">2. Obtaining p-values from Log-Rank Test: <code>get_p_log_rank</code></h3>
+<p>This function performs a log-rank test to compare survival curves between groups.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">get_p_log_rank <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">function</span>(time, event, group, data){</span>
+<span id="cb3-2">  params <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(</span>
+<span id="cb3-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">time =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">substitute</span>(time),</span>
+<span id="cb3-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">event =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">substitute</span>(event),</span>
+<span id="cb3-5">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">group =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">substitute</span>(group),</span>
+<span id="cb3-6">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">substitute</span>(data)</span>
+<span id="cb3-7">  )</span>
+<span id="cb3-8">  expr <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">substitute</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">survdiff</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Surv</span>(time, event) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> group, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> data), params)</span>
+<span id="cb3-9">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">eval.parent</span>(expr)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>pvalue</span>
+<span id="cb3-10">}</span></code></pre></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li><p><strong>Purpose:</strong> Obtains the p-value from a log-rank test.</p></li>
+<li><p><strong>Parameters:</strong> Same as <code>get_survival_analysis</code>.</p></li>
+<li><p><strong>Functionality:</strong> Substitutes the parameters into the <code>survdiff</code> function to perform the log-rank test and extracts the p-value.</p></li>
+</ul>
+</section>
+<section id="rounding-p-values-round_p" class="level3">
+<h3 class="anchored" data-anchor-id="rounding-p-values-round_p">3. Rounding p-values: <code>round_p</code></h3>
+<p>This utility function rounds p-values to three decimal places.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">round_p <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">function</span>(p){</span>
+<span id="cb4-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">format</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">round</span>(p, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">nsmall =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>)</span>
+<span id="cb4-3">}</span></code></pre></div>
+</div>
+</section>
+<section id="creating-kaplan-meier-plots-with-p-values-make_kaplan_meier" class="level3">
+<h3 class="anchored" data-anchor-id="creating-kaplan-meier-plots-with-p-values-make_kaplan_meier">4. Creating Kaplan-Meier Plots with p-values: <code>make_kaplan_meier</code></h3>
+<p>This function creates a Kaplan-Meier plot with an annotated p-value.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">make_kaplan_meier <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">function</span>(surv_object, p_value, xcoord, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ycoord =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fun =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NULL</span>){</span>
+<span id="cb5-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">autoplot</span>(surv_object, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">conf.int =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">FALSE</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fun =</span> fun) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb5-3">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">annotate</span>(</span>
+<span id="cb5-4">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">geom =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"text"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> xcoord, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> ycoord,</span>
+<span id="cb5-5">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"p-value: "</span>, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">round_p</span>(p_value))</span>
+<span id="cb5-6">    ) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb5-7">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_y_continuous</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">labels =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">label_percent</span>(), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">limits =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb5-8">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_classic</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb5-9">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(</span>
+<span id="cb5-10">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Follow-up time (days)"</span>,</span>
+<span id="cb5-11">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Group"</span></span>
+<span id="cb5-12">    )</span>
+<span id="cb5-13">}</span></code></pre></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li><p><strong>Purpose:</strong> Draws a Kaplan-Meier survival curve with the p-value annotation.</p></li>
+<li><p><strong>Parameters:</strong> <code>surv_object</code> (survival object), <code>p_value</code> (p-value from log-rank test), <code>xcoord</code> (x-coordinate for annotation), <code>ycoord</code> (y-coordinate for annotation), <code>fun</code> (optional transformation function for survival probabilities).</p></li>
+<li><p><strong>Functionality:</strong> Uses <code>autoplot</code> to create the plot, adds a p-value annotation, and customizes the plot’s appearance.</p></li>
+</ul>
+</section>
+<section id="performing-comprehensive-survival-analysis-make_survival_analysis" class="level3">
+<h3 class="anchored" data-anchor-id="performing-comprehensive-survival-analysis-make_survival_analysis">5. Performing Comprehensive Survival Analysis: <code>make_survival_analysis</code></h3>
+<p>This function integrates all the above steps into a single workflow.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1">make_survival_analysis <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">function</span>(time, event, group, data, xcoord, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ycoord =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fun =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NULL</span>){</span>
+<span id="cb6-2">  params <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(</span>
+<span id="cb6-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">time =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">substitute</span>(time),</span>
+<span id="cb6-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">event =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">substitute</span>(event),</span>
+<span id="cb6-5">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">group =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">substitute</span>(group),</span>
+<span id="cb6-6">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">substitute</span>(data)</span>
+<span id="cb6-7">  )</span>
+<span id="cb6-8">  expr <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">substitute</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">get_survival_analysis</span>(time, event, group, data), params)</span>
+<span id="cb6-9">  surv_fit <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">eval.parent</span>(expr)</span>
+<span id="cb6-10">  </span>
+<span id="cb6-11">  expr <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">substitute</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">get_p_log_rank</span>(time, event, group, data), params)</span>
+<span id="cb6-12">  p_value <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">eval.parent</span>(expr)</span>
+<span id="cb6-13">  </span>
+<span id="cb6-14">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">make_kaplan_meier</span>(surv_fit, p_value, xcoord, ycoord, fun)</span>
+<span id="cb6-15">}</span></code></pre></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li><p><strong>Purpose:</strong> Performs the complete survival analysis, including model fitting, p-value calculation, and plotting.</p></li>
+<li><p><strong>Parameters:</strong> Same as <code>get_survival_analysis</code> with additional plotting coordinates and transformation function.</p></li>
+<li><p><strong>Functionality:</strong> Combines the steps of fitting the survival model, performing the log-rank test, and generating the Kaplan-Meier plot.</p></li>
+</ul>
+</section>
+</section>
+<section id="applying-the-functions" class="level2">
+<h2 class="anchored" data-anchor-id="applying-the-functions">Applying the Functions</h2>
+<p>Here’s an example of how to use the <code>make_survival_analysis</code> function with the <code>lung</code> dataset from the <code>survival</code> package:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">make_survival_analysis</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">time =</span> time, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">event =</span> status, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">group =</span> sex, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> lung, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">xcoord =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">900</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb7-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Survival Probability"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Lung Cancer Survival by Sex"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb7-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_color_manual</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">values =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">labels =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Male"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Female"</span>))</span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="https://CarlosEpiStats.github.io/blog/posts/survival/post_files/figure-html/example-plot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This code performs the survival analysis on the <code>lung</code> dataset, comparing survival times between males and females, and plots the Kaplan-Meier curves with the corresponding p-value.</p>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>By encapsulating the steps of survival analysis into custom functions, we can efficiently conduct and visualize survival studies. These functions not only streamline the workflow but also ensure consistency and reproducibility in survival analysis tasks. Whether you’re comparing treatment groups or exploring survival probabilities in different cohorts, these tools can significantly enhance your analytical capabilities in R.</p>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<ul>
+<li>Therneau T (2024). <em>A Package for Survival Analysis in R</em>. R package version 3.6-4, <a href="https://CRAN.R-project.org/package=survival" class="uri">https://CRAN.R-project.org/package=survival</a>.</li>
+<li>Terry M. Therneau, Patricia M. Grambsch (2000). <em>Modeling Survival Data: Extending the Cox Model</em>. Springer, New York. ISBN 0-387-98784-3.</li>
+<li>Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, Grolemund G, Hayes A, Henry L, Hester J, Kuhn M, Pedersen TL, Miller E, Bache SM, Müller K, Ooms J, Robinson D, Seidel DP, Spinu V, Takahashi K, Vaughan D, Wilke C, Woo K, Yutani H (2019). “Welcome to the tidyverse.” <em>Journal of Open Source Software</em>, <em>4</em>(43), 1686. doi:10.21105/joss.01686 <a href="https://doi.org/10.21105/joss.01686" class="uri">https://doi.org/10.21105/joss.01686</a>.</li>
+<li>Yuan Tang, Masaaki Horikoshi, and Wenxuan Li. “ggfortify: Unified Interface to Visualize Statistical Result of Popular R Packages.” The R Journal 8.2 (2016): 478-489.</li>
+<li>Masaaki Horikoshi and Yuan Tang (2016). ggfortify: Data Visualization Tools for Statistical Analysis Results. https://CRAN.R-project.org/package=ggfortify</li>
+<li>Wickham H, Pedersen T, Seidel D (2023). <em>scales: Scale Functions for Visualization</em>. R package version 1.3.0, <a href="https://CRAN.R-project.org/package=scales" class="uri">https://CRAN.R-project.org/package=scales</a>.</li>
+</ul>
+
+
+</section>
+
+ ]]></description>
+  <category>R</category>
+  <category>survival analysis</category>
+  <category>kaplan-meier plot</category>
+  <category>log-rank test</category>
+  <category>data visualization</category>
+  <category>ggplot2</category>
+  <guid>https://CarlosEpiStats.github.io/blog/posts/survival/post.html</guid>
+  <pubDate>Thu, 18 Jul 2024 22:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Generating Random City Names Based on Syllable Formation Rules</title>
   <dc:creator>Carlos Fernández</dc:creator>
