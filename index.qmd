@@ -7,16 +7,14 @@ about:
   links:
     - text: Email
       icon: envelope
-      href: mailto:carlosepistats@gmail.com
-    - text: Twitter
-      icon: twitter
-      href: https://twitter.com/CarlosEpiStats
+      href: mailto:epistatsblog.decode888@passmail.net
+
 ---
 
 Hello there! I'm Carlos Fernández-Escobar, MD, MPH, and I'm passionate about biostatistics, epidemiology, and programming.
 
 Here, I'll share whatever I learn along the way regarding statistics, scientific methods, and coding in R, Stata, or Python.
 
-You can reach me at carlosepistats@gmail.com
+You can reach me at epistatsblog.decode888@passmail.net
 
 Thank you for stopping by!

@@ -1,0 +1,60 @@
+---
+title: "Introducing the foodexplorer project (DevBlog #1)"
+date: "2025-12-01"
+categories: ['R', 'shiny', 'data visualization', 'devblog']
+description: "A new journey to create a production-ready Shiny app step-by-step."
+execute: 
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+format: 
+  html
+editor: 
+  markdown: 
+    wrap: sentence
+---
+
+# Introduction
+
+Hello there! Long time no see.
+
+This is (hopefully) the first of a series of short dev blogs where I'll narrate my experience with a new project: the creation of a R Shiny app called 'foodexplorer'. In this series of posts, that are intended to be deployed daily (ambitious) and intended to be written in less than 25 minutes (also ambitious), I will add my progress and/or reflections for the day. Obviously, I also intend to work a little bit (no more than 25 minutes, as well) on the development of the app itself. Let's see how it goes!
+
+# The foodexplorer data
+
+The idea of the 'foodexplorer' app is to create a data visualization tool that allows you to browse through the incredibly useful data from the Spanish Ministry of Agriculture Panel of Food Consumption (link here). The Panel is a long-running study of food choices and purchases from a representative sample of Spanish families. I've used this data in the past (link to article) to study the impact of food policies on food prices and consumption, and I've always thought that a lot of insights can be extracted from this dataset. Briefly, the data contains information about food prices and consumption per capita of a wide array of food categories, monthly, per Spanish region and with a few other stratification variables (such as socioeconomic status). Food categories include basically anything you can purchase at a supermarket, because the data collection includes barcode scanning at point of purchase, so we can have a very approximate idea of the food choices of the Spanish population throughout the years (or well, at least of the food purchases).
+
+# The Shiny app
+
+The app itself will have at least the following features:
+
+- Developed using the golem framework (link).
+- Publicly available through Github (link), possibly in the future also Gitlab and Codeberg (I lack experience with those).
+- Dynamic visualization of food consumption and price over time. This is the central feature, and will allow to select specific food categories or groups, filter for specific regions or demographics, etc. 
+- Ranking plot of the most and lest expensive food items per category.
+- Heatmaps of the different variables per Spanish region.
+- Ability to download the plots or reports (static or inside HTML documents).
+- Light and dark theme.
+- Full documentation and references.
+- Good test coverage and good software development practices.
+- Available as a CRAN package.
+- And more!
+
+# The road ahead
+
+To fulfill this ambitious (did I say ambitious before?) project, I'll be using an approach based on slow, constant, incremental progress. My idea is to work on short bursts of half an hour per day, focusing more on consistency and habits than on cramming. Each day I'll report what I've accomplished on a new devblog post. No punishment if some day I can't make it! It's okay if I need to skip the commitment sometime, but I'll try my best not to. On the coding side, I strive for at least one git commit per day, and on the blog side with one post (no matter how short) per day.
+
+# Day 1
+
+So let's go with day 1! What I did today is basically:
+
+- Start this dev blog. I had to go back to my old Quarto folder where I used to post, and brush up a little on what I had to do to publish new pages.
+- Initialize a new golem project and fill the initial steps (creating the usual files, populating a bit the DESCRIPTION file, etc.).
+- Create a Github repository to host the project.
+
+See you tomorrow!
+
+# Disclaimer
+
+For this project I intend to not use generative AI to assist in any part of the effort (coding or writing), except for general grammar/orthography advice since I'm not a native English speaker. I've been using and testing GenAI these past few years, and I've grown the opinion that it's usually not worth it (or even counterproductive) to use GenAI for anything that benefits from learning, and this journey is all about learning!

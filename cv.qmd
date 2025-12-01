@@ -6,12 +6,8 @@ format: html
 
 # Contact Information
 
-**Location:** Alicante, Spain\
-**Email:** [carlosepistats\@gmail.com](mailto:carlosepistats@gmail.com)
-
-# Social Media
-
-**LinkedIn:** [CFEpidemiology](https://www.linkedin.com/in/CFEpidemiology)
+**Location:** Spain\
+**Email:** [epistatsblog.decode888@passmail.net](mailto:epistatsblog.decode888@passmail.net)
 
 # Technical Skills
 
@@ -35,9 +31,15 @@ Experience with large healthcare **databases**, real-world evidence, national he
 
 # Work Experience
 
+**Senior Biostatistician**\
+*Syneos Health on behalf of Bayer*\
+*2025 - now*
+
+- Biostatistician and software developer of R Shiny solutions for visualizing clinical trial data.
+
 **Medical Research Fellow**\
 *Barcelona Institute for Global Health (ISGlobal), Spain*\
-*2024 - now*
+*2024 - 2025*
 
 -   Biostatistician in charge of analysis of Randomized Controlled Trials and observational studies
 -   Provide epidemiological and statistical support to trainees.
@@ -88,16 +90,3 @@ Experience with large healthcare **databases**, real-world evidence, national he
 
 -   **English:** C2 ECFR
 -   **Spanish:** Native
-
-# General Competences
-
--   Quick learner
--   Analytical problem-solving
--   Detail-oriented
--   Communication skills
--   Multi-disciplinary teamwork
-
-# Other Interests
-
--   Member of MENSA International
--   LudoSport athlete
