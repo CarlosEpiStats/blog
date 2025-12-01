@@ -23,14 +23,14 @@ This is (hopefully) the first of a series of short dev blogs where I'll narrate 
 
 # The foodexplorer data
 
-The idea of the 'foodexplorer' app is to create a data visualization tool that allows you to browse through the incredibly useful data from the Spanish Ministry of Agriculture Panel of Food Consumption (link here). The Panel is a long-running study of food choices and purchases from a representative sample of Spanish families. I've used this data in the past (link to article) to study the impact of food policies on food prices and consumption, and I've always thought that a lot of insights can be extracted from this dataset. Briefly, the data contains information about food prices and consumption per capita of a wide array of food categories, monthly, per Spanish region and with a few other stratification variables (such as socioeconomic status). Food categories include basically anything you can purchase at a supermarket, because the data collection includes barcode scanning at point of purchase, so we can have a very approximate idea of the food choices of the Spanish population throughout the years (or well, at least of the food purchases).
+The idea of the 'foodexplorer' app is to create a data visualization tool that allows you to browse through the incredibly useful data from the [Spanish Ministry of Agriculture Panel of Food Consumption](https://www.mapa.gob.es/es/alimentacion/temas/consumo-tendencias/panel-de-consumo-alimentario/). The Panel is a long-running study of food choices and purchases from a representative sample of Spanish families. I've used this data in the past for an [article to study the impact of food policies on food prices and consumption](https://link.springer.com/article/10.1186/s12966-022-01262-8), and I've always thought that a lot of insights can be extracted from this dataset. Briefly, the data contains information about food prices and consumption per capita of a wide array of food categories, monthly, per Spanish region and with a few other stratification variables (such as socioeconomic status). Food categories include basically anything you can purchase at a supermarket, because the data collection includes barcode scanning at point of purchase, so we can have a very approximate idea of the food choices of the Spanish population throughout the years (or well, at least of the food purchases).
 
 # The Shiny app
 
 The app itself will have at least the following features:
 
-- Developed using the golem framework (link).
-- Publicly available through Github (link), possibly in the future also Gitlab and Codeberg (I lack experience with those).
+- Developed using the [golem framework](https://thinkr-open.github.io/golem/).
+- Publicly available through [a Github repository](https://github.com/CarlosEpiStats/foodexplorer), possibly in the future also Gitlab and Codeberg (I lack experience with those).
 - Dynamic visualization of food consumption and price over time. This is the central feature, and will allow to select specific food categories or groups, filter for specific regions or demographics, etc. 
 - Ranking plot of the most and lest expensive food items per category.
 - Heatmaps of the different variables per Spanish region.
@@ -51,7 +51,7 @@ So let's go with day 1! What I did today is basically:
 
 - Start this dev blog. I had to go back to my old Quarto folder where I used to post, and brush up a little on what I had to do to publish new pages.
 - Initialize a new golem project and fill the initial steps (creating the usual files, populating a bit the DESCRIPTION file, etc.).
-- Create a Github repository to host the project.
+- Create a [Github repository](https://github.com/CarlosEpiStats/foodexplorer) to host the project.
 
 See you tomorrow!
 
