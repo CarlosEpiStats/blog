@@ -1,0 +1,104 @@
+---
+title: "Troubleshooting the devblog for starters (foodexplorer DevBlog #2)"
+date: "2025-12-02"
+categories: ['R', 'shiny', 'data visualization', 'devblog']
+description: "It's hard to set up a devblog."
+execute: 
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+format: 
+  html
+editor: 
+  markdown: 
+    wrap: sentence
+---
+
+# An unexpected roadblack early on
+
+Hello there! I'm not sure if this will be read by anyone, because the fact is that my posts for yesterday (and presumably today) were not rendered before I pushed the changes to GitHub pages, so effectively they were not shown on the web blog, ouch!
+
+I've tried to render my Quarto documents today. I say "tried", because I haven't been able to do so. Before, I was used to render Quarto using RStudio on a Windows machine, but now I'm trying to achieve that feat on Positron on a Linux system, and things can't always be easy...
+
+So I got an early error when trying to render my Quarto documents: 
+
+`ERROR: Jupyter kernel 'nbstata' not found. Known kernels: python3. Run 'quarto check jupyter' with your python environment activated to check python version used.`
+
+OK, I thought. Let's just run that `quarto check jupyter` and see how it goes.
+
+The output:
+
+```
+Quarto 1.7.32
+[✓] Checking Python 3 installation....OK
+      Version: 3.12.3
+      Path: /usr/bin/python3
+      Jupyter: (None)
+
+      Jupyter is not available in this Python installation.
+      Install with python3 -m pip install jupyter
+```
+
+# Trying to install jupyter
+
+So I did as told. I tried running `python3 -m pip install jupyter` on the Positron terminal. This is the result:
+
+```
+error: externally-managed-environment
+
+× This environment is externally managed
+╰─> To install Python packages system-wide, try apt install
+    python3-xyz, where xyz is the package you are trying to
+    install.
+    
+    If you wish to install a non-Debian-packaged Python package,
+    create a virtual environment using python3 -m venv path/to/venv.
+    Then use path/to/venv/bin/python and path/to/venv/bin/pip. Make
+    sure you have python3-full installed.
+    
+    If you wish to install a non-Debian packaged Python application,
+    it may be easiest to use pipx install xyz, which will manage a
+    virtual environment for you. Make sure you have pipx installed.
+    
+    See /usr/share/doc/python3.12/README.venv for more information.
+```
+
+WTF! Really complicated stuff about environments... 
+
+OK, let's try that command `apt install python3-jupyter`. Oh-oh...
+
+```
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+E: Unable to locate package python3-jupyter
+```
+
+(Sad face). OK, I read somewhere that to install jupyter notebook on some Linux distros, the right package name is "notebook", so I tried `apt install python3-notebook`.
+
+It works! Apparently, at least. Now, after `quarto check jupyter` on Positron:
+
+```
+Quarto 1.7.32
+[✓] Checking Python 3 installation....OK
+      Version: 3.12.3
+      Path: /usr/bin/python3
+      Jupyter: 5.3.2
+      Kernels: python3
+
+[✓] Checking Jupyter engine render....OK
+```
+That's two "OKs"! Should be enough... Let's try rendering again (Spoiler: it didn't work).
+
+```
+ERROR: Jupyter kernel 'nbstata' not found. Known kernels: python3. Run 'quarto check jupyter' with your python environment activated to check python version used.
+```
+
+Enough for today... Tomorrow I'll try to install that damned 'nbstata' kernel. You gotta love programming sometimes!
+
+# Changes to the app
+
+The devblog has occupied most of my allocated time for today, so I just did a minor change to the foodexplorer repo: setting up a mock shinydashboard layout for the ui.
+
+See you tomorrow! (or not...)
