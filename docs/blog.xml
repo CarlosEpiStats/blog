@@ -9,13 +9,205 @@
 <link>https://CarlosEpiStats.github.io/blog/blog.html</link>
 <atom:link href="https://CarlosEpiStats.github.io/blog/blog.xml" rel="self" type="application/rss+xml"/>
 <description>A blog about Epidemiology and Biostatistics by Carlos Fernández-Escobar, MD MPH.</description>
-<generator>quarto-1.3.353</generator>
-<lastBuildDate>Thu, 18 Jul 2024 22:00:00 GMT</lastBuildDate>
+<generator>quarto-1.7.32</generator>
+<lastBuildDate>Tue, 02 Dec 2025 23:00:00 GMT</lastBuildDate>
+<item>
+  <title>Virtual environment for python to make Quarto run (foodexplorer DevBlog #3)</title>
+  <dc:creator>Carlos Fernández</dc:creator>
+  <link>https://CarlosEpiStats.github.io/blog/posts/foodexplorer_devblog_03/post.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="resuming-quarto-kernel-troubleshootings" class="level1">
+<h1>Resuming Quarto kernel troubleshootings</h1>
+<p>After yesterday’s failure, I set up a virtual environment inside my blog project folder, as recommended in the Debian documentation for Python library modules. This is the code I run:</p>
+<pre><code>mkdir -p ./.venvs
+
+# Creating a folder inside a virtual environment
+python3 -m venv ./.venvs/jupyter 
+
+# Installing the Python package there
+./.venvs/jupyter/bin/python -m pip install jupyter
+
+quarto check jupyter
+
+# Output:
+Quarto 1.7.32
+[✓] Checking Python 3 installation....OK
+      Version: 3.12.3
+      Path: /home/carlos/Documents/R/blog/.venv/bin/python
+      Jupyter: (None)
+
+      Jupyter is not available in this Python installation.
+      Install with python3 -m pip install jupyter</code></pre>
+<p>Maybe I misspecified the venv folder? <code>.venvs</code> instead of <code>.venv</code>. Now I have a lot of half-empty venv-like folders all over the place.</p>
+<p>I’ll try again tomorrow following this <a href="https://quarto.org/docs/projects/virtual-environments.html">tutorial on how to set up Quarto virtual environments</a>.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>R</category>
+  <category>shiny</category>
+  <category>data visualization</category>
+  <category>devblog</category>
+  <guid>https://CarlosEpiStats.github.io/blog/posts/foodexplorer_devblog_03/post.html</guid>
+  <pubDate>Tue, 02 Dec 2025 23:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Troubleshooting the devblog for starters (foodexplorer DevBlog #2)</title>
+  <dc:creator>Carlos Fernández</dc:creator>
+  <link>https://CarlosEpiStats.github.io/blog/posts/foodexplorer_devblog_02/post.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="an-unexpected-roadblack-early-on" class="level1">
+<h1>An unexpected roadblack early on</h1>
+<p>Hello there! I’m not sure if this will be read by anyone, because the fact is that my posts for yesterday (and presumably today) were not rendered before I pushed the changes to GitHub pages, so effectively they were not shown on the web blog, ouch!</p>
+<p>I’ve tried to render my Quarto documents today. I say “tried”, because I haven’t been able to do so. Before, I was used to render Quarto using RStudio on a Windows machine, but now I’m trying to achieve that feat on Positron on a Linux system, and things can’t always be easy…</p>
+<p>So I got an early error when trying to render my Quarto documents:</p>
+<p><code>ERROR: Jupyter kernel 'nbstata' not found. Known kernels: python3. Run 'quarto check jupyter' with your python environment activated to check python version used.</code></p>
+<p>OK, I thought. Let’s just run that <code>quarto check jupyter</code> and see how it goes.</p>
+<p>The output:</p>
+<pre><code>Quarto 1.7.32
+[✓] Checking Python 3 installation....OK
+      Version: 3.12.3
+      Path: /usr/bin/python3
+      Jupyter: (None)
+
+      Jupyter is not available in this Python installation.
+      Install with python3 -m pip install jupyter</code></pre>
+</section>
+<section id="trying-to-install-jupyter" class="level1">
+<h1>Trying to install jupyter</h1>
+<p>So I did as told. I tried running <code>python3 -m pip install jupyter</code> on the Positron terminal. This is the result:</p>
+<pre><code>error: externally-managed-environment
+
+× This environment is externally managed
+╰─&gt; To install Python packages system-wide, try apt install
+    python3-xyz, where xyz is the package you are trying to
+    install.
+    
+    If you wish to install a non-Debian-packaged Python package,
+    create a virtual environment using python3 -m venv path/to/venv.
+    Then use path/to/venv/bin/python and path/to/venv/bin/pip. Make
+    sure you have python3-full installed.
+    
+    If you wish to install a non-Debian packaged Python application,
+    it may be easiest to use pipx install xyz, which will manage a
+    virtual environment for you. Make sure you have pipx installed.
+    
+    See /usr/share/doc/python3.12/README.venv for more information.</code></pre>
+<p>WTF! Really complicated stuff about environments…</p>
+<p>OK, let’s try that command <code>apt install python3-jupyter</code>. Oh-oh…</p>
+<pre><code>Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+E: Unable to locate package python3-jupyter</code></pre>
+<p>(Sad face). OK, I read somewhere that to install jupyter notebook on some Linux distros, the right package name is “notebook”, so I tried <code>apt install python3-notebook</code>.</p>
+<p>It works! Apparently, at least. Now, after <code>quarto check jupyter</code> on Positron:</p>
+<pre><code>Quarto 1.7.32
+[✓] Checking Python 3 installation....OK
+      Version: 3.12.3
+      Path: /usr/bin/python3
+      Jupyter: 5.3.2
+      Kernels: python3
+
+[✓] Checking Jupyter engine render....OK</code></pre>
+<p>That’s two “OKs”! Should be enough… Let’s try rendering again (Spoiler: it didn’t work).</p>
+<pre><code>ERROR: Jupyter kernel 'nbstata' not found. Known kernels: python3. Run 'quarto check jupyter' with your python environment activated to check python version used.</code></pre>
+<p>Enough for today… Tomorrow I’ll try to install that damned ‘nbstata’ kernel. You gotta love programming sometimes!</p>
+</section>
+<section id="changes-to-the-app" class="level1">
+<h1>Changes to the app</h1>
+<p>The devblog has occupied most of my allocated time for today, so I just did a minor change to the foodexplorer repo: setting up a mock shinydashboard layout for the ui.</p>
+<p>See you tomorrow! (or not…)</p>
+
+
+</section>
+
+ ]]></description>
+  <category>R</category>
+  <category>shiny</category>
+  <category>data visualization</category>
+  <category>devblog</category>
+  <guid>https://CarlosEpiStats.github.io/blog/posts/foodexplorer_devblog_02/post.html</guid>
+  <pubDate>Mon, 01 Dec 2025 23:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Introducing the foodexplorer project (DevBlog #1)</title>
+  <dc:creator>Carlos Fernández</dc:creator>
+  <link>https://CarlosEpiStats.github.io/blog/posts/foodexplorer_devblog_01/post.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Hello there! Long time no see.</p>
+<p>This is (hopefully) the first of a series of short dev blogs where I’ll narrate my experience with a new project: the creation of a R Shiny app called ‘foodexplorer’. In this series of posts, that are intended to be deployed daily (ambitious) and intended to be written in less than 25 minutes (also ambitious), I will add my progress and/or reflections for the day. Obviously, I also intend to work a little bit (no more than 25 minutes, as well) on the development of the app itself. Let’s see how it goes!</p>
+</section>
+<section id="the-foodexplorer-data" class="level1">
+<h1>The foodexplorer data</h1>
+<p>The idea of the ‘foodexplorer’ app is to create a data visualization tool that allows you to browse through the incredibly useful data from the <a href="https://www.mapa.gob.es/es/alimentacion/temas/consumo-tendencias/panel-de-consumo-alimentario/">Spanish Ministry of Agriculture Panel of Food Consumption</a>. The Panel is a long-running study of food choices and purchases from a representative sample of Spanish families. I’ve used this data in the past for an <a href="https://link.springer.com/article/10.1186/s12966-022-01262-8">article to study the impact of food policies on food prices and consumption</a>, and I’ve always thought that a lot of insights can be extracted from this dataset. Briefly, the data contains information about food prices and consumption per capita of a wide array of food categories, monthly, per Spanish region and with a few other stratification variables (such as socioeconomic status). Food categories include basically anything you can purchase at a supermarket, because the data collection includes barcode scanning at point of purchase, so we can have a very approximate idea of the food choices of the Spanish population throughout the years (or well, at least of the food purchases).</p>
+</section>
+<section id="the-shiny-app" class="level1">
+<h1>The Shiny app</h1>
+<p>The app itself will have at least the following features:</p>
+<ul>
+<li>Developed using the <a href="https://thinkr-open.github.io/golem/">golem framework</a>.</li>
+<li>Publicly available through <a href="https://github.com/CarlosEpiStats/foodexplorer">a Github repository</a>, possibly in the future also Gitlab and Codeberg (I lack experience with those).</li>
+<li>Dynamic visualization of food consumption and price over time. This is the central feature, and will allow to select specific food categories or groups, filter for specific regions or demographics, etc.</li>
+<li>Ranking plot of the most and lest expensive food items per category.</li>
+<li>Heatmaps of the different variables per Spanish region.</li>
+<li>Ability to download the plots or reports (static or inside HTML documents).</li>
+<li>Light and dark theme.</li>
+<li>Full documentation and references.</li>
+<li>Good test coverage and good software development practices.</li>
+<li>Available as a CRAN package.</li>
+<li>And more!</li>
+</ul>
+</section>
+<section id="the-road-ahead" class="level1">
+<h1>The road ahead</h1>
+<p>To fulfill this ambitious (did I say ambitious before?) project, I’ll be using an approach based on slow, constant, incremental progress. My idea is to work on short bursts of half an hour per day, focusing more on consistency and habits than on cramming. Each day I’ll report what I’ve accomplished on a new devblog post. No punishment if some day I can’t make it! It’s okay if I need to skip the commitment sometime, but I’ll try my best not to. On the coding side, I strive for at least one git commit per day, and on the blog side with one post (no matter how short) per day.</p>
+</section>
+<section id="day-1" class="level1">
+<h1>Day 1</h1>
+<p>So let’s go with day 1! What I did today is basically:</p>
+<ul>
+<li>Start this dev blog. I had to go back to my old Quarto folder where I used to post, and brush up a little on what I had to do to publish new pages.</li>
+<li>Initialize a new golem project and fill the initial steps (creating the usual files, populating a bit the DESCRIPTION file, etc.).</li>
+<li>Create a <a href="https://github.com/CarlosEpiStats/foodexplorer">Github repository</a> to host the project.</li>
+</ul>
+<p>See you tomorrow!</p>
+</section>
+<section id="disclaimer" class="level1">
+<h1>Disclaimer</h1>
+<p>For this project I intend to not use generative AI to assist in any part of the effort (coding or writing), except for general grammar/orthography advice since I’m not a native English speaker. I’ve been using and testing GenAI these past few years, and I’ve grown the opinion that it’s usually not worth it (or even counterproductive) to use GenAI for anything that benefits from learning, and this journey is all about learning!</p>
+
+
+</section>
+
+ ]]></description>
+  <category>R</category>
+  <category>shiny</category>
+  <category>data visualization</category>
+  <category>devblog</category>
+  <guid>https://CarlosEpiStats.github.io/blog/posts/foodexplorer_devblog_01/post.html</guid>
+  <pubDate>Sun, 30 Nov 2025 23:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Enhancing Survival Analysis in R with Custom Functions</title>
   <dc:creator>Carlos Fernández</dc:creator>
   <link>https://CarlosEpiStats.github.io/blog/posts/survival/post.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -55,6 +247,7 @@ font-style: inherit;">library</span>(scales)</span></code></pre></div>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(time, event, group, data){</span>
 <span id="cb2-2">  params <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -115,6 +308,7 @@ font-style: inherit;">eval.parent</span>(expr)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(time, event, group, data){</span>
 <span id="cb3-2">  params <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -177,6 +371,7 @@ font-style: inherit;">$</span>pvalue</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(p){</span>
 <span id="cb4-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -200,6 +395,7 @@ font-style: inherit;">3</span>)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(surv_object, p_value, xcoord, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">ycoord =</span> <span class="dv" style="color: #AD0000;
@@ -297,6 +493,7 @@ font-style: inherit;">"Group"</span></span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(time, event, group, data, xcoord, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">ycoord =</span> <span class="dv" style="color: #AD0000;
@@ -425,7 +622,11 @@ font-style: inherit;">"Male"</span>, <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Female"</span>))</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://CarlosEpiStats.github.io/blog/posts/survival/post_files/figure-html/example-plot-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="https://CarlosEpiStats.github.io/blog/posts/survival/post_files/figure-html/example-plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>This code performs the survival analysis on the <code>lung</code> dataset, comparing survival times between males and females, and plots the Kaplan-Meier curves with the corresponding p-value.</p>
@@ -464,6 +665,7 @@ font-style: inherit;">"Female"</span>))</span></code></pre></div>
   <dc:creator>Carlos Fernández</dc:creator>
   <link>https://CarlosEpiStats.github.io/blog/posts/random_words/post.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -603,6 +805,7 @@ font-style: inherit;">head</span>(cities_alicante)</span></code></pre></div>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(df, var) {</span>
 <span id="cb5-2">  df <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -711,6 +914,7 @@ font-style: inherit;">1"</span>)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(df, regex) {</span>
 <span id="cb6-2">  df <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -828,6 +1032,7 @@ font-style: inherit;">palabras =</span> silabas</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(df, regex) {</span>
 <span id="cb7-2">  loop_controller <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -836,6 +1041,7 @@ background-color: null;
 font-style: inherit;">TRUE</span></span>
 <span id="cb7-3">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">while</span> (loop_controller <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">==</span> <span class="cn" style="color: #8f5902;
@@ -880,6 +1086,7 @@ font-style: inherit;">TRUE</span>)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(df, var) {</span>
 <span id="cb8-2">  df <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -1075,6 +1282,7 @@ font-style: inherit;"># V1 V2 -&gt; V1 - V2 (hiatos)</span></span></code></pre><
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(df) {</span>
 <span id="cb10-2">  df <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -1211,6 +1419,7 @@ font-style: inherit;">silaba =</span> palabras)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(df_syllables_per_word, df_syllables_freq, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">length =</span> <span class="dv" style="color: #AD0000;
@@ -1227,8 +1436,10 @@ background-color: null;
 font-style: inherit;">""</span></span>
 <span id="cb11-3">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> (x <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
@@ -1258,8 +1469,10 @@ background-color: null;
 font-style: inherit;">""</span></span>
 <span id="cb11-8">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> (i <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
@@ -1348,6 +1561,7 @@ font-style: inherit;">&lt;-</span> new_name</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(df, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">length =</span> <span class="dv" style="color: #AD0000;
@@ -1482,7 +1696,11 @@ font-style: inherit;">+</span></span>
 background-color: null;
 font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://CarlosEpiStats.github.io/blog/posts/random_words/post_files/figure-html/syllables-freq-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="https://CarlosEpiStats.github.io/blog/posts/random_words/post_files/figure-html/syllables-freq-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1558,7 +1776,11 @@ background-color: null;
 font-style: inherit;">"Count"</span></span>
 <span id="cb18-11">  )</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://CarlosEpiStats.github.io/blog/posts/random_words/post_files/figure-html/syllables-per-word-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="https://CarlosEpiStats.github.io/blog/posts/random_words/post_files/figure-html/syllables-per-word-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1621,6 +1843,7 @@ font-style: inherit;">20</span>)</span></code></pre></div>
   <dc:creator>Carlos Fernández</dc:creator>
   <link>https://CarlosEpiStats.github.io/blog/posts/jitter_plot/post.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -1920,7 +2143,11 @@ background-color: null;
 font-style: inherit;">Data source: random sample of 1000 participants in the Spanish European Health Survey 2020."</span></span>
 <span id="cb4-23">  ) </span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://CarlosEpiStats.github.io/blog/posts/jitter_plot/post_files/figure-html/plots-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="https://CarlosEpiStats.github.io/blog/posts/jitter_plot/post_files/figure-html/plots-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1974,6 +2201,7 @@ font-style: inherit;">Data source: random sample of 1000 participants in the Spa
   <dc:creator>Carlos Fernández</dc:creator>
   <link>https://CarlosEpiStats.github.io/blog/posts/ggridges/post.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -2298,7 +2526,11 @@ background-color: null;
 font-style: inherit;">"none"</span></span>
 <span id="cb4-16">  )</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://CarlosEpiStats.github.io/blog/posts/ggridges/post_files/figure-html/plots-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="https://CarlosEpiStats.github.io/blog/posts/ggridges/post_files/figure-html/plots-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -2347,6 +2579,7 @@ font-style: inherit;">"none"</span></span>
   <dc:creator>Carlos Fernández</dc:creator>
   <link>https://CarlosEpiStats.github.io/blog/posts/bmi_spain_2020/post.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -2727,7 +2960,11 @@ background-color: null;
 font-style: inherit;">"Data source: Spanish European Health Survey 2020."</span></span>
 <span id="cb6-13">  )</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://CarlosEpiStats.github.io/blog/posts/bmi_spain_2020/post_files/figure-html/plots-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="https://CarlosEpiStats.github.io/blog/posts/bmi_spain_2020/post_files/figure-html/plots-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -2910,7 +3147,11 @@ background-color: null;
 font-style: inherit;">Data source: Spanish European Health Survey 2020."</span></span>
 <span id="cb7-26">  )</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://CarlosEpiStats.github.io/blog/posts/bmi_spain_2020/post_files/figure-html/plots-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="https://CarlosEpiStats.github.io/blog/posts/bmi_spain_2020/post_files/figure-html/plots-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -2965,6 +3206,7 @@ font-style: inherit;">Data source: Spanish European Health Survey 2020."</span><
 
 
 
+
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <p>Welcome to the PokéRogue Random Team Selector project!</p>
@@ -2972,7 +3214,7 @@ font-style: inherit;">Data source: Spanish European Health Survey 2020."</span><
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="https://CarlosEpiStats.github.io/blog/posts/pokerogue_team/images/clipboard-3954178997.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">PokéRogue Starter selection screen</figcaption>
+<figcaption>PokéRogue Starter selection screen</figcaption>
 </figure>
 </div>
 <p>In this project, we will use R to create functions that randomly generate Pokémon teams based on the criteria mentioned above. We’ll start by loading the necessary libraries and data, then proceed to define various helper functions and main team creation functions. Finally, we’ll demonstrate how to create different teams using these functions.</p>
@@ -3056,6 +3298,7 @@ $ Pokerus &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(df, points, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">pokerus =</span> <span class="cn" style="color: #8f5902;
@@ -3075,6 +3318,7 @@ background-color: null;
 font-style: inherit;"># Selects an affordable Pokémon with Pokérus</span></span>
 <span id="cb5-4">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> (pokerus <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">==</span> <span class="cn" style="color: #8f5902;
@@ -3100,8 +3344,10 @@ background-color: null;
 font-style: inherit;"># Selects an expensive Pókemon (all available points)</span></span>
 <span id="cb5-9">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">else</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> (expensive <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">==</span> <span class="cn" style="color: #8f5902;
@@ -3127,8 +3373,10 @@ background-color: null;
 font-style: inherit;"># Selects a Pokémon with an exact cost</span></span>
 <span id="cb5-14">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">else</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> (exact <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">==</span> <span class="cn" style="color: #8f5902;
@@ -3147,6 +3395,7 @@ font-style: inherit;">==</span> points)</span>
 <span id="cb5-17">  </span>
 <span id="cb5-18">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">else</span> {</span>
 <span id="cb5-19">    data_filtered <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -3176,6 +3425,7 @@ font-style: inherit;">slice_sample</span>(data_filtered)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(df) {</span>
 <span id="cb6-2">  data_filtered <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -3205,6 +3455,7 @@ font-style: inherit;">nrow</span>(data_filtered)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(data_available, list_pokemon, already_chosen, current_pokemon) {</span>
 <span id="cb7-2">  new_pokemon_name <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -3239,6 +3490,7 @@ font-style: inherit;">%in%</span> already_chosen)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(budget_points, list_pokemon, current_pokemon) {</span>
 <span id="cb8-2">  points_spent <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -3263,6 +3515,7 @@ font-style: inherit;">-</span> points_spent</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(df, points, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">best_shiny =</span> <span class="cn" style="color: #8f5902;
@@ -3284,6 +3537,7 @@ font-style: inherit;">is.na</span>(Shiny))</span>
 <span id="cb9-3"></span>
 <span id="cb9-4">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> (best_shiny <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">==</span> <span class="cn" style="color: #8f5902;
@@ -3331,6 +3585,7 @@ background-color: null;
 font-style: inherit;">1</span>)</span>
 <span id="cb9-11">  } <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">else</span> {</span>
 <span id="cb9-12">    pokemon_selected <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -3355,6 +3610,7 @@ font-style: inherit;">1</span>)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(points, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">n_pokemon =</span> <span class="dv" style="color: #AD0000;
@@ -3375,6 +3631,7 @@ font-style: inherit;">-</span> n_pokemon</span>
 <span id="cb10-4"></span>
 <span id="cb10-5">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> (points_left <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">&gt;</span> <span class="dv" style="color: #AD0000;
@@ -3382,8 +3639,10 @@ background-color: null;
 font-style: inherit;">0</span>) {</span>
 <span id="cb10-6">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> (i <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
@@ -3435,6 +3694,7 @@ font-style: inherit;">TRUE</span>)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(points, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">pokerus =</span> <span class="cn" style="color: #8f5902;
@@ -3526,6 +3786,7 @@ background-color: null;
 font-style: inherit;"># Find shiny Pókemon</span></span>
 <span id="cb11-24">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> (shiny <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">&gt;</span> <span class="dv" style="color: #AD0000;
@@ -3563,8 +3824,10 @@ background-color: null;
 font-style: inherit;"># Fill team with shiny Pókemon</span></span>
 <span id="cb11-31">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> (i <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> current_pokemon<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">:</span>end_loop) {</span>
@@ -3625,6 +3888,7 @@ background-color: null;
 font-style: inherit;"># Check if there are still places to fill in the team (until the 5th place)</span></span>
 <span id="cb11-49">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> (current_pokemon <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">&lt;=</span> <span class="dv" style="color: #AD0000;
@@ -3641,8 +3905,10 @@ background-color: null;
 font-style: inherit;"># Loop for rest of max 6 Pókemon</span></span>
 <span id="cb11-51">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> (i <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> current_pokemon<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
@@ -3686,6 +3952,7 @@ background-color: null;
 font-style: inherit;"># Ensure the last Pókemon spend all available points</span></span>
 <span id="cb11-64">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> (current_pokemon <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
@@ -3719,6 +3986,7 @@ font-style: inherit;">list_rbind</span>(list_pokemon)</span>
 <span id="cb11-70"></span>
 <span id="cb11-71">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> (arrange <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">==</span> <span class="cn" style="color: #8f5902;
@@ -3732,6 +4000,7 @@ background-color: null;
 font-style: inherit;">arrange</span>(Gen, Dex)</span>
 <span id="cb11-74">  } <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">else</span> {</span>
 <span id="cb11-75">    final_team</span>
 <span id="cb11-76">  }</span>
@@ -3746,6 +4015,7 @@ font-style: inherit;">else</span> {</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(points, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">arrange =</span> <span class="cn" style="color: #8f5902;
@@ -3785,8 +4055,10 @@ background-color: null;
 font-style: inherit;"># Loop for rest of max 6 Pókemon</span></span>
 <span id="cb12-12">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> (i <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> current_pokemon<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
@@ -3841,6 +4113,7 @@ font-style: inherit;">list_rbind</span>(list_pokemon)</span>
 <span id="cb12-27"></span>
 <span id="cb12-28">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> (arrange <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">==</span> <span class="cn" style="color: #8f5902;
@@ -3854,6 +4127,7 @@ background-color: null;
 font-style: inherit;">arrange</span>(Gen, Dex)</span>
 <span id="cb12-31">  } <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">else</span> {</span>
 <span id="cb12-32">    final_team</span>
 <span id="cb12-33">  }</span>
@@ -3868,6 +4142,7 @@ font-style: inherit;">else</span> {</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(points, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">arrange =</span> <span class="cn" style="color: #8f5902;
@@ -3925,6 +4200,7 @@ background-color: null;
 font-style: inherit;"># Coerce a Pokérus Pókemon</span></span>
 <span id="cb13-16">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> (pokerus <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">==</span> <span class="cn" style="color: #8f5902;
@@ -3998,8 +4274,10 @@ font-style: inherit;">5</span>))</span>
 <span id="cb13-32">  </span>
 <span id="cb13-33">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> (i <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> current_pokemon<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
@@ -4051,6 +4329,7 @@ font-style: inherit;">list_rbind</span>(list_pokemon)</span>
 <span id="cb13-45">  </span>
 <span id="cb13-46">  <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> (arrange <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">==</span> <span class="cn" style="color: #8f5902;
@@ -4063,6 +4342,7 @@ background-color: null;
 font-style: inherit;">arrange</span>(Gen, Dex)</span>
 <span id="cb13-48">  } <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">else</span> {</span>
 <span id="cb13-49">    final_team</span>
 <span id="cb13-50">  }</span>
@@ -4203,6 +4483,7 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
   <dc:creator>Carlos Fernández</dc:creator>
   <link>https://CarlosEpiStats.github.io/blog/posts/regular_expressions_2/post.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -4838,6 +5119,7 @@ font-style: inherit;"># Check crosswords function</span></span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(pattern_row_1, pattern_row_2, pattern_column_1, pattern_column_2, solution){</span>
 <span id="cb44-3">solution <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -5173,6 +5455,7 @@ font-style: inherit;">check_crosswords</span>(pattern_row_1, pattern_row_2, patt
   <dc:creator>Carlos Fernández</dc:creator>
   <link>https://CarlosEpiStats.github.io/blog/posts/regular_expressions/post.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -5719,6 +6002,7 @@ font-style: inherit;"># It seems to work, there are no words with this pattern i
 
 
 
+
 <p>R’s tidyverse is a collection of packages designed for data science. One of the most useful functions within this suite is <code>count()</code>, part of the <code>dplyr</code> package. This function is used to count occurrences of unique values within a dataset, which is crucial for data analysis and exploratory data analysis (EDA). In this blog post, we’ll delve into how <code>count()</code> works, particularly with the <code>sort = TRUE</code> option, and we’ll use datasets from the <code>medicaldata</code> package to illustrate its application.</p>
 <section id="introduction-to-count" class="level1">
 <h1>Introduction to <code>count()</code></h1>
@@ -5740,7 +6024,7 @@ font-style: inherit;"># It seems to work, there are no words with this pattern i
 <p>The <code>medicaldata</code> package contains various datasets from medical research, which are great for demonstration. We’ll use the <code>covid_testing</code> dataset for our example.</p>
 <p>First, install and load the required packages:</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -5759,7 +6043,7 @@ font-style: inherit;">library</span>(medicaldata)</span></code></pre></div>
 </div>
 <p>Next, load the <code>covid_testing</code> dataset and take a look at its structure:</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -5794,7 +6078,7 @@ $ rec_ver_tat     &lt;dbl&gt; 5.2, 5.8, 4.7, 5.0, 6.4, 7.0, 4.2, 6.3, 5.6, 7.0, 
 </div>
 <p>The <code>covid_testing</code> dataset contains data from deidentified results of COVID-19 testing at the Children’s Hospital of Pennsylvania (CHOP) in 2020. Suppose we want to count the number of participants according to the COVID-19 test result and sort the results by the count in descending order. Here’s how we can do that:</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">covid_testing <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -5825,7 +6109,7 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
 <h2 class="anchored" data-anchor-id="adding-multiple-variables">Adding Multiple Variables</h2>
 <p>You can also count combinations of multiple variables. For example, if we want to count combinations of result and gender:</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1">covid_testing <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -5892,6 +6176,7 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
 
 
 
+
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <p>I recently bought the acclaimed book <em>R for Data Science”</em>(2nd ed.) by Hadley Wichkam et al., and I’ve been finding interesting tidbits that I’d like to share. Most of them are quality-of-life tools that I wasn’t aware of, while others are simply cool tricks.</p>
@@ -5902,7 +6187,7 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
 <p>The thing with shortcuts is that they don’t really stick to me when I’m starting to learn a new programming language, software tool, or whatever. It’s after I’ve spent hundreds of hours working with them that I stumble upon a small, innocuous shortcut that suddenly makes my life brighter and much easier. Today, I share a few that I’ve encountered in the first chapters of <em>R for Data Science</em> (R4DS for short).</p>
 <p>Let’s illustrate them with an example code. I will use the sample datasets that come with the package <code>medicaldata</code>. Specifically, I’ll toy with the dataset called <code>strep_tb</code>, which represent a classic Randomized Controlled Trial on the effects of streptomycin to treat tuberculosis (in fact, it is considered the first modern randomized, placebo-controlled clinical trial).</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -5952,7 +6237,7 @@ $ improved            &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="https://CarlosEpiStats.github.io/blog/posts/tips_and_tricks_r4ds/screenshot_01.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption"><code>Ctrl</code> + <code>Up</code> lets you look at your Console’s history of similar commands.</figcaption>
+<figcaption><code>Ctrl</code> + <code>Up</code> lets you look at your Console’s history of similar commands.</figcaption>
 </figure>
 </div>
 </section>
@@ -5962,13 +6247,13 @@ $ improved            &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="https://CarlosEpiStats.github.io/blog/posts/tips_and_tricks_r4ds/screenshot_02.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption"><code>F1</code> when the autocomplete yellow box pops up…</figcaption>
+<figcaption><code>F1</code> when the autocomplete yellow box pops up…</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="https://CarlosEpiStats.github.io/blog/posts/tips_and_tricks_r4ds/screenshot_03.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">…the R Documentation help file appears right away in RStudio.</figcaption>
+<figcaption>…the R Documentation help file appears right away in RStudio.</figcaption>
 </figure>
 </div>
 </section>
@@ -5979,11 +6264,11 @@ $ improved            &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="https://CarlosEpiStats.github.io/blog/posts/tips_and_tricks_r4ds/screenshot_04.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption"><code>Ctrl</code> + <code>Shift</code> + <code>R</code> makes creating sections easy and fast.</figcaption>
+<figcaption><code>Ctrl</code> + <code>Shift</code> + <code>R</code> makes creating sections easy and fast.</figcaption>
 </figure>
 </div>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -6019,253 +6304,11 @@ font-style: inherit;"># This is a section --------------------------------------
   <pubDate>Fri, 24 May 2024 22:00:00 GMT</pubDate>
 </item>
 <item>
-  <title>How to Create an Alluvial Plot in Stata</title>
-  <dc:creator>Carlos Fernández</dc:creator>
-  <link>https://CarlosEpiStats.github.io/blog/posts/alluvial_plot_stata/post.html</link>
-  <description><![CDATA[ 
-
-
-
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
-<p>In this post, I explain how to create an alluvial plot using code in Stata.</p>
-<section id="what-is-an-alluvial-diagram" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-an-alluvial-diagram">What is an Alluvial Diagram</h2>
-<p>An alluvial diagram or plot displays the flow of information from one categorical variable or stage to the next. The term “alluvial” refers to its resemblance to the flow of a river.</p>
-</section>
-<section id="uses-of-alluvial-diagrams" class="level2">
-<h2 class="anchored" data-anchor-id="uses-of-alluvial-diagrams">Uses of Alluvial Diagrams</h2>
-<p>Alluvial diagrams are commonly used in the following situations:</p>
-<ul>
-<li>To demonstrate the number of participants in a study transitioning from one baseline category to a subsequent category. For example, the number of participants randomized at the beginning of the study and who continue to follow-up at the end. It serves as a graphical supplement to flowcharts, which present information with arrows and boxes containing text and numbers.</li>
-<li>To show the distribution of participants among different categorical variables. In this case, it provides a more “visually appealing” alternative to stacked column charts.</li>
-</ul>
-</section>
-</section>
-<section id="stata-code" class="level1">
-<h1>Stata Code</h1>
-<section id="preparations" class="level2">
-<h2 class="anchored" data-anchor-id="preparations">Preparations</h2>
-<p>For this example, we will use the <code>alluvial</code> command, which requires the installation of the <code>palettes</code> and <code>colrspace</code> commands. The data is a simulation of a comparison of two fictional diagnostic tests, called “Test A” and “Test B”, which can take values such as “1-very low”, “2-low”, “3-medium”, “4-high”, and “5-very high”.</p>
-<div class="cell" data-execution_count="1">
-<details>
-<summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">// Install user-written commands</span></span>
-<span id="cb1-2">net install alluvial, from(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"https://raw.githubusercontent.com/asjadnaqvi/stata-alluvial/main/installation/"</span>) <span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">replace</span></span>
-<span id="cb1-3"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">ssc</span> install palettes, <span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">replace</span></span>
-<span id="cb1-4"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">ssc</span> install colrspace, <span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">replace</span></span></code></pre></div>
-</details>
-</div>
-<div class="cell" data-execution_count="2">
-<details>
-<summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">// Input data</span></span>
-<span id="cb2-2"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">clear</span></span>
-<span id="cb2-3"></span>
-<span id="cb2-4">input test_b test_a</span>
-<span id="cb2-5">    4   4</span>
-<span id="cb2-6">    1   1</span>
-<span id="cb2-7">    1   1</span>
-<span id="cb2-8">    2   2</span>
-<span id="cb2-9">    3   1</span>
-<span id="cb2-10">    1   2</span>
-<span id="cb2-11">    3   2</span>
-<span id="cb2-12">    2   2</span>
-<span id="cb2-13">    5   2</span>
-<span id="cb2-14">    3   1</span>
-<span id="cb2-15">    3   3</span>
-<span id="cb2-16">    3   3</span>
-<span id="cb2-17">    5   3</span>
-<span id="cb2-18">    4   3</span>
-<span id="cb2-19">    1   1</span>
-<span id="cb2-20">    3   3</span>
-<span id="cb2-21">    4   1</span>
-<span id="cb2-22">    2   3</span>
-<span id="cb2-23">    5   2</span>
-<span id="cb2-24">    4   2</span>
-<span id="cb2-25">    4   2</span>
-<span id="cb2-26">    2   1</span>
-<span id="cb2-27">    5   3</span>
-<span id="cb2-28">    3   3</span>
-<span id="cb2-29">    5   1</span>
-<span id="cb2-30">    3   3</span>
-<span id="cb2-31"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">end</span></span>
-<span id="cb2-32"></span>
-<span id="cb2-33"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">// Label data</span></span>
-<span id="cb2-34"></span>
-<span id="cb2-35"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">label</span> <span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">var</span> test_a <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Test A"</span></span>
-<span id="cb2-36"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">label</span> <span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">var</span> test_b <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Test B"</span></span>
-<span id="cb2-37"></span>
-<span id="cb2-38"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">label</span> <span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">define</span> high_low 1 <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"1-very low"</span> 2 <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"2-low"</span> 3 <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"3-medium"</span> 4 <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"4-high"</span> 5 <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"5-very high"</span>, <span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">replace</span></span>
-<span id="cb2-39"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">label</span> <span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">values</span> test_a test_b high_low</span>
-<span id="cb2-40"></span>
-<span id="cb2-41"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">// Tabulate</span></span>
-<span id="cb2-42"></span>
-<span id="cb2-43"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">tab</span> test_a test_b</span></code></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-
-            |                   Test B
-     Test A | 1-very lo      2-low   3-medium     4-high |     Total
-------------+--------------------------------------------+----------
- 1-very low |         3          1          2          1 |         8 
-      2-low |         1          2          1          2 |         8 
-   3-medium |         0          1          5          1 |         9 
-     4-high |         0          0          0          1 |         1 
-------------+--------------------------------------------+----------
-      Total |         4          4          8          5 |        26 
-
-
-            |   Test B
-     Test A | 5-very hi |     Total
-------------+-----------+----------
- 1-very low |         1 |         8 
-      2-low |         2 |         8 
-   3-medium |         2 |         9 
-     4-high |         0 |         1 
-------------+-----------+----------
-      Total |         5 |        26 </code></pre>
-</div>
-</div>
-<p>In this fictional study, a total of 26 people underwent both diagnostic tests. We can see in the table that three people obtained a “very low” result in both tests, one person obtained a “very low” result in test A and “low” in test B, etc.</p>
-<p>The table itself is informative but does not allow for quick and intuitive information extraction. This is where the alluvial plot comes in.</p>
-</section>
-<section id="alluvial-plot" class="level2">
-<h2 class="anchored" data-anchor-id="alluvial-plot">Alluvial Plot</h2>
-<div class="cell" data-execution_count="3">
-<details>
-<summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">// Alluvial plot</span></span>
-<span id="cb4-2"></span>
-<span id="cb4-3">alluvial test_a test_b, <span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">palette</span>(RdYlBu, n(5)) labangle(0) novalues boxwidth(5) <span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">offset</span>(10) <span class="bn" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">title</span>(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Alluvial plot of results of Test A vs Test B."</span>, <span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">size</span>(3)) <span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">note</span> (<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"N = 26"</span>) graphregion(<span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">color</span>(<span class="bn" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">white</span>)) showtot lwidth(0.01) lcolor(<span class="bn" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">gray</span>) labpos(3)</span>
-<span id="cb4-4"></span>
-<span id="cb4-5"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">qui</span>: <span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">graph</span> <span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">export</span> fig1.svg, <span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">width</span>(1600) <span class="kw" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">replace</span></span></code></pre></div>
-</details>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://CarlosEpiStats.github.io/blog/posts/alluvial_plot_stata/fig1.svg" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">alluvial_plot</figcaption>
-</figure>
-</div>
-<p>In the alluvial diagram, the area of the colored zones is proportional to the frequency, so wider “flows” represent more participants.</p>
-<p>The graph shows how there is a considerable “transfer” of participants between result levels in the two tests. For example, we see that slightly less than half of those with a “very low” result in Test A also obtained “very low” in Test B, but others obtained “low”, “medium”, “high”, and even “very high” results. We also clearly see how there are no participants with “very high” results in Test A, or that the only participant with a “high” result in Test A also had a “high” result in Test B.</p>
-<p>In conclusion, alluvial diagrams provide a visual option for better understanding data flows between categories.</p>
-</section>
-</section>
-<section id="references" class="level1">
-<h1>References</h1>
-<ul>
-<li><a href="https://github.com/asjadnaqvi/stata-alluvial">alluvial Stata package</a></li>
-<li><a href="https://friosavila.github.io/stata_do/stata_do1.html">This post explains how to run Stata code using Quarto</a></li>
-</ul>
-
-
-</section>
-
- ]]></description>
-  <category>Stata</category>
-  <category>plot</category>
-  <category>alluvial</category>
-  <guid>https://CarlosEpiStats.github.io/blog/posts/alluvial_plot_stata/post.html</guid>
-  <pubDate>Sun, 10 Mar 2024 23:00:00 GMT</pubDate>
-</item>
-<item>
   <title>Interactive List of Japanese Words Using R Shiny Apps</title>
   <dc:creator>Carlos Fernández</dc:creator>
   <link>https://CarlosEpiStats.github.io/blog/posts/kanji_app/post.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -6307,7 +6350,7 @@ font-style: inherit;">replace</span></span></code></pre></div>
 </ul>
 <p>Each dataset contains three columns: <code>word</code> (in kanji), <code>pronunciation</code> (in hiragana or romaji), and <code>meaning</code> (in English).</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -7302,7 +7345,6 @@ background-color: null;
 font-style: inherit;">head</span>(data_all))</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-
 <div class="tabwid"><style>.cl-1864bdba{}.cl-185467bc{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-1857bade{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-1857cff6{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1857d000{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-1857d001{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-1864bdba"><thead><tr style="overflow-wrap:break-word;"><th class="cl-1857cff6"><p class="cl-1857bade"><span class="cl-185467bc">word</span></p></th><th class="cl-1857cff6"><p class="cl-1857bade"><span class="cl-185467bc">pronunciation</span></p></th><th class="cl-1857cff6"><p class="cl-1857bade"><span class="cl-185467bc">meaning</span></p></th><th class="cl-1857cff6"><p class="cl-1857bade"><span class="cl-185467bc">kanji_1</span></p></th><th class="cl-1857cff6"><p class="cl-1857bade"><span class="cl-185467bc">kanji_2</span></p></th><th class="cl-1857cff6"><p class="cl-1857bade"><span class="cl-185467bc">kanji_3</span></p></th><th class="cl-1857cff6"><p class="cl-1857bade"><span class="cl-185467bc">kanji_4</span></p></th><th class="cl-1857cff6"><p class="cl-1857bade"><span class="cl-185467bc">kanji_5</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc">見る</span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc">みる</span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc">see, look at</span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc">見</span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc">円</span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc">えん</span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc">circle</span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc">円</span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc">多い</span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc">おおい</span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc">lots of</span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc">多</span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc">家</span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc">うち</span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc">house, home</span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc">家</span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc">新しい</span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc">あたらしい</span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc">new</span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc">新</span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td><td class="cl-1857d000"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-1857d001"><p class="cl-1857bade"><span class="cl-185467bc">私</span></p></td><td class="cl-1857d001"><p class="cl-1857bade"><span class="cl-185467bc">わたし</span></p></td><td class="cl-1857d001"><p class="cl-1857bade"><span class="cl-185467bc">I</span></p></td><td class="cl-1857d001"><p class="cl-1857bade"><span class="cl-185467bc">私</span></p></td><td class="cl-1857d001"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td><td class="cl-1857d001"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td><td class="cl-1857d001"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td><td class="cl-1857d001"><p class="cl-1857bade"><span class="cl-185467bc"></span></p></td></tr></tbody></table></div>
 </div>
 </div>
@@ -7324,7 +7366,7 @@ font-style: inherit;">head</span>(data_all))</span></code></pre></div>
 <section id="custom-functions-to-create-the-study-table" class="level2">
 <h2 class="anchored" data-anchor-id="custom-functions-to-create-the-study-table">Custom Functions to Create the Study Table</h2>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -7334,6 +7376,7 @@ font-style: inherit;"># Functions ####</span></span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(kanji_learning) {</span>
 <span id="cb2-4">  </span>
 <span id="cb2-5">  <span class="co" style="color: #5E5E5E;
@@ -7397,6 +7440,7 @@ font-style: inherit;">"kanji_"</span>))</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(kanji_learning) {</span>
 <span id="cb2-19">  </span>
 <span id="cb2-20">  kanji_list <span class="ot" style="color: #003B4F;
@@ -7542,7 +7586,7 @@ font-style: inherit;">select</span>(sentence, sentence_hiragana, sentence_meanin
 <section id="shiny-app-code" class="level2">
 <h2 class="anchored" data-anchor-id="shiny-app-code">Shiny App Code</h2>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -7680,6 +7724,7 @@ font-style: inherit;">"number_words_per_kanji"</span>)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(input, output) {</span>
 <span id="cb3-48">  </span>
 <span id="cb3-49">  <span class="co" style="color: #5E5E5E;
@@ -7824,8 +7869,10 @@ font-style: inherit;">c</span>()</span>
 <span id="cb3-84">    </span>
 <span id="cb3-85">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> (i <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
@@ -8095,6 +8142,7 @@ font-style: inherit;">downloadHandler</span>(</span>
 background-color: null;
 font-style: inherit;">filename =</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>() {</span>
 <span id="cb3-167">      <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -8114,6 +8162,7 @@ font-style: inherit;">".xlsx"</span>)</span>
 background-color: null;
 font-style: inherit;">content =</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(file) {</span>
 <span id="cb3-170">      <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -8139,6 +8188,7 @@ font-style: inherit;">downloadHandler</span>(</span>
 background-color: null;
 font-style: inherit;">filename =</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>() {</span>
 <span id="cb3-179">      <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -8158,6 +8208,7 @@ font-style: inherit;">".csv"</span>)</span>
 background-color: null;
 font-style: inherit;">content =</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">function</span>(file) {</span>
 <span id="cb3-182">      <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -8230,6 +8281,7 @@ font-style: inherit;">server =</span> server)</span></code></pre></div>
   <dc:creator>Carlos Fernández</dc:creator>
   <link>https://CarlosEpiStats.github.io/blog/posts/kanji/post.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -8586,6 +8638,7 @@ font-style: inherit;">head</span>(jukugo_learning)</span></code></pre></div>
 
 
 
+
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <p>In this post, I explain how to create an alluvial plot using code in R</p>
@@ -8608,7 +8661,7 @@ font-style: inherit;">head</span>(jukugo_learning)</span></code></pre></div>
 <h2 class="anchored" data-anchor-id="preparativos">Preparativos</h2>
 <p>For this example, we will use the <code>ggalluvial</code> and <code>ggplot2</code> libraries. The data come from a study on language learning using the web application <em>LingQ</em> (<a href="http://comparelanguageapps.com/documentation/LingQ_Efficacy_2023.pdf">Link to the article</a>).</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -8769,7 +8822,7 @@ font-style: inherit;">head</span>(data)</span></code></pre></div>
 <section id="alluvial-plot" class="level2">
 <h2 class="anchored" data-anchor-id="alluvial-plot">Alluvial Plot</h2>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">data <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -8856,7 +8909,11 @@ background-color: null;
 font-style: inherit;">"Equivalent formal education semesters"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="https://CarlosEpiStats.github.io/blog/posts/alluvial_plot/post_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="https://CarlosEpiStats.github.io/blog/posts/alluvial_plot/post_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>In the alluvial diagram, the area of the colored zones is proportional to the frequency, so wider “flows” represent more participants.</p>
@@ -8888,6 +8945,7 @@ font-style: inherit;">"Equivalent formal education semesters"</span>)</span></co
   <dc:creator>Carlos Fernández</dc:creator>
   <link>https://CarlosEpiStats.github.io/blog/posts/lasso_regression/post.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -8941,7 +8999,7 @@ font-style: inherit;">"Equivalent formal education semesters"</span>)</span></co
 <h2 class="anchored" data-anchor-id="getting-ready">Getting Ready</h2>
 <p>In this example, we’ll use the <code>glmnet</code> library and the example dataset in <code>mtcars</code>.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -8965,7 +9023,7 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 </div>
 <p>We’ll use <code>mpg</code> (miles per galon) as the outcome variable, and <code>cyl</code> (number of cylinders), <code>hp</code> (horsepower), <code>wt</code> (weight), <code>gear</code> (gear number), and <code>drat</code> (rear axle ratio) as predictive variables.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -9003,7 +9061,7 @@ font-style: inherit;">"gear"</span>)])</span></code></pre></div>
 <h2 class="anchored" data-anchor-id="choose-a-value-for-lambda">Choose a Value for Lambda</h2>
 <p>We can choose the value of <img src="https://latex.codecogs.com/png.latex?%5Clambda"> that minimizes the mean-squared error (MSE). The <code>cv.glmnet()</code> function performs “<a href="https://www.statology.org/k-fold-cross-validation/">K-fold cross-validation</a>” to identify this <img src="https://latex.codecogs.com/png.latex?%5Clambda"> value.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -9033,7 +9091,7 @@ font-style: inherit;">$</span>lambda.min</span>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.3803991</code></pre>
 </div>
-<details>
+<details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -9043,7 +9101,11 @@ background-color: null;
 font-style: inherit;">plot</span>(cv_model)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="https://CarlosEpiStats.github.io/blog/posts/lasso_regression/post_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="https://CarlosEpiStats.github.io/blog/posts/lasso_regression/post_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The value of lambda that minimizes the MSE turns out to be 0.3803991, which in the plot corresponds to the point <img src="https://latex.codecogs.com/png.latex?Log(%5Clambda)"> = -0.9665344.</p>
@@ -9051,7 +9113,7 @@ font-style: inherit;">plot</span>(cv_model)</span></code></pre></div>
 <section id="fitting-the-model" class="level2">
 <h2 class="anchored" data-anchor-id="fitting-the-model">Fitting the Model</h2>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -9088,7 +9150,7 @@ gear         .         </code></pre>
 <h2 class="anchored" data-anchor-id="comparison-with-linear-regression-without-lasso">Comparison with Linear Regression without Lasso</h2>
 <p>For comparison, we can see the coefficients that would result from a multiple linear regression model without parameter shrinkage or variable selection.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1">linear_model <span class="ot" style="color: #003B4F;
 background-color: null;

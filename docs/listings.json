@@ -22,6 +22,9 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/foodexplorer_devblog_03/post.html",
+      "/posts/foodexplorer_devblog_02/post.html",
+      "/posts/foodexplorer_devblog_01/post.html",
       "/posts/survival/post.html",
       "/posts/random_words/post.html",
       "/posts/jitter_plot/post.html",
@@ -32,7 +35,6 @@
       "/posts/regular_expressions/post.html",
       "/posts/dplyr_count/post.html",
       "/posts/tips_and_tricks_r4ds/post.html",
-      "/posts/alluvial_plot_stata/post.html",
       "/posts/kanji_app/post.html",
       "/posts/kanji/post.html",
       "/posts/alluvial_plot/post.html",
