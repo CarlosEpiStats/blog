@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Carlos Fernández">
-<meta name="dcterms.date" content="2025-12-02">
-<meta name="description" content="It’s hard to set up a devblog.">
+<meta name="dcterms.date" content="2025-12-03">
+<meta name="description" content="pip pip pip.">
 
-<title>Troubleshooting the devblog for starters (foodexplorer DevBlog #2) – EpiStats</title>
+<title>Virtual environment for python to make Quarto run (foodexplorer DevBlog #3) – EpiStats</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -151,9 +151,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#an-unexpected-roadblack-early-on" id="toc-an-unexpected-roadblack-early-on" class="nav-link active" data-scroll-target="#an-unexpected-roadblack-early-on">An unexpected roadblack early on</a></li>
-  <li><a href="#trying-to-install-jupyter" id="toc-trying-to-install-jupyter" class="nav-link" data-scroll-target="#trying-to-install-jupyter">Trying to install jupyter</a></li>
-  <li><a href="#changes-to-the-app" id="toc-changes-to-the-app" class="nav-link" data-scroll-target="#changes-to-the-app">Changes to the app</a></li>
+  <li><a href="#resuming-quarto-kernel-troubleshootings" id="toc-resuming-quarto-kernel-troubleshootings" class="nav-link active" data-scroll-target="#resuming-quarto-kernel-troubleshootings">Resuming Quarto kernel troubleshootings</a></li>
   </ul>
 </nav>
     </div>
@@ -162,7 +160,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Troubleshooting the devblog for starters (foodexplorer DevBlog #2)</h1>
+<h1 class="title">Virtual environment for python to make Quarto run (foodexplorer DevBlog #3)</h1>
   <div class="quarto-categories">
     <div class="quarto-category">R</div>
     <div class="quarto-category">shiny</div>
@@ -173,7 +171,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    It’s hard to set up a devblog.
+    pip pip pip.
   </div>
 </div>
 
@@ -190,7 +188,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 2, 2025</p>
+      <p class="date">December 3, 2025</p>
     </div>
   </div>
   
@@ -202,67 +200,29 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="an-unexpected-roadblack-early-on" class="level1">
-<h1>An unexpected roadblack early on</h1>
-<p>Hello there! I’m not sure if this will be read by anyone, because the fact is that my posts for yesterday (and presumably today) were not rendered before I pushed the changes to GitHub pages, so effectively they were not shown on the web blog, ouch!</p>
-<p>I’ve tried to render my Quarto documents today. I say “tried”, because I haven’t been able to do so. Before, I was used to render Quarto using RStudio on a Windows machine, but now I’m trying to achieve that feat on Positron on a Linux system, and things can’t always be easy…</p>
-<p>So I got an early error when trying to render my Quarto documents:</p>
-<p><code>ERROR: Jupyter kernel 'nbstata' not found. Known kernels: python3. Run 'quarto check jupyter' with your python environment activated to check python version used.</code></p>
-<p>OK, I thought. Let’s just run that <code>quarto check jupyter</code> and see how it goes.</p>
-<p>The output:</p>
-<pre><code>Quarto 1.7.32
+<section id="resuming-quarto-kernel-troubleshootings" class="level1">
+<h1>Resuming Quarto kernel troubleshootings</h1>
+<p>After yesterday’s failure, I set up a virtual environment inside my blog project folder, as recommended in the Debian documentation for Python library modules. This is the code I run:</p>
+<pre><code>mkdir -p ./.venvs
+
+# Creating a folder inside a virtual environment
+python3 -m venv ./.venvs/jupyter 
+
+# Installing the Python package there
+./.venvs/jupyter/bin/python -m pip install jupyter
+
+quarto check jupyter
+
+# Output:
+Quarto 1.7.32
 [✓] Checking Python 3 installation....OK
       Version: 3.12.3
-      Path: /usr/bin/python3
+      Path: /home/carlos/Documents/R/blog/.venv/bin/python
       Jupyter: (None)
 
       Jupyter is not available in this Python installation.
       Install with python3 -m pip install jupyter</code></pre>
-</section>
-<section id="trying-to-install-jupyter" class="level1">
-<h1>Trying to install jupyter</h1>
-<p>So I did as told. I tried running <code>python3 -m pip install jupyter</code> on the Positron terminal. This is the result:</p>
-<pre><code>error: externally-managed-environment
-
-× This environment is externally managed
-╰─&gt; To install Python packages system-wide, try apt install
-    python3-xyz, where xyz is the package you are trying to
-    install.
-    
-    If you wish to install a non-Debian-packaged Python package,
-    create a virtual environment using python3 -m venv path/to/venv.
-    Then use path/to/venv/bin/python and path/to/venv/bin/pip. Make
-    sure you have python3-full installed.
-    
-    If you wish to install a non-Debian packaged Python application,
-    it may be easiest to use pipx install xyz, which will manage a
-    virtual environment for you. Make sure you have pipx installed.
-    
-    See /usr/share/doc/python3.12/README.venv for more information.</code></pre>
-<p>WTF! Really complicated stuff about environments…</p>
-<p>OK, let’s try that command <code>apt install python3-jupyter</code>. Oh-oh…</p>
-<pre><code>Reading package lists... Done
-Building dependency tree... Done
-Reading state information... Done
-E: Unable to locate package python3-jupyter</code></pre>
-<p>(Sad face). OK, I read somewhere that to install jupyter notebook on some Linux distros, the right package name is “notebook”, so I tried <code>apt install python3-notebook</code>.</p>
-<p>It works! Apparently, at least. Now, after <code>quarto check jupyter</code> on Positron:</p>
-<pre><code>Quarto 1.7.32
-[✓] Checking Python 3 installation....OK
-      Version: 3.12.3
-      Path: /usr/bin/python3
-      Jupyter: 5.3.2
-      Kernels: python3
-
-[✓] Checking Jupyter engine render....OK</code></pre>
-<p>That’s two “OKs”! Should be enough… Let’s try rendering again (Spoiler: it didn’t work).</p>
-<pre><code>ERROR: Jupyter kernel 'nbstata' not found. Known kernels: python3. Run 'quarto check jupyter' with your python environment activated to check python version used.</code></pre>
-<p>Enough for today… Tomorrow I’ll try to install that damned ‘nbstata’ kernel. You gotta love programming sometimes!</p>
-</section>
-<section id="changes-to-the-app" class="level1">
-<h1>Changes to the app</h1>
-<p>The devblog has occupied most of my allocated time for today, so I just did a minor change to the foodexplorer repo: setting up a mock shinydashboard layout for the ui.</p>
-<p>See you tomorrow! (or not…)</p>
+<p>Maybe I misspecified the venv folder? <code>.venvs</code> instead of <code>.venv</code>. Now I have a lot of half-empty venv-like folders all over the place.</p>
 
 
 </section>

@@ -1,0 +1,46 @@
+---
+title: "Virtual environment for python to make Quarto run (foodexplorer DevBlog #3)"
+date: "2025-12-03"
+categories: ['R', 'shiny', 'data visualization', 'devblog']
+description: "pip pip pip."
+execute: 
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+format: 
+  html
+editor: 
+  markdown: 
+    wrap: sentence
+---
+
+# Resuming Quarto kernel troubleshootings
+
+After yesterday's failure, I set up a virtual environment inside my blog project folder, as recommended in the Debian documentation for Python library modules. This is the code I run:
+
+```
+mkdir -p ./.venvs
+
+# Creating a folder inside a virtual environment
+python3 -m venv ./.venvs/jupyter 
+
+# Installing the Python package there
+./.venvs/jupyter/bin/python -m pip install jupyter
+
+quarto check jupyter
+
+# Output:
+Quarto 1.7.32
+[✓] Checking Python 3 installation....OK
+      Version: 3.12.3
+      Path: /home/carlos/Documents/R/blog/.venv/bin/python
+      Jupyter: (None)
+
+      Jupyter is not available in this Python installation.
+      Install with python3 -m pip install jupyter
+```
+
+Maybe I misspecified the venv folder? `.venvs` instead of `.venv`. Now I have a lot of half-empty venv-like folders all over the place. 
+
+I'll try again tomorrow following this [tutorial on how to set up Quarto virtual environments](https://quarto.org/docs/projects/virtual-environments.html).
